@@ -1,10 +1,10 @@
 package KBS_ICTM2n4;
-
+//nog niks mee doen
 /**
  * Hello world!
  */
-public final class App {
-    private App() {
+public final class Main {
+    private Main() {
     }
 
     /**
