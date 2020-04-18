@@ -1,5 +1,7 @@
 package KBS_ICTM2n4;
 
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,12 +10,14 @@ import java.awt.event.ActionListener;
 //gui, hier komen alle knoppen en weergaves van het progamma, het liefst geen functies
 public class Screen extends JFrame implements ActionListener {
 
-    private JButton test,test2,test3;
-    private JPanel panel1;
+//    private JButton jbMonitor,jbEdit,jbDesign;
+//    private JPanel mainPanel;
+    private JPanel monitorPanel,editPanel,designPanel;
+    private JTabbedPane tabbedPane;
 
     public Screen(){
         //titel van de window
-        setTitle("Server Monitoring Application");
+        setTitle("Facility Monitoring Application");
         //grootte van de window
         setSize(700,600);
         //bij klikken op kruisje sluit het proces af
@@ -21,25 +25,41 @@ public class Screen extends JFrame implements ActionListener {
         //berekent het center van het scherm en plaatst de window daar
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+
         //componenten initialiseren
-        panel1 = new JPanel();
-        panel1.setLayout(null);
+        monitorPanel = new JPanel();
+        designPanel = new JPanel();
+        editPanel = new JPanel();
+        tabbedPane = new JTabbedPane();
+        monitorPanel.setLayout(null);
+        editPanel.setLayout(null);
+        designPanel.setLayout(null);
 
-        //geeft de buttons naam en locaties op het jpanel
-        test = new JButton("area 1");
-        test.setBounds(0,0,125,40);
-        test2 = new JButton("area 2");
-        test2.setBounds(125,0,125,40);
-        test3 = new JButton("area 3");
-        test3.setBounds(250,0,125,40);
+        //hieronder kunnen onderdelen per panel met behulp van coordinaten worden geplaatst
 
-        //componenten toevoegen + eventlistener
-        panel1.add(test);
-        panel1.add(test2);
-        panel1.add(test3);
-        add(panel1);
-
-
+        //voegt de panes toe aan tabbedpane met een name
+        tabbedPane.addTab("Monitor",monitorPanel);
+        tabbedPane.addTab("Edit",editPanel);
+        tabbedPane.addTab("Design",designPanel);
+        add(tabbedPane);
+        //oude code
+//        mainPanel = new JPanel();
+//        mainPanel.setLayout(null);
+//        JButton jbDesign = new JButton("Design");
+//        jbDesign.setBounds(100,0,100,25);
+//        designPanel.add(jbDesign);
+//        jbMonitor = new JButton("Monitoring");
+//        jbMonitor.setBounds(0,0,100,25);
+//        jbEdit = new JButton("Edit");
+//        jbEdit.setBounds(100,0,100,25);
+//        jbDesign = new JButton("Design");
+//        jbDesign.setBounds(200,0,100,25);
+//
+//        //componenten toevoegen + eventlistener
+//        mainPanel.add(jbMonitor);
+//        mainPanel.add(jbEdit);
+//        mainPanel.add(jbDesign);
+//        add(mainPanel);
 
         //zichtbaarheid aanzetten
         setVisible(true);
