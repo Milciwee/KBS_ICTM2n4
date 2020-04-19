@@ -8,6 +8,14 @@ public class Server {
   private double price;
 
 
+  public Server(String type, String name, double availabilty, double price) {
+    this.type = type;
+    this.name = name;
+    this.availabilty = availabilty;
+    this.price = price;
+  }
+
+
   public String getType() {
     return this.type;
   }
