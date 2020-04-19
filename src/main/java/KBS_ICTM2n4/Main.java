@@ -12,11 +12,15 @@ public final class Main {
 
     /**
      * Says hello to the world.
-     * 
+     *
      * @param args The arguments of the program.
      */
     public static void main(String[] args) {
         System.out.println("Hello World!");
+        //hier worden de designs toegevoegd aan de dropdown,deze moeten later vanaf een file in de root folder komen
+        Screen.dropdownitemsedit.add("test1");
+        Screen.dropdownitemsedit.add("test2");
+
         Screen test = new Screen();
 
         //server beschikbaarheids test (verwachte percentage uitkomst: ~ 99,9910%)
