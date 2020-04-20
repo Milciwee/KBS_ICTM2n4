@@ -24,7 +24,7 @@ public class Calculatepriceavailability {
       }
       return 1 - temp;
     } catch (NullPointerException e) {
-      System.out.println("No webservers found");
+      System.out.println("No webserver found");
       return 0;
     }      
 
@@ -46,7 +46,7 @@ public class Calculatepriceavailability {
       }
       return 1 - temp;
     } catch (NullPointerException e) {
-      System.out.println("No databaseservers found");
+      System.out.println("No databaseserver found");
       return 0;
     }      
   }
