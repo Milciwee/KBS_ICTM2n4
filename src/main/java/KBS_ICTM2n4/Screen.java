@@ -16,6 +16,16 @@ public class Screen extends JFrame implements ActionListener {
 //    static String[] dropdownitemsedit = new String[50];
     static ArrayList<String> dropdownitemsedit = new ArrayList<>();
     static ArrayList<String> dropdownitemsdesign = new ArrayList<>();
+    static JTextField jtfDesnameEdit= new JTextField(); //designnaam
+    static JTextField jtfWs1 = new JTextField();
+    static JTextField jtfWs2 = new JTextField();
+    static JTextField jtfWs3 = new JTextField();
+    static JTextField jtfDb1 = new JTextField();
+    static JTextField jtfDb2 = new JTextField();
+    static JTextField jtfDb3 = new JTextField();
+    static JTextField jtfCalculateAnswer = new JTextField();
+    static JTextField jtfavailability = new JTextField();
+    static JTextField jtfOptimizeAnswer = new JTextField();
 
     public Screen(){
         //titel van de window
@@ -82,16 +92,7 @@ public class Screen extends JFrame implements ActionListener {
         jbSaveAs.setBounds(470,500,150,25);
 
         //textfields
-        JTextField jtfDesnameEdit= new JTextField(); //designnaam
-        JTextField jtfWs1 = new JTextField();
-        JTextField jtfWs2 = new JTextField();
-        JTextField jtfWs3 = new JTextField();
-        JTextField jtfDb1 = new JTextField();
-        JTextField jtfDb2 = new JTextField();
-        JTextField jtfDb3 = new JTextField();
-        JTextField jtfCalculateAnswer = new JTextField();
-        JTextField jtfavailability = new JTextField();
-        JTextField jtfOptimizeAnswer = new JTextField();
+
         //textfield bounds
         jtfDesnameEdit.setBounds(110,20,100,25);
         jtfWs1.setBounds(140,60,25,25);
