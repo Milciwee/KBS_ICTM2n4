@@ -24,7 +24,7 @@ public class ReadJson {
       JSONArray serverList = (JSONArray) obj;
       System.out.println(serverList);
 
-    serverList.forEach(server -> parseServerObject((JSONObject) server));
+      serverList.forEach(server -> parseServerObject((JSONObject) server));
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
@@ -33,11 +33,9 @@ public class ReadJson {
       e.printStackTrace();
     }
 
-
-
   }
 
-  private static void parseServerObject(JSONObject server){
+  private static void parseServerObject(JSONObject server) {
     JSONObject serverObject = (JSONObject) server.get("Server");
 
     String type = (String) serverObject.get("type");
