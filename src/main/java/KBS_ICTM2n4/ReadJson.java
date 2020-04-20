@@ -21,11 +21,10 @@ public class ReadJson {
       // JSON file readen
       Object obj = jsonParser.parse(reader);
 
-      JSONArray serverList = new JSONArray();
-      serverList.add(obj);
+      JSONArray serverList = (JSONArray) obj;
       System.out.println(serverList);
 
-      serverList.forEach(emp -> parseServerObject((JSONObject) emp));
+    serverList.forEach(server -> parseServerObject((JSONObject) server));
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
@@ -34,6 +33,24 @@ public class ReadJson {
       e.printStackTrace();
     }
 
+
+
+  }
+
+  private static void parseServerObject(JSONObject server){
+    JSONObject serverObject = (JSONObject) server.get("Server");
+
+    String type = (String) serverObject.get("type");
+    System.out.println(type);
+
+    String availability = (String) serverObject.get("availability");
+    System.out.println(availability);
+
+    String price = (String) serverObject.get("price");
+    System.out.println(price);
+
+    String name = (String) serverObject.get("name");
+    System.out.println(name);
   }
 
 }

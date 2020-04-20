@@ -15,7 +15,7 @@ public class WriteJson {
     serverData.put("name", "wb1");
     serverData.put("type", "webserver");
     serverData.put("availability", "98%");
-    serverData.put("Price", "2500");
+    serverData.put("price", "2500");
 
     JSONObject serverObject = new JSONObject();
     serverObject.put("Server", serverData);
@@ -25,10 +25,10 @@ public class WriteJson {
     serverData2.put("name", "wb2");
     serverData2.put("type", "webserver");
     serverData2.put("availability", "97%");
-    serverData2.put("Price", "3000");
+    serverData2.put("price", "3000");
 
     JSONObject serverObject2 = new JSONObject();
-    serverObject2.put("Server2", serverData2);
+    serverObject2.put("Server", serverData2);
 
     // Servers aan list toevoegen
     JSONArray serverlist = new JSONArray();
