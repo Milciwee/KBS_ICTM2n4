@@ -1,1 +1,39 @@
-[{"Server":{"price":"2500","name":"wb1","availability":"98%","type":"webserver"}},{"Server":{"price":"3000","name":"wb2","availability":"97%","type":"webserver"}}]
+{
+  "Design1": [
+    {
+      "server": {
+        "name": "db1"
+      }
+    },
+    {
+      "server": {
+        "name": "db2"
+      }
+    },
+    {
+      "server": {
+        "name": "db3"
+      }
+    },
+    {
+      "server": {
+        "name": "web1"
+      }
+    },
+    {
+      "server": {
+        "name": "web2"
+      }
+    },
+    {
+      "server": {
+        "name": "web3"
+      }
+    },
+    {
+      "server": {
+        "name": "web3"
+      }
+    }
+  ]
+}
