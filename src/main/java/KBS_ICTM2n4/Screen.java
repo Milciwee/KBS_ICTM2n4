@@ -56,6 +56,7 @@ public class Screen extends JFrame implements ActionListener {
         JLabel jlDbs2 = new JLabel("Database server 2");
         JLabel jlDbs3 = new JLabel("Database server 3");
         JLabel jlFw = new JLabel("Pfsense");
+        JLabel jlAvailability = new JLabel("Availibility");
         //label bounds
         jlWs1.setBounds(10,60,120,25);
         jlWs2.setBounds(10,90,120,25);
@@ -64,12 +65,22 @@ public class Screen extends JFrame implements ActionListener {
         jlDbs2.setBounds(10,180,120,25);
         jlDbs3.setBounds(10,210,120,25);
         jlFw.setBounds(10,240,120,25);
-
+        jlAvailability.setBounds(10,330,100,25);
 
         //buttons
         JButton jbCalculate = new JButton("Calculate");
+        JButton jbOptimize = new JButton("Optimize");
+        JButton jbDelete = new JButton("Delete");
+        JButton jbSave = new JButton("Save");
+        JButton jbSaveAs = new JButton("Save as new Design");
+
         //button bounds
         jbCalculate.setBounds(10,280,100,25);
+        jbOptimize.setBounds(140,330,100,25);
+        jbDelete.setBounds(70,500,100,25);
+        jbSave.setBounds(270,500,100,25);
+        jbSaveAs.setBounds(470,500,150,25);
+
         //textfields
         JTextField jtfDesnameEdit= new JTextField(); //designnaam
         JTextField jtfWs1 = new JTextField();
@@ -79,6 +90,8 @@ public class Screen extends JFrame implements ActionListener {
         JTextField jtfDb2 = new JTextField();
         JTextField jtfDb3 = new JTextField();
         JTextField jtfCalculateAnswer = new JTextField();
+        JTextField jtfavailability = new JTextField();
+        JTextField jtfOptimizeAnswer = new JTextField();
         //textfield bounds
         jtfDesnameEdit.setBounds(110,20,100,25);
         jtfWs1.setBounds(140,60,25,25);
@@ -88,6 +101,8 @@ public class Screen extends JFrame implements ActionListener {
         jtfDb2.setBounds(140,180,25,25);
         jtfDb3.setBounds(140,210,25,25);
         jtfCalculateAnswer.setBounds(120,280,300,25);
+        jtfavailability.setBounds(80,330, 40,25);
+        jtfOptimizeAnswer.setBounds(10,370,300,25);
         //toevoegen aan panel
         editPanel.add(dropdownedit);
         editPanel.add(jlDesnameEdit);
@@ -99,7 +114,12 @@ public class Screen extends JFrame implements ActionListener {
         editPanel.add(jlDbs2);
         editPanel.add(jlDbs3);
         editPanel.add(jlFw);
+        editPanel.add(jlAvailability);
         editPanel.add(jbCalculate);
+        editPanel.add(jbOptimize);
+        editPanel.add(jbDelete);
+        editPanel.add(jbSave);
+        editPanel.add(jbSaveAs);
         editPanel.add(jtfWs1);
         editPanel.add(jtfWs2);
         editPanel.add(jtfWs3);
@@ -107,7 +127,9 @@ public class Screen extends JFrame implements ActionListener {
         editPanel.add(jtfDb2);
         editPanel.add(jtfDb3);
         editPanel.add(jtfCalculateAnswer);
-        jlFw.setForeground(new Color(53, 213, 76, 123));
+        editPanel.add(jtfavailability);
+        editPanel.add(jtfOptimizeAnswer);
+
 
         //designpanel
         dropdownitemsdesign = dropdownitemsedit;
