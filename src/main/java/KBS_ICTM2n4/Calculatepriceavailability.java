@@ -17,32 +17,38 @@ public class Calculatepriceavailability {
     }
     // for loop om alle beschikbaarheden in de tijdelijke arraylist keer elkaar te
     // doen
-    double temp = a.get(0);
-    for (int i = 1; i < a.size(); i++) {
-      temp = temp * a.get(i);
-    }
+    try {
+      double temp = a.get(0);
+      for (int i = 1; i < a.size(); i++) {
+        temp = temp * a.get(i);
+      }
+      return 1 - temp;
+    } catch (NullPointerException e) {
+      System.out.println("No webservers found");
+      return 0;
+    }      
 
-    return 1 - temp;
   }
 
   // Method voor beschikbaarheidspercentage voor de databaseservers
   public static double calculateAvailabilityDatabaseservers(ArrayList<Server> servers) {
-    // tijdelijke arraylist met alle beschikbaarheden van de servers
     ArrayList<Double> a = new ArrayList<>();
     
-    // for each loop om alle beschikbaarheden in de tijdelijke arraylist te doen
     for (Server server : servers) {
       if (server.getType().equals("database")) {
         a.add((1 - (server.getavailability() / 100)));
       }
     }
-    // for loop om alle beschikbaarheden in de tijdelijke arraylist keer elkaar te
-    // doen
-    double temp = a.get(0);
-    for (int i = 1; i < a.size(); i++) {
-      temp = temp * a.get(i);
-    }
-    return 1 - temp;
+    try {
+      double temp = a.get(0);
+      for (int i = 1; i < a.size(); i++) {
+        temp = temp * a.get(i);
+      }
+      return 1 - temp;
+    } catch (NullPointerException e) {
+      System.out.println("No databaseservers found");
+      return 0;
+    }      
   }
 
   // uiteindelijke method om de volledige beschikbaarheidspercentage te berekenen
@@ -55,6 +61,7 @@ public class Calculatepriceavailability {
 
   }
 
+  //Method voor prijs berekening voor webservers
   public static double calculatePriceWebservers(ArrayList<Server> servers) {
     double price = 0;
     for (Server server : servers) {
@@ -65,6 +72,7 @@ public class Calculatepriceavailability {
     return price;
   }
 
+  //Method voor prijs berekening voor databaseservers
   public static double calculatePriceDatabaseservers(ArrayList<Server> servers) {
     double price = 0;
     for (Server server : servers) {
@@ -75,6 +83,7 @@ public class Calculatepriceavailability {
     return price;
   }
 
+  //Method voor totale prijs
   public static double calculateTotalPrice(ArrayList<Server> servers) {
     double price = 0;
     for (Server server : servers) {
