@@ -4,14 +4,14 @@ public class Server {
 
   private String type;
   private String name;
-  private double availabilty;
+  private double availability;
   private double price;
 
 
-  public Server(String type, String name, double availabilty, double price) {
+  public Server(String type, String name, double availability, double price) {
     this.type = type;
     this.name = name;
-    this.availabilty = availabilty;
+    this.availability = availability;
     this.price = price;
   }
 
@@ -32,12 +32,12 @@ public class Server {
     this.name = name;
   }
 
-  public double getAvailabilty() {
-    return this.availabilty;
+  public double getavailability() {
+    return this.availability;
   }
 
-  public void setAvailabilty(double availabilty) {
-    this.availabilty = availabilty;
+  public void setavailability(double availability) {
+    this.availability = availability;
   }
 
   public double getPrice() {

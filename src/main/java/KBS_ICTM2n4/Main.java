@@ -41,10 +41,10 @@ public final class Main {
         array.add(server6);
         array.add(server7);
 
-        double a = Calculatepriceavailabiltiy.calculateAvailabilty(array);
+        double a = Calculatepriceavailability.calculateavailability(array);
         System.out.println(100 * (0.99998 * a));
         // test voor berekenen prijs servers
-        double b  = Calculatepriceavailabiltiy.calculateTotalPrice(array);
+        double b  = Calculatepriceavailability.calculateTotalPrice(array);
         System.out.println(b);
 
 
