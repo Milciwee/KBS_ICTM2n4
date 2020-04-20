@@ -46,8 +46,69 @@ public class Screen extends JFrame implements ActionListener {
         //editpanel
         JComboBox dropdownedit = new JComboBox(dropdownitemsedit.toArray());
         dropdownedit.setBounds(525,0,150,25);
+        JLabel jlDesnameEdit = new JLabel("Design name:");
+        jlDesnameEdit.setBounds(10,20,100,25);
+        //labels
+        JLabel jlWs1 = new JLabel("Webserver 1");
+        JLabel jlWs2 = new JLabel("Webserver 2");
+        JLabel jlWs3 = new JLabel("Webserver 3");
+        JLabel jlDbs1 = new JLabel("Database server 1");
+        JLabel jlDbs2 = new JLabel("Database server 2");
+        JLabel jlDbs3 = new JLabel("Database server 3");
+        JLabel jlFw = new JLabel("Pfsense");
+        //label bounds
+        jlWs1.setBounds(10,60,120,25);
+        jlWs2.setBounds(10,90,120,25);
+        jlWs3.setBounds(10,120,120,25);
+        jlDbs1.setBounds(10,150,120,25);
+        jlDbs2.setBounds(10,180,120,25);
+        jlDbs3.setBounds(10,210,120,25);
+        jlFw.setBounds(10,240,120,25);
 
+
+        //buttons
+        JButton jbCalculate = new JButton("Calculate");
+        //button bounds
+        jbCalculate.setBounds(10,280,100,25);
+        //textfields
+        JTextField jtfDesnameEdit= new JTextField(); //designnaam
+        JTextField jtfWs1 = new JTextField();
+        JTextField jtfWs2 = new JTextField();
+        JTextField jtfWs3 = new JTextField();
+        JTextField jtfDb1 = new JTextField();
+        JTextField jtfDb2 = new JTextField();
+        JTextField jtfDb3 = new JTextField();
+        JTextField jtfCalculateAnswer = new JTextField();
+        //textfield bounds
+        jtfDesnameEdit.setBounds(110,20,100,25);
+        jtfWs1.setBounds(140,60,25,25);
+        jtfWs2.setBounds(140,90,25,25);
+        jtfWs3.setBounds(140,120,25,25);
+        jtfDb1.setBounds(140,150,25,25);
+        jtfDb2.setBounds(140,180,25,25);
+        jtfDb3.setBounds(140,210,25,25);
+        jtfCalculateAnswer.setBounds(120,280,300,25);
+        //toevoegen aan panel
         editPanel.add(dropdownedit);
+        editPanel.add(jlDesnameEdit);
+        editPanel.add(jtfDesnameEdit);
+        editPanel.add(jlWs1);
+        editPanel.add(jlWs2);
+        editPanel.add(jlWs3);
+        editPanel.add(jlDbs1);
+        editPanel.add(jlDbs2);
+        editPanel.add(jlDbs3);
+        editPanel.add(jlFw);
+        editPanel.add(jbCalculate);
+        editPanel.add(jtfWs1);
+        editPanel.add(jtfWs2);
+        editPanel.add(jtfWs3);
+        editPanel.add(jtfDb1);
+        editPanel.add(jtfDb2);
+        editPanel.add(jtfDb3);
+        editPanel.add(jtfCalculateAnswer);
+
+
         //designpanel
         dropdownitemsdesign = dropdownitemsedit;
         dropdownitemsdesign.add("Add new Design");
