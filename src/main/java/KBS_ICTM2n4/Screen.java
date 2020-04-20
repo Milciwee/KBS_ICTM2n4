@@ -107,7 +107,7 @@ public class Screen extends JFrame implements ActionListener {
         editPanel.add(jtfDb2);
         editPanel.add(jtfDb3);
         editPanel.add(jtfCalculateAnswer);
-
+        jlFw.setForeground(new Color(53, 213, 76, 123));
 
         //designpanel
         dropdownitemsdesign = dropdownitemsedit;

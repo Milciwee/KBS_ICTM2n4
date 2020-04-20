@@ -21,6 +21,7 @@ public final class Main {
         Screen.dropdownitemsedit.add("test1");
         Screen.dropdownitemsedit.add("test2");
 
+
         Screen test = new Screen();
 
         //server beschikbaarheids test (verwachte percentage uitkomst: ~ 99,9910%)
