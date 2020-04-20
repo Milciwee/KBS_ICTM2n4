@@ -12,37 +12,33 @@ import org.json.simple.parser.ParseException;
 public class ReadJson {
 
   public static void readDesign() {
+    // JSON parser object om file te parsen
     JSONParser jsonParser = new JSONParser();
 
     try (FileReader reader = new FileReader("src/savedDesigns/server.json")) {
 
       // JSON file readen
       Object obj = jsonParser.parse(reader);
+      JSONObject jsonObject = (JSONObject) obj;
 
-      JSONArray serverList = new JSONArray();
-      serverList = (JSONArray) obj;
+      JSONArray testList = (JSONArray) jsonObject.get("Design1");
 
-      serverList.forEach(server -> parseServerObject((JSONObject) server));
+      testList.forEach(server -> parseServerObject((JSONObject) server));
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     } catch (ParseException e) {
       e.printStackTrace();
-    } catch (Exception e) {
-      e.printStackTrace();
     }
 
   }
 
   private static void parseServerObject(JSONObject server) {
-    JSONObject serverObject = (JSONObject) server.get("Design1");
+    JSONObject serverObject = (JSONObject) server.get("server");
 
     String name = (String) serverObject.get("name");
     System.out.println(name);
   }
 
-  public static void main(String[] args) {
-    readDesign();
-  }
 }
