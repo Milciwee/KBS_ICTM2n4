@@ -15,7 +15,8 @@ public class Calculatepriceavailabiltiy {
         a.add((1 - (server.getAvailabilty() / 100)));
       }
     }
-    // for loop om alle beschikbaarheden in de tijdelijke arraylist keer elkaar te doen
+    // for loop om alle beschikbaarheden in de tijdelijke arraylist keer elkaar te
+    // doen
     double temp = a.get(0);
     for (int i = 1; i < a.size(); i++) {
       temp = temp * a.get(i);
@@ -34,7 +35,8 @@ public class Calculatepriceavailabiltiy {
         a.add((1 - (server.getAvailabilty() / 100)));
       }
     }
-    // for loop om alle beschikbaarheden in de tijdelijke arraylist keer elkaar te doen
+    // for loop om alle beschikbaarheden in de tijdelijke arraylist keer elkaar te
+    // doen
     double temp = a.get(0);
     for (int i = 1; i < a.size(); i++) {
       temp = temp * a.get(i);
@@ -42,13 +44,43 @@ public class Calculatepriceavailabiltiy {
     return 1 - temp;
   }
 
-  //uiteindelijke method om de volledige beschikbaarheidspercentage te berekenen van volledig ontwerp
+  // uiteindelijke method om de volledige beschikbaarheidspercentage te berekenen
+  // van volledig ontwerp
   public static double calculateAvailabilty(ArrayList<Server> servers) {
     double webservers = calculateAvailabiltyWebservers(servers);
     double databaseservers = calculateAvailabiltyDatabaseservers(servers);
     double availability = (webservers * databaseservers);
     return availability;
 
+  }
+
+  public static double calculatePriceWebservers(ArrayList<Server> servers) {
+    double price = 0;
+    for (Server server : servers) {
+      if (server.getType().equals("webserver")) {
+        price += server.getPrice();
+      }
+    }
+    return price;
+  }
+
+  public static double calculatePriceDatabaseservers(ArrayList<Server> servers) {
+    double price = 0;
+    for (Server server : servers) {
+      if (server.getType().equals("database")) {
+        price += server.getPrice();
+      }
+    }
+    return price;
+  }
+
+  public static double calculateTotalPrice(ArrayList<Server> servers) {
+    double price = 0;
+    for (Server server : servers) {
+      price += server.getPrice();
+    }
+
+    return price;
   }
 
 }
