@@ -29,6 +29,7 @@ public class Calculatepriceavailabiltiy {
   public static double calculateAvailabiltyDatabaseservers(ArrayList<Server> servers) {
     // tijdelijke arraylist met alle beschikbaarheden van de servers
     ArrayList<Double> a = new ArrayList<>();
+    
     // for each loop om alle beschikbaarheden in de tijdelijke arraylist te doen
     for (Server server : servers) {
       if (server.getType().equals("database")) {
