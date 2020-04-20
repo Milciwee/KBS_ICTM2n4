@@ -26,6 +26,8 @@ public class Screen extends JFrame implements ActionListener {
     static JTextField jtfCalculateAnswer = new JTextField();
     static JTextField jtfavailability = new JTextField();
     static JTextField jtfOptimizeAnswer = new JTextField();
+    static JLabel jlDesignName = new JLabel("");
+    static JComboBox dropdowndesign;
 
     public Screen(){
         //titel van de window
@@ -58,6 +60,7 @@ public class Screen extends JFrame implements ActionListener {
         dropdownedit.setBounds(525,0,150,25);
         JLabel jlDesnameEdit = new JLabel("Design name:");
         jlDesnameEdit.setBounds(10,20,100,25);
+
         //labels
         JLabel jlWs1 = new JLabel("Webserver 1");
         JLabel jlWs2 = new JLabel("Webserver 2");
@@ -83,15 +86,12 @@ public class Screen extends JFrame implements ActionListener {
         JButton jbDelete = new JButton("Delete");
         JButton jbSave = new JButton("Save");
         JButton jbSaveAs = new JButton("Save as new Design");
-
         //button bounds
         jbCalculate.setBounds(10,280,100,25);
         jbOptimize.setBounds(140,330,100,25);
         jbDelete.setBounds(70,500,100,25);
         jbSave.setBounds(270,500,100,25);
         jbSaveAs.setBounds(470,500,150,25);
-
-        //textfields
 
         //textfield bounds
         jtfDesnameEdit.setBounds(110,20,100,25);
@@ -104,6 +104,7 @@ public class Screen extends JFrame implements ActionListener {
         jtfCalculateAnswer.setBounds(120,280,300,25);
         jtfavailability.setBounds(80,330, 40,25);
         jtfOptimizeAnswer.setBounds(10,370,300,25);
+
         //toevoegen aan panel
         editPanel.add(dropdownedit);
         editPanel.add(jlDesnameEdit);
@@ -131,14 +132,17 @@ public class Screen extends JFrame implements ActionListener {
         editPanel.add(jtfavailability);
         editPanel.add(jtfOptimizeAnswer);
 
-
         //designpanel
         dropdownitemsdesign = dropdownitemsedit;
         dropdownitemsdesign.add("Add new Design");
-        JComboBox dropdowndesign = new JComboBox(dropdownitemsdesign.toArray());
+        dropdowndesign = new JComboBox(dropdownitemsdesign.toArray());
         dropdowndesign.setBounds(525,0,150,25);
+        dropdowndesign.addActionListener(this);
+        jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
+        jlDesignName.setBounds(10,20,250,25);
 
         designPanel.add(dropdowndesign);
+        designPanel.add(jlDesignName);
 
 
 
@@ -171,6 +175,8 @@ public class Screen extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-
+        if(e.getSource()== dropdowndesign){
+            jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
+        }
     }
 }
