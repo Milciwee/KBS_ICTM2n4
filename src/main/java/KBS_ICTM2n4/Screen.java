@@ -104,13 +104,10 @@ public class Screen extends JFrame implements ActionListener {
         jtfOptimizeAnswer.setBounds(10, 370, 300, 25);
         // actionlisteneners
         jbOptimize.addActionListener(this);
-<<<<<<< HEAD
         jbCalculate.addActionListener(this);
         //toevoegen aan panel
-=======
         jbSaveAs.addActionListener(this);
         // toevoegen aan panel
->>>>>>> 206c2e673666f541f29e33c8d73b0b4aa13b6a7b
         editPanel.add(dropdownedit);
         editPanel.add(jlDesnameEdit);
         editPanel.add(jtfDesnameEdit);
@@ -281,7 +278,6 @@ public class Screen extends JFrame implements ActionListener {
 
         }
     }
-<<<<<<< HEAD
     public static boolean isNumeric(String strNum) {
         if (strNum == null) {
             return false;
@@ -295,8 +291,6 @@ public class Screen extends JFrame implements ActionListener {
     }
 }
 
-=======
->>>>>>> 206c2e673666f541f29e33c8d73b0b4aa13b6a7b
 
 
-}
+
