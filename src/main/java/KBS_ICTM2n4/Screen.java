@@ -152,7 +152,7 @@ public class Screen extends JFrame implements ActionListener {
         jlDesignName.setBounds(10, 20, 250, 25);
         jlConfiguration.setBounds(10, 50, 100, 25);
         int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
-        
+
         JLabel test = new JLabel("test12313");
         test.setBounds(10,80,100,25);
         for (int i : serverAmount) {
@@ -200,6 +200,7 @@ public class Screen extends JFrame implements ActionListener {
             backtracking.optimisation(arrayServers,availabilityDouble);
         }
         if(e.getSource() == jbCalculate){
+<<<<<<< Updated upstream
             ArrayList<Server> serverList = new ArrayList<>();
             if(isNumeric(jtfDb1.getText()) && Integer.parseInt(jtfDb1.getText()) >= 0) {
                 int count =Integer.parseInt(jtfDb1.getText());
@@ -250,6 +251,10 @@ public class Screen extends JFrame implements ActionListener {
                 double b  = Calculatepriceavailability.calculateTotalPrice(serverList);
                 System.out.println(b);
             }
+=======
+            String tekst = prijsbeschikbaarheidberekenen(jtfDb1,jtfDb2,jtfDb3,jtfWs1,jtfWs2,jtfWs3);
+            //verandert Jtextfield
+>>>>>>> Stashed changes
         }
         if (e.getSource() == jbSaveAs) {
             ArrayList<Server> servers = Server.getServerList();
@@ -288,6 +293,58 @@ public class Screen extends JFrame implements ActionListener {
             return false;
         }
         return true;
+    }
+    public String prijsbeschikbaarheidberekenen(JTextField Db1, JTextField Db2,JTextField Db3, JTextField Ws1, JTextField Ws2, JTextField Ws3){
+        ArrayList<Server> serverList = new ArrayList<>();
+        if(isNumeric(Db1.getText()) && Integer.parseInt(Db1.getText()) >= 0) {
+            int count =Integer.parseInt(Db1.getText());
+            for(int i=0; i < count;i++){
+                Server db1 = new Server("database", "Database server 1", 0.90, 5100);
+                serverList.add(db1);
+            }
+        }
+        if(isNumeric(Db2.getText()) && Integer.parseInt(Db2.getText()) >= 0) {
+            int count2 =Integer.parseInt(Db2.getText());
+            for(int i=0; i < count2;i++){
+                Server db2 = new Server("database", "Database server 2", 0.95, 7700);
+                serverList.add(db2);
+            }
+        }
+        if(isNumeric(Db3.getText()) && Integer.parseInt(Db3.getText()) >= 0) {
+            int count3 = Integer.parseInt(Db3.getText());
+            for (int i = 0; i < count3; i++) {
+                Server db3 = new Server("database", "Database server 3", 0.98, 12200);
+                serverList.add(db3);
+            }
+        }
+        if(isNumeric(Ws1.getText()) && Integer.parseInt(Ws1.getText()) >= 0){
+            int count4 =Integer.parseInt(Ws1.getText());
+            for(int i=0; i < count4;i++){
+                Server ws1 = new Server("webserver", "Webserver 1", 0.80, 2200);
+                serverList.add(ws1);
+            }
+        }
+        if(isNumeric(Ws2.getText()) && Integer.parseInt(Ws2.getText()) >= 0) {
+            int count5 =Integer.parseInt(Ws2.getText());
+            for(int i=0; i < count5;i++){
+                Server ws2 = new Server("webserver", "Webserver 2", 0.90, 3200);
+                serverList.add(ws2);
+            }
+        }
+        if(isNumeric(Ws3.getText()) && Integer.parseInt(Ws3.getText()) >= 0) {
+            int count6 = Integer.parseInt(Ws3.getText());
+            for (int i = 0; i < count6; i++) {
+                Server ws3 = new Server("webserver", "Webserver 3", 0.95, 5100);
+                serverList.add(ws3);
+            }
+        }
+        if (!serverList.isEmpty()) {
+            double a = Calculatepriceavailability.calculateavailability(serverList);
+            double b  = Calculatepriceavailability.calculateTotalPrice(serverList);
+            System.out.println(a);
+            System.out.println(b);
+        }
+        return "";
     }
 }
 
