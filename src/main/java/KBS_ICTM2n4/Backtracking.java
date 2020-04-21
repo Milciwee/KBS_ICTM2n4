@@ -7,11 +7,15 @@ import java.util.Arrays;
 
 //Incompleet, en moet nog van commentaar worden voorzien
 //Op dit moment houdt het geen rekening met de componentenset die wordt opgegeven,
+//er missen nog wat eisen,
 //en de code kan een stuk efficïenter op meerdere plaatsen
 
 public class Backtracking {
 
-    public static boolean optimisationMainLoop(int[] amountPerComponent, Server[] availableComponents, double minAvailability, int level, int cheapest) {
+    static int[] cheapestSetFound = new int[6];
+    static int cheapest = 0;
+
+    public static boolean optimisationMainLoop(int[] amountPerComponent, Server[] availableComponents, double minAvailability, int level) {
 
         amountPerComponent[level] += 1;
 
@@ -68,7 +72,7 @@ public class Backtracking {
 
             amountPerComponent[level] = 0;
 
-            if (optimisationMainLoop(amountPerComponent, availableComponents, minAvailability, level + 1, cheapest)) {
+            if (optimisationMainLoop(amountPerComponent, availableComponents, minAvailability, level + 1)) {
                 return true;
             }
 
@@ -76,8 +80,13 @@ public class Backtracking {
             if (availability >= minAvailability) {
                 if (price < cheapest || cheapest == 0) {
                     cheapest = price;
-                    System.out.println(Arrays.toString(amountPerComponent));
-                    System.out.println(price);
+                    System.out.println(cheapest);
+
+                    for (int i = 0; i < availableComponents.length; i++) {
+                        cheapestSetFound[i] = amountPerComponent[i];
+                    }
+
+                    System.out.println(Arrays.toString(cheapestSetFound));
                 }
 
                 if (level == amountPerComponent.length - 1) {
@@ -86,7 +95,7 @@ public class Backtracking {
 
                 amountPerComponent[level] = 0;
 
-                if (optimisationMainLoop(amountPerComponent, availableComponents, minAvailability, level + 1, cheapest)) {
+                if (optimisationMainLoop(amountPerComponent, availableComponents, minAvailability, level + 1)) {
                     return true;
                 }
             }
@@ -113,86 +122,15 @@ public class Backtracking {
         availableComponents[5] = w3;
 
         int level = 0;
-        int cheapest = 0;
         boolean checkedAllSets = false;
 
         while (!(checkedAllSets)) {
 
-            amountPerComponent[level] += 1;
-
-            if ((amountPerComponent[0] == 0) && (amountPerComponent[1] == 0) && (amountPerComponent[2] == 0)) {
-                amountPerComponent[0] += 1;
-            }
-            if ((amountPerComponent[3] == 0) && (amountPerComponent[4] == 0) && (amountPerComponent[5] == 0)) {
-                amountPerComponent[3] += 1;
-            }
-
-            double availabilityDB = 1;
-
-            for (int i = 0; i < 3; i++) {
-                if (amountPerComponent[i] == 0) {
-                    availabilityDB *= 1;
-                } else {
-                    for (int j = 0; j < amountPerComponent[i]; j++) {
-                        availabilityDB *= (1 - availableComponents[i].getavailability());
-                    }
-                }
-            }
-
-            availabilityDB = 1 - availabilityDB;
-
-            double availabilityW = 1;
-
-            for (int i = 3; i < 6; i++) {
-                if (amountPerComponent[i] == 0) {
-                    availabilityW *= 1;
-                } else {
-                    for (int j = 0; j < amountPerComponent[i]; j++) {
-                        availabilityW *= (1 - availableComponents[i].getavailability());
-                    }
-                }
-            }
-
-            availabilityW = 1 - availabilityW;
-
-            double availability = availabilityDB * availabilityW * 0.99998;
-
-            int price = 0;
-
-            for (int i = 0; i < amountPerComponent.length; i++) {
-                price += (availableComponents[i].getPrice() * amountPerComponent[i]);
-            }
-
-            price += 4000;
-
-            if ((!(cheapest == 0) && (price > cheapest)) || amountPerComponent[level] > 6) {
-
-                amountPerComponent[level] = 0;
-
-                if (optimisationMainLoop(amountPerComponent, availableComponents, minAvailability, level + 1, cheapest)) {
-                    checkedAllSets = true;
-                }
-
-            } else {
-                if (availability >= minAvailability) {
-                    if (price < cheapest || cheapest == 0) {
-                        cheapest = price;
-                        System.out.println(Arrays.toString(amountPerComponent));
-                        System.out.println(price);
-                    }
-
-                    if (level == amountPerComponent.length - 1) {
-                        checkedAllSets = true;
-                    }
-
-                    amountPerComponent[level] = 0;
-
-                    if (optimisationMainLoop(amountPerComponent, availableComponents, minAvailability, level + 1, cheapest)) {
-                        checkedAllSets = true;
-                    }
-                }
+            if (optimisationMainLoop(amountPerComponent, availableComponents, minAvailability, level)) {
+                checkedAllSets = true;
             }
         }
+        System.out.println("Klaar!");
         return false;
     }
 
@@ -201,5 +139,8 @@ public class Backtracking {
         int[] legeLijst = new int[6];
 
         optimisation(legeLijst, 0.9999);
+
+        System.out.println("");
+        System.out.println("Goedkoopste opstelling ("+ cheapest + " euro): " + Arrays.toString(cheapestSetFound));
     }
 }
