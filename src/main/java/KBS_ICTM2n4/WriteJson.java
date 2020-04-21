@@ -12,15 +12,22 @@ import org.json.simple.parser.JSONParser;
 
 public class WriteJson {
 
-  public static void saveDesign(ArrayList<Server> servers, String designName) {
+  public static void saveDesign(ArrayList<Server> servers, String designName, ArrayList<Integer> serverAmounts) {
+    int counter = 0;
     JSONArray serverList = new JSONArray();
-    for (Server server : servers) {
-      JSONObject serverData = new JSONObject();
-      JSONObject serverObject = new JSONObject();
-      serverData.put("name", server.getName());
-      serverObject.put("server", serverData);
-      serverList.add(serverObject);
+    try {
+      for (Server server : servers) {
+        JSONObject serverData = new JSONObject();
+        JSONObject serverObject = new JSONObject();
+        serverData.put("name", server.getName());
+        serverData.put("amount", serverAmounts.get(counter));
+        serverObject.put("server", serverData);
+        serverList.add(serverObject);
+        counter++;
 
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
     try (FileWriter file = new FileWriter("src/savedDesigns/" + designName + ".json")) {
@@ -33,26 +40,19 @@ public class WriteJson {
   }
 
   public static void main(String[] args) {
-    Server server1 = new Server("database", "db1", 98, 2500);
-    Server server2 = new Server("database", "db2", 98, 2500);
-    Server server3 = new Server("database", "db3", 95, 2500);
-    Server server4 = new Server("webserver", "web1", 80, 2500);
-    Server server5 = new Server("webserver", "web2", 90, 2500);
-    Server server6 = new Server("webserver", "web3", 95, 2500);
-    Server server7 = new Server("webserver", "web3", 95, 2500);
+    ArrayList<Server> array = Server.getServerList();
 
-    ArrayList<Server> array = new ArrayList<>();
-    array.add(server1);
-    array.add(server2);
-    array.add(server3);
-    array.add(server4);
-    array.add(server5);
-    array.add(server6);
-    array.add(server7);
+    ArrayList<Integer> array2 = new ArrayList<>();
+    int test = 1;
+    int test2 = 2;
+    array2.add(test);
+    array2.add(test2);
+    array2.add(test);
+    array2.add(test2);
+    array2.add(test);
+    array2.add(test2);
 
-    WriteJson.saveDesign(array, "Design1");
-
-    
+    WriteJson.saveDesign(array, "Design1", array2);
 
   }
 
