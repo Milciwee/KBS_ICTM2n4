@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -104,6 +105,7 @@ public class Screen extends JFrame implements ActionListener {
         jtfOptimizeAnswer.setBounds(10,370,300,25);
         //actionlisteneners
         jbOptimize.addActionListener(this);
+        jbCalculate.addActionListener(this);
         //toevoegen aan panel
         editPanel.add(dropdownedit);
         editPanel.add(jlDesnameEdit);
@@ -173,6 +175,68 @@ public class Screen extends JFrame implements ActionListener {
             jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
         }
         if (e.getSource() == jbOptimize) {
+            int[] arrayServers = new int[6];
+            arrayServers[0] = Integer.parseInt(jtfDb1.getText());
+            arrayServers[1] = Integer.parseInt(jtfDb2.getText());
+            arrayServers[2] = Integer.parseInt(jtfDb3.getText());
+            arrayServers[3] = Integer.parseInt(jtfWs1.getText());
+            arrayServers[4] = Integer.parseInt(jtfWs2.getText());
+            arrayServers[5] = Integer.parseInt(jtfWs3.getText());
+            double availabilityDouble = Double.parseDouble(jtfavailability.getText());
+            Backtracking backtracking = new Backtracking();
+            backtracking.optimisation(arrayServers,availabilityDouble);
+        }
+        if(e.getSource() == jbCalculate){
+            ArrayList<Server> serverList = new ArrayList<>();
+            if(isNumeric(jtfDb1.getText()) && Integer.parseInt(jtfDb1.getText()) >= 0) {
+                int count =Integer.parseInt(jtfDb1.getText());
+                for(int i=0; i < count;i++){
+                    Server db1 = new Server("database", "Database server 1", 0.90, 5100);
+                    serverList.add(db1);
+                }
+            }
+            if(isNumeric(jtfDb2.getText()) && Integer.parseInt(jtfDb2.getText()) >= 0) {
+                int count2 =Integer.parseInt(jtfDb2.getText());
+                for(int i=0; i < count2;i++){
+                    Server db2 = new Server("database", "Database server 2", 0.95, 7700);
+                    serverList.add(db2);
+                }
+            }
+            if(isNumeric(jtfDb3.getText()) && Integer.parseInt(jtfDb3.getText()) >= 0) {
+                int count3 = Integer.parseInt(jtfDb3.getText());
+                for (int i = 0; i < count3; i++) {
+                    Server db3 = new Server("database", "Database server 3", 0.98, 12200);
+                    serverList.add(db3);
+                }
+            }
+            if(isNumeric(jtfWs1.getText()) && Integer.parseInt(jtfWs1.getText()) >= 0){
+                int count4 =Integer.parseInt(jtfWs1.getText());
+                for(int i=0; i < count4;i++){
+                    Server ws1 = new Server("webserver", "Webserver 1", 0.80, 2200);
+                    serverList.add(ws1);
+                }
+            }
+            if(isNumeric(jtfWs2.getText()) && Integer.parseInt(jtfWs2.getText()) >= 0) {
+                int count5 =Integer.parseInt(jtfWs2.getText());
+                for(int i=0; i < count5;i++){
+                    Server ws2 = new Server("webserver", "Webserver 2", 0.90, 3200);
+                    serverList.add(ws2);
+                }
+            }
+            if(isNumeric(jtfWs3.getText()) && Integer.parseInt(jtfWs3.getText()) >= 0) {
+                int count6 = Integer.parseInt(jtfWs3.getText());
+                for (int i = 0; i < count6; i++) {
+                    Server ws3 = new Server("webserver", "Webserver 3", 0.95, 5100);
+                    serverList.add(ws3);
+                }
+            }
+            if (!serverList.isEmpty()) {
+                double a = Calculatepriceavailability.calculateavailability(serverList);
+                System.out.println(a);
+                // test voor berekenen prijs servers
+                double b  = Calculatepriceavailability.calculateTotalPrice(serverList);
+                System.out.println(b);
+            }
         }
         if (e.getSource() == jbSaveAs) {
             ArrayList<Server> servers = Server.getServerList();
@@ -191,6 +255,17 @@ public class Screen extends JFrame implements ActionListener {
 
 
         }
+    }
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 }
 
