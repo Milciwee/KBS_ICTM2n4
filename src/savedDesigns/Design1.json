@@ -1,37 +1,38 @@
 [
   {
     "server": {
-      "name": "db1"
+      "amount": 1,
+      "name": "Database server 1"
     }
   },
   {
     "server": {
-      "name": "db2"
+      "amount": 2,
+      "name": "Database server 2"
     }
   },
   {
     "server": {
-      "name": "db3"
+      "amount": 1,
+      "name": "Database server 3"
     }
   },
   {
     "server": {
-      "name": "web1"
+      "amount": 2,
+      "name": "Webserver 1"
     }
   },
   {
     "server": {
-      "name": "web2"
+      "amount": 1,
+      "name": "Webserver 2"
     }
   },
   {
     "server": {
-      "name": "web3"
-    }
-  },
-  {
-    "server": {
-      "name": "web3"
+      "amount": 2,
+      "name": "Webserver 3"
     }
   }
 ]
