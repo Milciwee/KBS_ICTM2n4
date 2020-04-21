@@ -5,10 +5,6 @@ import java.util.Arrays;
 
 //berekent de goedkoopste servercombinatie met het gegeven beschikbaarheidspercentage
 
-//Op dit moment houdt het geen rekening met de componentenset die wordt opgegeven,
-//er missen nog wat eisen,
-//en de code kan een stuk efficïenter op meerdere plaatsen
-
 public class Backtracking {
 
     private static int[] cheapestSetFound = new int[6];
@@ -101,7 +97,7 @@ public class Backtracking {
         //zouden we daar oneindig mee doorgaan. Hier zal een slimme oplossing voor zijn die rekening houdt met de beschikbaarheid van de componenten
         //die toegevoegd worden etc. (if (availablecomponents[i].getAvailability * availabilityW * 0.99998 < minAvailability) of iets dergelijks),
         //maar die kan ik (nog) niet uitvogelen. Voor nu stoppen we als er meer dan 35 componenten van het huidige type zijn toegevoegd.
-        if ((!(cheapest == 0) && (price > cheapest)) || totalComponents[level] > 35) {
+        if ((!(cheapest == 0) && (price > cheapest)) || addedComponents[level] > 35) {
 
             //Als we tegen de bovenstaande situaties aanlopen op het laatste niveau, hebben we alle relevante sets bekeken en kunnen we stoppen.
             if (level == availableComponents.length - 1) {
