@@ -12,8 +12,8 @@ import java.util.Arrays;
 
 public class Backtracking {
 
-    static int[] cheapestSetFound = new int[6];
-    static int cheapest = 0;
+    private static int[] cheapestSetFound = new int[6];
+    private static int cheapest = 0;
 
     public static boolean optimisationMainLoop(int[] amountPerComponent, Server[] availableComponents, double minAvailability, int level) {
 
@@ -64,7 +64,7 @@ public class Backtracking {
 
         price += 4000;
 
-        if ((!(cheapest == 0) && (price > cheapest)) || amountPerComponent[level] > 6) {
+        if ((!(cheapest == 0) && (price > cheapest)) || amountPerComponent[level] > 20) {
 
             if (level == amountPerComponent.length - 1) {
                 return true;
@@ -103,7 +103,7 @@ public class Backtracking {
         return false;
     }
 
-    public static boolean optimisation(int[] amountPerComponent, double minAvailability) {
+    public static int[] optimisation(int[] amountPerComponent, double minAvailability) {
 
         Server db1 = new Server("database", "db1", 0.90, 5100);
         Server db2 = new Server("database", "db2", 0.95, 7700);
@@ -130,17 +130,29 @@ public class Backtracking {
                 checkedAllSets = true;
             }
         }
+
+        int[] resultCheapestSet = new int[6];
+
+        for(int i = 0; i < cheapestSetFound.length; i++) {
+            resultCheapestSet[i] = cheapestSetFound[i];
+        }
+
+        cheapestSetFound = new int[6];
+        cheapest = 0;
+
         System.out.println("Klaar!");
-        return false;
+        return resultCheapestSet;
     }
 
     public static void main(String[] args) {
 
-        int[] legeLijst = new int[6];
+        int[] gegevenLijst = new int[6];
+        gegevenLijst[1] = 0;
+        gegevenLijst[3] = 0;
 
-        optimisation(legeLijst, 0.9999);
+        int[] goedkoopsteMetGegevenLijst = optimisation(gegevenLijst, 0.9999);
 
         System.out.println("");
-        System.out.println("Goedkoopste opstelling ("+ cheapest + " euro): " + Arrays.toString(cheapestSetFound));
+        System.out.println("Goedkoopste opstelling: " + Arrays.toString(goedkoopsteMetGegevenLijst));
     }
 }
