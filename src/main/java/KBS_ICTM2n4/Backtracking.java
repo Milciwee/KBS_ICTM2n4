@@ -19,15 +19,22 @@ public class Backtracking {
 
         amountPerComponent[level] += 1;
 
+        //Als de huidige set geen enkele databaseserver heeft, voegen we één databaseserver op de eerste positie (db1) toe.
+        //Dit is natuurlijk niet elegant, en kan later wat dynamischer worden gemaakt.
         if ((amountPerComponent[0] == 0) && (amountPerComponent[1] == 0) && (amountPerComponent[2] == 0)) {
                 amountPerComponent[0] += 1;
         }
+        //Idem met webservers.
         if ((amountPerComponent[3] == 0) && (amountPerComponent[4] == 0) && (amountPerComponent[5] == 0)) {
             amountPerComponent[3] += 1;
         }
 
+        //We stellen de beschikbaarheid van de databaseserver(s) vast.
+
         double availabilityDB = 1;
 
+        //We gaan (wederom, niet op een mooie manier) door de mogelijke databaseservers. Als er geen van het betreffende type aanwezig is,
+        //wordt de beschikbaarheid niet veranderd (*1). Anders worden
         for (int i = 0; i < 3; i++) {
             if (amountPerComponent[i] == 0) {
                 availabilityDB *= 1;
@@ -41,6 +48,8 @@ public class Backtracking {
         availabilityDB = 1 - availabilityDB;
 
         double availabilityW = 1;
+
+        //We stellen de beschikbaarheid van de webserver(s) vast.
 
         for (int i = 3; i < 6; i++) {
             if (amountPerComponent[i] == 0) {
@@ -103,7 +112,7 @@ public class Backtracking {
         return false;
     }
 
-    public static int[] optimisation(int[] amountPerComponent, double minAvailability) {
+    public static ArrayList<Server> optimisation(int[] amountPerComponent, double minAvailability) {
 
         Server db1 = new Server("database", "db1", 0.90, 5100);
         Server db2 = new Server("database", "db2", 0.95, 7700);
@@ -129,12 +138,15 @@ public class Backtracking {
             if (optimisationMainLoop(amountPerComponent, availableComponents, minAvailability, level)) {
                 checkedAllSets = true;
             }
+
         }
 
-        int[] resultCheapestSet = new int[6];
+        ArrayList<Server> resultCheapestSet = new ArrayList<>();
 
         for(int i = 0; i < cheapestSetFound.length; i++) {
-            resultCheapestSet[i] = cheapestSetFound[i];
+            for(int j = 0; j < cheapestSetFound[i]; j++) {
+                resultCheapestSet.add(availableComponents[i]);
+            }
         }
 
         cheapestSetFound = new int[6];
@@ -150,9 +162,12 @@ public class Backtracking {
         gegevenLijst[1] = 0;
         gegevenLijst[3] = 0;
 
-        int[] goedkoopsteMetGegevenLijst = optimisation(gegevenLijst, 0.9999);
+        ArrayList<Server> goedkoopsteMetGegevenLijst = optimisation(gegevenLijst, 0.9999);
 
         System.out.println("");
-        System.out.println("Goedkoopste opstelling: " + Arrays.toString(goedkoopsteMetGegevenLijst));
+        System.out.println("Goedkoopste set: ");
+        for(Server server : goedkoopsteMetGegevenLijst) {
+            System.out.println(server);
+        }
     }
 }
