@@ -20,9 +20,9 @@ public class ReadJson {
       // JSON file readen
       Object obj = jsonParser.parse(reader);
 
-      JSONArray testList = (JSONArray) obj;
+      JSONArray serverList = (JSONArray) obj;
 
-      testList.forEach(server -> parseServerObject((JSONObject) server));
+      serverList.forEach(server -> parseServerObject((JSONObject) server));
     } catch (FileNotFoundException e) {
       System.out.println("This design doesn't exist");
     } catch (IOException e) {

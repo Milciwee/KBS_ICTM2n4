@@ -28,7 +28,7 @@ public class Screen extends JFrame implements ActionListener {
     static JTextField jtfOptimizeAnswer = new JTextField();
     static JLabel jlDesignName = new JLabel("");
     static JComboBox dropdowndesign;
-
+	
     public Screen(){
         //titel van de window
         setTitle("Facility Monitoring Application");
