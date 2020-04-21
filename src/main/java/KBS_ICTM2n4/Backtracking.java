@@ -15,26 +15,33 @@ public class Backtracking {
     private static int cheapest = 0;
     private static boolean firstLoop = true;
 
-    public static boolean optimisationMainLoop(int[] amountPerComponent, Server[] availableComponents, double minAvailability, int level) {
+    public static boolean optimisationMainLoop(int[] givenComponents, int[] addedComponents, Server[] availableComponents, double minAvailability, int level) {
 
         //We voegen een server toe op het huidige niveau.
         //Als dit echter de eerste keer is dat we de functie gebruiken, willen we controleren of de set "as-is" (+ al dan niet één db1 of w1)
         //een kandidaat oplevert. Dit is natuurlijk niet netjes, maar met deze uitwerking levert het andere problemen op als we proberen het +1 moment
         //later in de functie te verwerken
         if (!(firstLoop)) {
-            amountPerComponent[level] += 1;
+            addedComponents[level] += 1;
         }
-
         firstLoop = false;
+
+        //We zullen regelmatig willen weten wat de som van de gegeven en de toegevoegde componenten is
+        int[] totalComponents = new int[availableComponents.length];
+        for(int i = 0; i < availableComponents.length; i++) {
+            totalComponents[i] = givenComponents[i] + addedComponents[i];
+        }
 
         //Als de huidige set geen enkele databaseserver heeft, voegen we één databaseserver op de eerste positie (db1) toe.
         //Dit is niet elegant, en kan later wat dynamischer worden gemaakt.
-        if ((amountPerComponent[0] == 0) && (amountPerComponent[1] == 0) && (amountPerComponent[2] == 0)) {
-                amountPerComponent[0] += 1;
+        if ((totalComponents[0] == 0) && (totalComponents[1] == 0) && (totalComponents[2] == 0)) {
+            addedComponents[0] += 1;
+            totalComponents[0] += 1;
         }
         //Idem met webservers.
-        if ((amountPerComponent[3] == 0) && (amountPerComponent[4] == 0) && (amountPerComponent[5] == 0)) {
-            amountPerComponent[3] += 1;
+        if ((totalComponents[3] == 0) && (totalComponents[4] == 0) && (totalComponents[5] == 0)) {
+            addedComponents[3] += 1;
+            totalComponents[3] += 1;
         }
 
         //Vanaf hier stellen we de beschikbaarheid van de huidige set vast.
@@ -45,11 +52,12 @@ public class Backtracking {
         //We gaan (wederom, niet op een mooie manier) door de mogelijke databaseservers. Als er geen van het betreffende type aanwezig is,
         //wordt de beschikbaarheid niet veranderd (*1).
         //Anders passen we de beschikbaarheid aan op basis van de hoeveelheid servers van het betreffende type.
+        //(Dit zou mooier kunnen door een check te doen naar het type server in availableComponents, maar dit heeft geen prioriteit)
         for (int i = 0; i < 3; i++) {
-            if (amountPerComponent[i] == 0) {
+            if (totalComponents[i] == 0) {
                 availabilityDB *= 1;
             } else {
-                for (int j = 0; j < amountPerComponent[i]; j++) {
+                for (int j = 0; j < totalComponents[i]; j++) {
                     availabilityDB *= (1 - availableComponents[i].getavailability());
                 }
             }
@@ -62,10 +70,10 @@ public class Backtracking {
         //We stellen op de bovenstaande manier de beschikbaarheid van de webserver(s) vast.
 
         for (int i = 3; i < 6; i++) {
-            if (amountPerComponent[i] == 0) {
+            if (totalComponents[i] == 0) {
                 availabilityW *= 1;
             } else {
-                for (int j = 0; j < amountPerComponent[i]; j++) {
+                for (int j = 0; j < totalComponents[i]; j++) {
                     availabilityW *= (1 - availableComponents[i].getavailability());
                 }
             }
@@ -80,8 +88,8 @@ public class Backtracking {
         //We stellen de prijs van de huidige set vast.
 
         int price = 0;
-        for (int i = 0; i < amountPerComponent.length; i++) {
-            price += (availableComponents[i].getPrice() * amountPerComponent[i]);
+        for (int i = 0; i < availableComponents.length; i++) {
+            price += (availableComponents[i].getPrice() * totalComponents[i]);
         }
         price += 4000;
 
@@ -92,20 +100,20 @@ public class Backtracking {
         //ook al is de beschikbaarheid van de databaseservers honderd procent. Als we dan momenteel op een databaseniveau servers toevoegen,
         //zouden we daar oneindig mee doorgaan. Hier zal een slimme oplossing voor zijn die rekening houdt met de beschikbaarheid van de componenten
         //die toegevoegd worden etc. (if (availablecomponents[i].getAvailability * availabilityW * 0.99998 < minAvailability) of iets dergelijks),
-        //maar die kan ik (nog) niet uitvogelen. Voor nu stoppen we als er meer dan 20 componenten van het huidige type zijn toegevoegd.
-        if ((!(cheapest == 0) && (price > cheapest)) || amountPerComponent[level] > 20) {
+        //maar die kan ik (nog) niet uitvogelen. Voor nu stoppen we als er meer dan 35 componenten van het huidige type zijn toegevoegd.
+        if ((!(cheapest == 0) && (price > cheapest)) || totalComponents[level] > 35) {
 
             //Als we tegen de bovenstaande situaties aanlopen op het laatste niveau, hebben we alle relevante sets bekeken en kunnen we stoppen.
-            if (level == amountPerComponent.length - 1) {
+            if (level == availableComponents.length - 1) {
                 return true;
             }
 
-            //Anders gaan we door naar de "volgende" set: we halen alle componenten van het huidige niveau weg en roepen deze functie aan op het volgende
+            //Anders gaan we door naar de "volgende" set: we halen alle toegevoegde componenten van het huidige niveau weg en roepen deze functie aan op het volgende
             //niveau, wat daar in ieder geval één bij zal optellen.
 
-            amountPerComponent[level] = 0;
+            addedComponents[level] = 0;
 
-            if (optimisationMainLoop(amountPerComponent, availableComponents, minAvailability, level + 1)) {
+            if (optimisationMainLoop(givenComponents, addedComponents, availableComponents, minAvailability, level + 1)) {
                 return true;
             }
         } else {
@@ -116,36 +124,32 @@ public class Backtracking {
                 if (price < cheapest || cheapest == 0) {
                     //Dan wordt dit de goedkoopste.
                     cheapest = price;
-                    System.out.println(cheapest);
 
                     //We stellen de inhoud van de goedkoopste set gelijk aan de inhoud van de huidige set.
                     for (int i = 0; i < availableComponents.length; i++) {
-                        cheapestSetFound[i] = amountPerComponent[i];
+                        cheapestSetFound[i] = totalComponents[i];
                     }
-
-                    System.out.println(Arrays.toString(cheapestSetFound));
                 }
 
                 //Als dit het laatste niveau is hebben we alle relevante sets bekeken en kunnen we stoppen.
-                if (level == amountPerComponent.length - 1) {
+                if (level == availableComponents.length - 1) {
                     return true;
                 }
 
                 //Anders gaan we door - het huidige niveau wordt leeggemaakt en we roepen deze functie aan op het volgende niveau.
-                amountPerComponent[level] = 0;
+                addedComponents[level] = 0;
 
-                if (optimisationMainLoop(amountPerComponent, availableComponents, minAvailability, level + 1)) {
+                if (optimisationMainLoop(givenComponents, addedComponents, availableComponents, minAvailability, level + 1)) {
                     return true;
                 }
             }
         }
         //Is de huidige set niet verworpen en ook niet geslaagd, dan keren we terug naar het vorige niveau (tenzij dit het eerste niveau is,
         //dan komen we terug in de while-loop die deze functie op dat niveau opnieuw aanroept.
-
         return false;
     }
 
-    public static ArrayList<Server> optimisation(int[] amountPerComponent, double minAvailability) {
+    public static ArrayList<Server> optimisation(int[] givenComponents, double minAvailability) {
 
         //We maken een array aan met alle beschikbare onderdelen zodat we makkelijk hiernaar kunnen verwijzen,
         //omdat de index van deze array en de amountPerComponent-array naar dezelfde componentsoort verwijst
@@ -166,6 +170,9 @@ public class Backtracking {
         availableComponents[4] = w2;
         availableComponents[5] = w3;
 
+        //We maken ook een array met de componenten die toe worden gevoegd aan de gegeven set
+        int[] addedComponents = new int[6];
+
         //Het niveau is in de eerste plaats 0.
         int level = 0;
 
@@ -177,7 +184,7 @@ public class Backtracking {
 
         while (!(checkedAllSets)) {
 
-            if (optimisationMainLoop(amountPerComponent, availableComponents, minAvailability, level)) {
+            if (optimisationMainLoop(givenComponents, addedComponents, availableComponents, minAvailability, level)) {
                 checkedAllSets = true;
             }
 
@@ -198,22 +205,21 @@ public class Backtracking {
         firstLoop = true;
 
         //Tot slot geven we de ArrayList met de goedkoopst gevonden set terug.
-        System.out.println("Klaar!");
         return resultCheapestSet;
     }
 
     public static void main(String[] args) {
 
         int[] gegevenLijst = new int[6];
-        gegevenLijst[1] = 0;
-        gegevenLijst[3] = 0;
+        gegevenLijst[0] = 0;
+        gegevenLijst[2] = 0;
 
         ArrayList<Server> goedkoopsteMetGegevenLijst = optimisation(gegevenLijst, 0.9999);
 
         System.out.println("");
         System.out.println("Goedkoopste set: ");
         for(Server server : goedkoopsteMetGegevenLijst) {
-            System.out.println(server);
+            System.out.println(server.getName());
         }
     }
 }
