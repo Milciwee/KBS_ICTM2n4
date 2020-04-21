@@ -36,7 +36,7 @@ public class Screen extends JFrame implements ActionListener {
     public Screen() {
         // titel van de window
 
-	
+
 
         setTitle("Facility Monitoring Application");
         // grootte van de window
@@ -172,16 +172,16 @@ public class Screen extends JFrame implements ActionListener {
         if (e.getSource() == dropdowndesign) {
             jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
         }
-        if (e.getSource() == jbOptimize){
-        {
+        if (e.getSource() == jbOptimize) {
+        }
         if (e.getSource() == jbSaveAs) {
             ArrayList<Server> servers = Server.getServerList();
             String name = jtfDesnameEdit.getText();
-            int db1 = Integer.parseInt(jtfDb1.getText()); 
-            int db2 = Integer.parseInt(jtfDb2.getText()); 
-            int db3 = Integer.parseInt(jtfDb3.getText()); 
+            int db1 = Integer.parseInt(jtfDb1.getText());
+            int db2 = Integer.parseInt(jtfDb2.getText());
+            int db3 = Integer.parseInt(jtfDb3.getText());
             int wb1 = Integer.parseInt(jtfWs1.getText());
-            int wb2 = Integer.parseInt(jtfWs2.getText());   
+            int wb2 = Integer.parseInt(jtfWs2.getText());
             int wb3 = Integer.parseInt(jtfWs3.getText());
             Integer[] list = new Integer[] {db1, db2, db3, wb1, wb2, wb3};
             ArrayList<Integer> serverAmount = new ArrayList<>();
@@ -189,10 +189,10 @@ public class Screen extends JFrame implements ActionListener {
             WriteJson.saveDesign(servers, name, serverAmount);
             // hier moet nog een check om te kijken of geen van deze waardes null is, als dat wel is toon een dialoog met error message
 
-            
+
         }
     }
 }
-}
-}
+
+
 
