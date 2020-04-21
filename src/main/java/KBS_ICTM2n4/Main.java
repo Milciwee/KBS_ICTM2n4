@@ -25,7 +25,7 @@ public final class Main {
         Screen test = new Screen();
 
         //server beschikbaarheids test (verwachte percentage uitkomst: ~ 99,9910%)
-        Server server1 = new Server("database", "db1", 0.90, 2500);
+        /*Server server1 = new Server("database", "db1", 0.90, 2500);
         Server server2 = new Server("database", "db2", 0.95, 2500);
         Server server3 = new Server("database", "db3", 0.98, 2500);
         Server server4 = new Server("webserver", "web1", 0.80, 2500);
@@ -46,7 +46,7 @@ public final class Main {
         System.out.println(100 * a);
         // test voor berekenen prijs servers
         double b  = Calculatepriceavailability.calculateTotalPrice(array);
-        System.out.println(b);
+        System.out.println(b);*/
 
 
     }
