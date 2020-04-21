@@ -35,6 +35,9 @@ public class Screen extends JFrame implements ActionListener {
 
     public Screen() {
         // titel van de window
+
+	
+
         setTitle("Facility Monitoring Application");
         // grootte van de window
         setSize(700, 600);
