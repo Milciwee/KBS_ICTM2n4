@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -205,10 +207,8 @@ public class Screen extends JFrame implements ActionListener {
             Backtracking backtracking = new Backtracking();
             backtracking.optimisation(arrayServers, availabilityDouble);
         }
-        if (e.getSource() == jbCalculate) {
-            String tekst = prijsbeschikbaarheidberekenen(jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3);
-            // verandert Jtextfield
-
+        if(e.getSource() == jbCalculate){
+            jtfCalculateAnswer.setText(prijsbeschikbaarheidberekenen(jtfDb1,jtfDb2,jtfDb3,jtfWs1,jtfWs2,jtfWs3));
         }
         if (e.getSource() == jbSaveAs) {
             ArrayList<Server> servers = Server.getServerList();
@@ -297,10 +297,18 @@ public class Screen extends JFrame implements ActionListener {
         }
         if (!serverList.isEmpty()) {
             double a = Calculatepriceavailability.calculateavailability(serverList);
-            double b = Calculatepriceavailability.calculateTotalPrice(serverList);
-            System.out.println(a);
-            System.out.println(b);
+            double b  = Calculatepriceavailability.calculateTotalPrice(serverList);
+            a = a*100;
+            a = round(a,2);
+            return "Availibility: "+ a + "%, Price: €"  + b;
         }
-        return "";
+        return"Serverlist is empty";
+    }
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }
