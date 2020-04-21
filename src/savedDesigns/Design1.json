@@ -1,0 +1,37 @@
+[
+  {
+    "server": {
+      "name": "db1"
+    }
+  },
+  {
+    "server": {
+      "name": "db2"
+    }
+  },
+  {
+    "server": {
+      "name": "db3"
+    }
+  },
+  {
+    "server": {
+      "name": "web1"
+    }
+  },
+  {
+    "server": {
+      "name": "web2"
+    }
+  },
+  {
+    "server": {
+      "name": "web3"
+    }
+  },
+  {
+    "server": {
+      "name": "web3"
+    }
+  }
+]

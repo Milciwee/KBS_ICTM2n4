@@ -11,21 +11,20 @@ import org.json.simple.parser.ParseException;
 
 public class ReadJson {
 
-  public static void readDesign() {
+  public static void readDesign(String designName) {
     // JSON parser object om file te parsen
     JSONParser jsonParser = new JSONParser();
 
-    try (FileReader reader = new FileReader("src/savedDesigns/server.json")) {
+    try (FileReader reader = new FileReader("src/savedDesigns/" + designName + ".json")) {
 
       // JSON file readen
       Object obj = jsonParser.parse(reader);
-      JSONObject jsonObject = (JSONObject) obj;
 
-      JSONArray testList = (JSONArray) jsonObject.get("Design1");
+      JSONArray testList = (JSONArray) obj;
 
       testList.forEach(server -> parseServerObject((JSONObject) server));
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
+      System.out.println("This design doesn't exist");
     } catch (IOException e) {
       e.printStackTrace();
     } catch (ParseException e) {
@@ -39,6 +38,10 @@ public class ReadJson {
 
     String name = (String) serverObject.get("name");
     System.out.println(name);
+  }
+
+  public static void main(String[] args) {
+    readDesign("Design1");
   }
 
 }

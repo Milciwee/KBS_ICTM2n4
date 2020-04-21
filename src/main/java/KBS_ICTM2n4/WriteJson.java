@@ -14,8 +14,6 @@ public class WriteJson {
 
   public static void saveDesign(ArrayList<Server> servers, String designName) {
     JSONArray serverList = new JSONArray();
-    JSONObject design = new JSONObject();
-    design.put(designName, serverList);
     for (Server server : servers) {
       JSONObject serverData = new JSONObject();
       JSONObject serverObject = new JSONObject();
@@ -25,8 +23,8 @@ public class WriteJson {
 
     }
 
-    try (FileWriter file = new FileWriter("src/savedDesigns/server.json")) {
-      file.write(design.toJSONString());
+    try (FileWriter file = new FileWriter("src/savedDesigns/" + designName + ".json")) {
+      file.write(serverList.toJSONString());
       file.flush();
     } catch (IOException e) {
       e.printStackTrace();
