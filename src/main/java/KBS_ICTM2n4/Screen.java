@@ -151,59 +151,29 @@ public class Screen extends JFrame implements ActionListener {
         JLabel jlFirewall = new JLabel("PFsense");
         jlDesignName.setBounds(10, 20, 250, 25);
         jlConfiguration.setBounds(10, 50, 100, 25);
-        int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
 
-        JLabel jlWeb1 = new JLabel("");
-        JLabel jlWeb2 = new JLabel("");
-        JLabel jlWeb3 = new JLabel("");
-        JLabel jlDb1 = new JLabel("");
-        JLabel jlDb2 = new JLabel("");
-        JLabel jlDb3 = new JLabel("");
-
-        jlWeb1.setBounds(10, 80, 100, 25);
-        jlWeb2.setBounds(10, 110, 100, 25);
-        jlWeb3.setBounds(10, 140, 100, 25);
-        int counter = 0;
-
-        for (int i : serverAmount) {
-            System.out.println(i);
-            if (i != 0) {
-                String temp = String.valueOf(i);
-                if (counter == 0) {
-                    jlWeb1.setText(temp);
-                }
-                if (counter == 1) {
-                    jlWeb2.setText(temp);
-                }
-                if (counter == 2) {
-                    jlWeb3.setText(temp);
-                }
-                if (counter == 3) {
-                    jlDb1.setText(temp);
-                }
-                if (counter == 4) {
-                    jlDb2.setText(temp);
-                }
-                if (counter == 5) {
-                    jlDb3.setText(temp);
-                }
-
-            }
-            counter++;
-        }
+        /*
+         * int[] serverAmount = ReadJson.readDesign((String)
+         * dropdowndesign.getSelectedItem());
+         * 
+         * JLabel jlWeb1 = new JLabel(""); JLabel jlWeb2 = new JLabel(""); JLabel jlWeb3
+         * = new JLabel(""); JLabel jlDb1 = new JLabel(""); JLabel jlDb2 = new
+         * JLabel(""); JLabel jlDb3 = new JLabel("");
+         * 
+         * jlWeb1.setBounds(10, 80, 100, 25); jlWeb2.setBounds(10, 110, 100, 25);
+         * jlWeb3.setBounds(10, 140, 100, 25); int counter = 0;
+         * 
+         * for (int i : serverAmount) { System.out.println(i); if (i != 0) { String temp
+         * = String.valueOf(i); if (counter == 0) { jlWeb1.setText(temp); } if (counter
+         * == 1) { jlWeb2.setText(temp); } if (counter == 2) { jlWeb3.setText(temp); }
+         * if (counter == 3) { jlDb1.setText(temp); } if (counter == 4) {
+         * jlDb2.setText(temp); } if (counter == 5) { jlDb3.setText(temp); }
+         * 
+         * } counter++; }
+         */
 
         // for loop waarin door de lijst met opgeslagen servers wordt gegaan om deze
         // onder elkaar te krijgen.
-
-        designPanel.add(dropdowndesign);
-        designPanel.add(jlDesignName);
-        designPanel.add(jlConfiguration);
-        designPanel.add(jlWeb1);
-        designPanel.add(jlWeb2);
-        designPanel.add(jlWeb3);
-        designPanel.add(jlDb1);
-        designPanel.add(jlDb2);
-        designPanel.add(jlDb3);
 
         designPanel.add(graphicsPanel);
 
@@ -235,9 +205,9 @@ public class Screen extends JFrame implements ActionListener {
             Backtracking backtracking = new Backtracking();
             backtracking.optimisation(arrayServers, availabilityDouble);
         }
-        if(e.getSource() == jbCalculate){
-            String tekst = prijsbeschikbaarheidberekenen(jtfDb1,jtfDb2,jtfDb3,jtfWs1,jtfWs2,jtfWs3);
-            //verandert Jtextfield
+        if (e.getSource() == jbCalculate) {
+            String tekst = prijsbeschikbaarheidberekenen(jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3);
+            // verandert Jtextfield
 
         }
         if (e.getSource() == jbSaveAs) {
@@ -279,44 +249,46 @@ public class Screen extends JFrame implements ActionListener {
         }
         return true;
     }
-    public String prijsbeschikbaarheidberekenen(JTextField Db1, JTextField Db2,JTextField Db3, JTextField Ws1, JTextField Ws2, JTextField Ws3){
+
+    public String prijsbeschikbaarheidberekenen(JTextField Db1, JTextField Db2, JTextField Db3, JTextField Ws1,
+            JTextField Ws2, JTextField Ws3) {
         ArrayList<Server> serverList = new ArrayList<>();
-        if(isNumeric(Db1.getText()) && Integer.parseInt(Db1.getText()) >= 0) {
-            int count =Integer.parseInt(Db1.getText());
-            for(int i=0; i < count;i++){
+        if (isNumeric(Db1.getText()) && Integer.parseInt(Db1.getText()) >= 0) {
+            int count = Integer.parseInt(Db1.getText());
+            for (int i = 0; i < count; i++) {
                 Server db1 = new Server("database", "Database server 1", 0.90, 5100);
                 serverList.add(db1);
             }
         }
-        if(isNumeric(Db2.getText()) && Integer.parseInt(Db2.getText()) >= 0) {
-            int count2 =Integer.parseInt(Db2.getText());
-            for(int i=0; i < count2;i++){
+        if (isNumeric(Db2.getText()) && Integer.parseInt(Db2.getText()) >= 0) {
+            int count2 = Integer.parseInt(Db2.getText());
+            for (int i = 0; i < count2; i++) {
                 Server db2 = new Server("database", "Database server 2", 0.95, 7700);
                 serverList.add(db2);
             }
         }
-        if(isNumeric(Db3.getText()) && Integer.parseInt(Db3.getText()) >= 0) {
+        if (isNumeric(Db3.getText()) && Integer.parseInt(Db3.getText()) >= 0) {
             int count3 = Integer.parseInt(Db3.getText());
             for (int i = 0; i < count3; i++) {
                 Server db3 = new Server("database", "Database server 3", 0.98, 12200);
                 serverList.add(db3);
             }
         }
-        if(isNumeric(Ws1.getText()) && Integer.parseInt(Ws1.getText()) >= 0){
-            int count4 =Integer.parseInt(Ws1.getText());
-            for(int i=0; i < count4;i++){
+        if (isNumeric(Ws1.getText()) && Integer.parseInt(Ws1.getText()) >= 0) {
+            int count4 = Integer.parseInt(Ws1.getText());
+            for (int i = 0; i < count4; i++) {
                 Server ws1 = new Server("webserver", "Webserver 1", 0.80, 2200);
                 serverList.add(ws1);
             }
         }
-        if(isNumeric(Ws2.getText()) && Integer.parseInt(Ws2.getText()) >= 0) {
-            int count5 =Integer.parseInt(Ws2.getText());
-            for(int i=0; i < count5;i++){
+        if (isNumeric(Ws2.getText()) && Integer.parseInt(Ws2.getText()) >= 0) {
+            int count5 = Integer.parseInt(Ws2.getText());
+            for (int i = 0; i < count5; i++) {
                 Server ws2 = new Server("webserver", "Webserver 2", 0.90, 3200);
                 serverList.add(ws2);
             }
         }
-        if(isNumeric(Ws3.getText()) && Integer.parseInt(Ws3.getText()) >= 0) {
+        if (isNumeric(Ws3.getText()) && Integer.parseInt(Ws3.getText()) >= 0) {
             int count6 = Integer.parseInt(Ws3.getText());
             for (int i = 0; i < count6; i++) {
                 Server ws3 = new Server("webserver", "Webserver 3", 0.95, 5100);
@@ -325,15 +297,10 @@ public class Screen extends JFrame implements ActionListener {
         }
         if (!serverList.isEmpty()) {
             double a = Calculatepriceavailability.calculateavailability(serverList);
-            double b  = Calculatepriceavailability.calculateTotalPrice(serverList);
+            double b = Calculatepriceavailability.calculateTotalPrice(serverList);
             System.out.println(a);
             System.out.println(b);
         }
         return "";
     }
 }
-
-
-
-
-
