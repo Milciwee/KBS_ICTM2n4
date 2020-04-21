@@ -245,7 +245,7 @@ public class Screen extends JFrame implements ActionListener {
             }
             if (!serverList.isEmpty()) {
                 double a = Calculatepriceavailability.calculateavailability(serverList);
-                System.out.println(a);
+                System.out.println(100 * a);
                 // test voor berekenen prijs servers
                 double b  = Calculatepriceavailability.calculateTotalPrice(serverList);
                 System.out.println(b);
