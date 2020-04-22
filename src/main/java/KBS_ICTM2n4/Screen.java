@@ -114,7 +114,6 @@ public class Screen extends JFrame implements ActionListener {
         // actionlisteneners
         jbOptimize.addActionListener(this);
         jbCalculate.addActionListener(this);
-        // toevoegen aan panel
         jbSaveAs.addActionListener(this);
         // toevoegen aan panel
         editPanel.add(dropdownedit);
@@ -286,6 +285,7 @@ public class Screen extends JFrame implements ActionListener {
         return true;
     }
 
+
     public String prijsbeschikbaarheidberekenen(JTextField Db1, JTextField Db2, JTextField Db3, JTextField Ws1,
             JTextField Ws2, JTextField Ws3) throws IndexOutOfBoundsException{
         ArrayList<Server> serverList = new ArrayList<>();
@@ -373,7 +373,9 @@ public class Screen extends JFrame implements ActionListener {
                 jlTemp.setText("");
             }
 
+
             counter++;
+
 
         }
     }
