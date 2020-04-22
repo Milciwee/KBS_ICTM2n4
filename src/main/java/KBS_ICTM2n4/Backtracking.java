@@ -104,22 +104,32 @@ public class Backtracking {
         price += 4000;
 
         //Als de huidige set (nu al) duurder is dan de goedkoopste set met de gegeven beschikbaarheid die we tot nu toe hebben gevonden,
-        //kunnen we deze set onmiddelijk verwerpen.
+        //kunnen we deze set onmiddelijk verwerpen, en doorgaan naar de volgende. (De toevoegingen op huidige niveau halen we weg, en deze functie
+        //roepen we met het volgende niveau aan.)
 
-        //Daarnaast is het mogelijk dat de beschikbaarheid van de huidige set webservers * de pfSense nooit de gegeven beschikbaarheid bereikt,
+        //Daarnaast is het mogelijk dat de beschikbaarheid van "de huidige set webservers" * "de pfSense" nooit de gegeven beschikbaarheid bereikt,
         //ook al is de beschikbaarheid van de databaseservers honderd procent. Als we dan momenteel op een databaseniveau servers toevoegen,
-        //zouden we daar oneindig mee doorgaan. Hier zal een slimme oplossing voor zijn die rekening houdt met de beschikbaarheid van de componenten
-        //die toegevoegd worden etc. (if (availablecomponents[i].getAvailability * availabilityW * 0.99998 < minAvailability) of iets dergelijks),
-        //maar die kan ik (nog) niet uitvogelen. Voor nu stoppen we als er meer dan 10 componenten van het huidige type zijn toegevoegd.
-        if ((!(cheapest == 0) && (price > cheapest)) || addedComponents[level] > 10) {
+        //zouden we daar oneindig mee doorgaan. Hier controleren we ook op, en als dit het geval is gaan we ook door naar de volgende set.
+        //Hetzelfde probleem kan zich niet voordoen als we webservers toevoegen,
+        //want als de gevraagde beschikbaarheid niet wordt gehaald valt de functie automatisch terug naar de databaseniveau's.
+        //(Dit werkt natuurlijk alleen als de databaseservers voorin de availableComponents-array zitten,
+        //dus dit zou misschien flexibeler kunnen worden gemaakt. Als de availableComponents-array uit een losse functie voortkomt zou ook
+        //daar deze regel kunnen worden ingesteld.)
+
+        //Voor de zekerheid gaan we ook door naar de volgende set als we meer dan 35 componenten op het huidige niveau hebben toegevoegd (los van de opgegeven
+        //componenten), maar dit lijkt overbodig met de bovenstaande maatregelen.
+
+        if ((!(cheapest == 0) && (price > cheapest)) ||
+            ((availableComponents[level].getType().equals("database")) && (availabilityW * 0.99998 < minAvailability ||
+                addedComponents[level] > 35 ))) {
 
             //Als we tegen de bovenstaande situaties aanlopen op het laatste niveau, hebben we alle relevante sets bekeken en kunnen we stoppen.
             if (level == availableComponents.length - 1) {
                 return true;
             }
 
-            //Anders gaan we door naar de "volgende" set: we halen alle toegevoegde componenten van het huidige niveau weg en roepen deze functie aan op het volgende
-            //niveau, wat daar in ieder geval één bij zal optellen.
+            //Anders gaan we door naar de "volgende" set: we halen alle toegevoegde componenten van het huidige niveau weg
+            //en roepen deze functie aan op het volgende niveau, wat daar in ieder geval één bij zal optellen.
 
             addedComponents[level] = 0;
 
@@ -129,14 +139,11 @@ public class Backtracking {
         } else {
             //Lopen we niet tegen de bovenstaande problemen aan, dan controleren we of de beschikbaarheid het minimaal gevraagde percentage heeft bereikt.
             if (availability >= minAvailability) {
-                //Zo ja, is de prijs lager dan de goedkoopste die we tot nu toe hadden gevonden,
-                //of hebben we nog geen goedkoopste vastgesteld (cheapest == 0)?
+                //Zo ja, is de prijs lager dan de goedkoopste die we tot nu toe hebben gevonden?
+                //Of hebben we nog geen goedkoopste vastgesteld (cheapest == 0)?
                 if (price < cheapest || cheapest == 0) {
                     //Dan wordt dit de goedkoopste.
                     cheapest = price;
-
-                    System.out.println(Arrays.toString(totalComponents));
-                    System.out.println(availability);
 
                     //We stellen de inhoud van de goedkoopste gevonden set gelijk aan de inhoud van de huidige set.
                     for (int i = 0; i < availableComponents.length; i++) {
