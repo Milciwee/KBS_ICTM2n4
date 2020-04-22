@@ -41,15 +41,51 @@ public class ReadJson {
 
   }
 
+  public static String[] readDesign2(String designName) {
+    // JSON parser object om file te parsen
+    JSONParser jsonParser = new JSONParser();
+    String[] returnArray = new String[6];
+
+    try (FileReader reader = new FileReader("src/savedDesigns/" + designName + ".json")) {
+
+      // JSON file readen
+      Object obj = jsonParser.parse(reader);
+      int counter = 0;
+      JSONArray serverList = (JSONArray) obj;
+
+      for (Object object : serverList) {
+        String test = parseServerObject2((JSONObject) object);
+        returnArray[counter] = test;
+        counter++;
+      }
+      return returnArray;
+    } catch (FileNotFoundException e) {
+      System.out.println("This design doesn't exist");
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    return null;
+
+  }
+
   private static int parseServerObject(JSONObject server) {
     JSONObject serverObject = (JSONObject) server.get("server");
     int amount = ((Number) serverObject.get("amount")).intValue();
     String name = (String) serverObject.get("name");
-    // String amount = (String) serverObject.get("amount");
-    if (amount != 0) {
-      return amount;
-    }
     return amount;
+  }
+
+  private static String parseServerObject2(JSONObject server) {
+    JSONObject serverObject = (JSONObject) server.get("server");
+    int amount = ((Number) serverObject.get("amount")).intValue();
+    if(amount != 0 ){
+      String name = (String) serverObject.get("name");
+      return name;
+    }
+    return null;
+
   }
 
   public static void main(String[] args) {
