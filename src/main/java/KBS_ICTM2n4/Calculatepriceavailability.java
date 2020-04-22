@@ -12,7 +12,7 @@ public class Calculatepriceavailability {
     // for each loop om alle beschikbaarheden in de tijdelijke arraylist te doen
     for (Server server : servers) {
       if (server.getType().equals("webserver")) {
-        a.add((1 - (server.getavailability() / 100)));
+        a.add((1 - (server.getavailability())));
       }
     }
     // for loop om alle beschikbaarheden in de tijdelijke arraylist keer elkaar te
@@ -36,7 +36,7 @@ public class Calculatepriceavailability {
     
     for (Server server : servers) {
       if (server.getType().equals("database")) {
-        a.add((1 - (server.getavailability() / 100)));
+        a.add((1 - (server.getavailability())));
       }
     }
     try {
@@ -56,7 +56,7 @@ public class Calculatepriceavailability {
   public static double calculateavailability(ArrayList<Server> servers) {
     double webservers = calculateavailabilityWebservers(servers);
     double databaseservers = calculateAvailabilityDatabaseservers(servers);
-    double availability = (webservers * databaseservers);
+    double availability = (0.99998 * webservers * databaseservers);
     return availability;
 
   }
@@ -90,7 +90,7 @@ public class Calculatepriceavailability {
       price += server.getPrice();
     }
 
-    return price;
+    return price + 4000;
   }
 
 }
