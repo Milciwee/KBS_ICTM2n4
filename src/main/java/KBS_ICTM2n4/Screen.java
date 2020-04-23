@@ -163,6 +163,26 @@ public class Screen extends JFrame implements ActionListener {
         jlDesignName.setBounds(10, 20, 250, 25);
         jlConfiguration.setBounds(10, 50, 100, 25);
 
+        /*
+         * int[] serverAmount = ReadJson.readDesign((String)
+         * dropdowndesign.getSelectedItem());
+         *
+         * JLabel jlWeb1 = new JLabel(""); JLabel jlWeb2 = new JLabel(""); JLabel jlWeb3
+         * = new JLabel(""); JLabel jlDb1 = new JLabel(""); JLabel jlDb2 = new
+         * JLabel(""); JLabel jlDb3 = new JLabel("");
+         *
+         * jlWeb1.setBounds(10, 80, 100, 25); jlWeb2.setBounds(10, 110, 100, 25);
+         * jlWeb3.setBounds(10, 140, 100, 25); int counter = 0;
+         *
+         * for (int i : serverAmount) { System.out.println(i); if (i != 0) { String temp
+         * = String.valueOf(i); if (counter == 0) { jlWeb1.setText(temp); } if (counter
+         * == 1) { jlWeb2.setText(temp); } if (counter == 2) { jlWeb3.setText(temp); }
+         * if (counter == 3) { jlDb1.setText(temp); } if (counter == 4) {
+         * jlDb2.setText(temp); } if (counter == 5) { jlDb3.setText(temp); }
+         *
+         * } counter++; }
+         */
+
         // for loop waarin door de lijst met opgeslagen servers wordt gegaan om deze
         // onder elkaar te krijgen.
         showConfig();
@@ -195,18 +215,39 @@ public class Screen extends JFrame implements ActionListener {
         }
         if (e.getSource() == jbOptimize) {
             int[] arrayServers = new int[6];
-            arrayServers[0] = Integer.parseInt(jtfDb1.getText());
-            arrayServers[1] = Integer.parseInt(jtfDb2.getText());
-            arrayServers[2] = Integer.parseInt(jtfDb3.getText());
-            arrayServers[3] = Integer.parseInt(jtfWs1.getText());
-            arrayServers[4] = Integer.parseInt(jtfWs2.getText());
-            arrayServers[5] = Integer.parseInt(jtfWs3.getText());
-            double availabilityDouble = Double.parseDouble(jtfavailability.getText());
-            Backtracking backtracking = new Backtracking();
-            backtracking.optimisation(arrayServers, availabilityDouble);
+            if (isNumeric(jtfDb1.getText()) && Integer.parseInt(jtfDb1.getText()) >= 0) {
+                arrayServers[0] = Integer.parseInt(jtfDb1.getText());
+            }
+            if (isNumeric(jtfDb2.getText()) && Integer.parseInt(jtfDb2.getText()) >= 0) {
+                arrayServers[1] = Integer.parseInt(jtfDb2.getText());
+            }
+            if (isNumeric(jtfDb3.getText()) && Integer.parseInt(jtfDb3.getText()) >= 0) {
+                arrayServers[2] = Integer.parseInt(jtfDb3.getText());
+            }
+            if (isNumeric(jtfWs1.getText()) && Integer.parseInt(jtfWs1.getText()) >= 0) {
+                arrayServers[3] = Integer.parseInt(jtfWs1.getText());
+            }
+            if (isNumeric(jtfWs2.getText()) && Integer.parseInt(jtfWs2.getText()) >= 0) {
+                arrayServers[4] = Integer.parseInt(jtfWs2.getText());
+            }
+            if (isNumeric(jtfWs3.getText()) && Integer.parseInt(jtfWs3.getText()) >= 0) {
+                arrayServers[5] = Integer.parseInt(jtfWs3.getText());
+            }
+            try {
+                double availabilityDouble = Double.parseDouble(jtfavailability.getText());
+                Backtracking backtracking = new Backtracking();
+                backtracking.optimisation(arrayServers, availabilityDouble);
+
+            }catch(Exception ex2) {
+                jtfOptimizeAnswer.setText("unknown value");
+            }
         }
-        if (e.getSource() == jbCalculate) {
-            jtfCalculateAnswer.setText(prijsbeschikbaarheidberekenen(jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3));
+        if(e.getSource() == jbCalculate){
+            try{
+                jtfCalculateAnswer.setText(prijsbeschikbaarheidberekenen(jtfDb1,jtfDb2,jtfDb3,jtfWs1,jtfWs2,jtfWs3));
+            }catch (Exception ex){
+                jtfCalculateAnswer.setText("Choose at least 1 webserver and 1 databaseserver");
+            }
         }
         if (e.getSource() == jbSaveAs) {
             ArrayList<Server> servers = Server.getServerList();
@@ -254,8 +295,9 @@ public class Screen extends JFrame implements ActionListener {
         return true;
     }
 
+
     public String prijsbeschikbaarheidberekenen(JTextField Db1, JTextField Db2, JTextField Db3, JTextField Ws1,
-            JTextField Ws2, JTextField Ws3) {
+            JTextField Ws2, JTextField Ws3) throws IndexOutOfBoundsException{
         ArrayList<Server> serverList = new ArrayList<>();
         if (isNumeric(Db1.getText()) && Integer.parseInt(Db1.getText()) >= 0) {
             int count = Integer.parseInt(Db1.getText());
@@ -356,6 +398,7 @@ public class Screen extends JFrame implements ActionListener {
             String name = file.getName();
             Screen.dropdownitemsedit.add(name.replace(".json", ""));
             System.out.println(name);
+
 
         }
 
