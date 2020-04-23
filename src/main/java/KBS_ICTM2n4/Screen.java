@@ -387,7 +387,6 @@ public class Screen extends JFrame implements ActionListener {
             dropdowndesign.addItem(name.replace(".json", ""));
             System.out.println(name);
         }
-        // dropdowndesign = dropdownedit;
         dropdowndesign.addItem("Add new Design");
 
     }
