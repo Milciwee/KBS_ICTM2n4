@@ -68,8 +68,6 @@ public class Backtracking {
             totalComponents[i] = givenComponents[i] + addedComponents[i];
         }
 
-        System.out.println(Arrays.toString(totalComponents));
-
         //Vanaf hier stellen we de beschikbaarheid van de huidige set vast.
 
         double availabilityDB = 1;
@@ -247,7 +245,7 @@ public class Backtracking {
         gegevenLijst[4] = 0;
         gegevenLijst[5] = 0;
 
-        ArrayList<Server> goedkoopsteMetGegevenLijst = optimisation(gegevenLijst, 100);
+        ArrayList<Server> goedkoopsteMetGegevenLijst = optimisation(gegevenLijst, 99.99);
 
         System.out.println("");
         System.out.println("Goedkoopste set: ");
