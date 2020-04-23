@@ -9,15 +9,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 //gui, hier komen alle knoppen en weergaves van het progamma, het liefst geen functies
 public class Screen extends JFrame implements ActionListener {
@@ -35,11 +26,11 @@ public class Screen extends JFrame implements ActionListener {
     static JTextField jtfDb2 = new JTextField();
     static JTextField jtfDb3 = new JTextField();
     static JTextField jtfCalculateAnswer = new JTextField();
-    static JTextField jtfavailability = new JTextField();
+    static JTextField jtfAvailabilitypart1 = new JTextField();
+    static JTextField jtfAvailabilitypart2 = new JTextField();
     static JTextField jtfOptimizeAnswer = new JTextField();
     static JLabel jlDesignName = new JLabel("");
     static JComboBox dropdowndesign;
-    static JComboBox dropdownedit;
     JButton jbCalculate = new JButton("Calculate");
     JButton jbOptimize = new JButton("Optimize");
     JButton jbDelete = new JButton("Delete");
@@ -82,7 +73,7 @@ public class Screen extends JFrame implements ActionListener {
         // Monitorpanel
 
         // editpanel
-        dropdownedit = new JComboBox();
+        JComboBox dropdownedit = new JComboBox(dropdownitemsedit.toArray());
         dropdownedit.setBounds(525, 0, 150, 25);
         JLabel jlDesnameEdit = new JLabel("Design name:");
         jlDesnameEdit.setBounds(10, 20, 100, 25);
@@ -94,7 +85,10 @@ public class Screen extends JFrame implements ActionListener {
         JLabel jlWs2 = new JLabel("Webserver 2");
         JLabel jlWs3 = new JLabel("Webserver 3");
         JLabel jlFw = new JLabel("Pfsense");
-        JLabel jlAvailability = new JLabel("Availibility");
+        JLabel jlFwAmount = new JLabel("1");
+        JLabel jlAvailability = new JLabel("Availability");
+        JLabel jlAvailabilityDot = new JLabel(",");
+        JLabel jlAvailabilityPercent = new JLabel("%");
         // label bounds
         jlDbs1.setBounds(10, 60, 120, 25);
         jlDbs2.setBounds(10, 90, 120, 25);
@@ -103,10 +97,13 @@ public class Screen extends JFrame implements ActionListener {
         jlWs2.setBounds(10, 180, 120, 25);
         jlWs3.setBounds(10, 210, 120, 25);
         jlFw.setBounds(10, 240, 120, 25);
+        jlFwAmount.setBounds(140,240,25,25);
         jlAvailability.setBounds(10, 330, 100, 25);
+        jlAvailabilityDot.setBounds(113,330,10,25);
+        jlAvailabilityPercent.setBounds(155,330,10,25);
         // button bounds
         jbCalculate.setBounds(10, 280, 100, 25);
-        jbOptimize.setBounds(140, 330, 100, 25);
+        jbOptimize.setBounds(190, 330, 100, 25);
         jbDelete.setBounds(70, 500, 100, 25);
         jbSave.setBounds(270, 500, 100, 25);
         jbSaveAs.setBounds(470, 500, 150, 25);
@@ -119,13 +116,16 @@ public class Screen extends JFrame implements ActionListener {
         jtfWs2.setBounds(140, 180, 25, 25);
         jtfWs3.setBounds(140, 210, 25, 25);
         jtfCalculateAnswer.setBounds(120, 280, 300, 25);
-        jtfavailability.setBounds(80, 330, 40, 25);
+        jtfAvailabilitypart1.setBounds(80, 330, 30, 25);
+        jtfAvailabilitypart2.setBounds(120,330,30,25);
         jtfOptimizeAnswer.setBounds(10, 370, 300, 25);
+        //niet editable
+        jtfCalculateAnswer.setEditable(false);
+        jtfOptimizeAnswer.setEditable(false);
         // actionlisteneners
         jbOptimize.addActionListener(this);
         jbCalculate.addActionListener(this);
         jbSaveAs.addActionListener(this);
-        jbDelete.addActionListener(this);
         // toevoegen aan panel
         editPanel.add(dropdownedit);
         editPanel.add(jlDesnameEdit);
@@ -137,6 +137,7 @@ public class Screen extends JFrame implements ActionListener {
         editPanel.add(jlDbs2);
         editPanel.add(jlDbs3);
         editPanel.add(jlFw);
+        editPanel.add(jlFwAmount);
         editPanel.add(jlAvailability);
         editPanel.add(jbCalculate);
         editPanel.add(jbOptimize);
@@ -150,18 +151,22 @@ public class Screen extends JFrame implements ActionListener {
         editPanel.add(jtfDb2);
         editPanel.add(jtfDb3);
         editPanel.add(jtfCalculateAnswer);
-        editPanel.add(jtfavailability);
+        editPanel.add(jtfAvailabilitypart1);
+        editPanel.add(jtfAvailabilitypart2);
+        editPanel.add(jlAvailabilityDot);
+        editPanel.add(jlAvailabilityPercent);
         editPanel.add(jtfOptimizeAnswer);
-        
 
         // designpanel
         // dropdown
-        dropdowndesign = new JComboBox();
+        dropdownitemsdesign = dropdownitemsedit;
+        dropdownitemsdesign.add("Add new Design");
+        dropdowndesign = new JComboBox(dropdownitemsdesign.toArray());
         dropdowndesign.setBounds(525, 0, 150, 25);
         dropdowndesign.addActionListener(this);
         // graphics
         DisplayGraphics graphicsPanel = new DisplayGraphics();
-        graphicsPanel.setBounds(10, 250, 660, 270);
+        graphicsPanel.setBounds(10, 260, 660, 265);
         // variabele JLabels
         jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
         // statische JLabels
@@ -171,6 +176,8 @@ public class Screen extends JFrame implements ActionListener {
         jlConfiguration.setBounds(10, 50, 100, 25);
         // for loop waarin door de lijst met opgeslagen servers wordt gegaan om deze
         // onder elkaar te krijgen.
+        showConfig();
+
         designPanel.add(graphicsPanel);
         designPanel.add(jlDesignName);
         designPanel.add(jlConfiguration);
@@ -182,66 +189,80 @@ public class Screen extends JFrame implements ActionListener {
         tabbedPane.addTab("Design", designPanel);
         add(tabbedPane);
         // zichtbaarheid aanzetten
-        readDesignsList(this);
-        showConfig();
         setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == dropdowndesign) {
-            try {
-                if (dropdowndesign.getSelectedItem().equals("Add new Design")) {
-                    tabbedPane.setSelectedComponent(editPanel);
-                }
-                if (!dropdowndesign.getSelectedItem().equals("Add new Design")) {
-                    jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
-                    showConfig();
-
-                }
-            } catch (NullPointerException ex) {
-                // TODO
+            jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
+            if (dropdowndesign.getSelectedItem().equals("Add new Design")) {
+                tabbedPane.setSelectedComponent(editPanel);
             }
+            showConfig();
+            revalidate();
+            repaint();
 
         }
         if (e.getSource() == jbOptimize) {
             int[] arrayServers = new int[6];
             if (isNumeric(jtfDb1.getText()) && Integer.parseInt(jtfDb1.getText()) >= 0) {
                 arrayServers[0] = Integer.parseInt(jtfDb1.getText());
+            }else{
+                arrayServers[0] = 0;
             }
             if (isNumeric(jtfDb2.getText()) && Integer.parseInt(jtfDb2.getText()) >= 0) {
                 arrayServers[1] = Integer.parseInt(jtfDb2.getText());
+            }else{
+                arrayServers[1] = 0;
             }
             if (isNumeric(jtfDb3.getText()) && Integer.parseInt(jtfDb3.getText()) >= 0) {
                 arrayServers[2] = Integer.parseInt(jtfDb3.getText());
+            }else{
+                arrayServers[2] = 0;
             }
             if (isNumeric(jtfWs1.getText()) && Integer.parseInt(jtfWs1.getText()) >= 0) {
                 arrayServers[3] = Integer.parseInt(jtfWs1.getText());
+            }else{
+                arrayServers[3] = 0;
             }
             if (isNumeric(jtfWs2.getText()) && Integer.parseInt(jtfWs2.getText()) >= 0) {
                 arrayServers[4] = Integer.parseInt(jtfWs2.getText());
+            }else{
+                arrayServers[4] = 0;
             }
             if (isNumeric(jtfWs3.getText()) && Integer.parseInt(jtfWs3.getText()) >= 0) {
                 arrayServers[5] = Integer.parseInt(jtfWs3.getText());
+            }else{
+                arrayServers[5] = 0;
             }
             try {
-                double availabilityDouble = Double.parseDouble(jtfavailability.getText());
+                if (jtfAvailabilitypart1.getText().equals("")){
+                    jtfAvailabilitypart1.setText("00");
+                }
+                if (jtfAvailabilitypart2.getText().equals("")){
+                    jtfAvailabilitypart2.setText("00");
+                }
+                String availabilityTotal = (jtfAvailabilitypart1.getText() + jtfAvailabilitypart2.getText());
+                double availabilityDouble = Double.parseDouble(availabilityTotal);
+                if (availabilityDouble >= 10000 || availabilityDouble < 0.00) {
+                   int throwsError = 0 / 0;
+                }
+                availabilityDouble = availabilityDouble/100;
                 Backtracking backtracking = new Backtracking();
-                backtracking.optimisation(arrayServers, availabilityDouble);
-
-            } catch (Exception ex2) {
-                jtfOptimizeAnswer.setText("unknown value");
+                ArrayList<Server> calcServers = backtracking.optimisation(arrayServers, availabilityDouble);
+                double available = Calculatepriceavailability.calculateavailability(calcServers);
+                double price = Calculatepriceavailability.calculateTotalPrice(calcServers);
+                available = available * 100;
+                available = round(available, 2);
+                jtfOptimizeAnswer.setText("Availability: " + available + "%, Price: €" + price);
+                inputServersInEdit(calcServers);
+            }
+            catch(Exception ex2) {
+                jtfOptimizeAnswer.setText("Please choose a value between 0 - 99.99%");
             }
         }
-        if (e.getSource() == jbCalculate) {
-            try {
-                jtfCalculateAnswer
-                        .setText(prijsbeschikbaarheidberekenen(jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3));
-            } catch (Exception ex) {
-                jtfCalculateAnswer.setText("Choose at least 1 webserver and 1 databaseserver");
-            }
-        }
-        if (e.getSource() == jbCalculate) {
-            jtfCalculateAnswer.setText(prijsbeschikbaarheidberekenen(jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3));
+        if(e.getSource() == jbCalculate){
+            jtfCalculateAnswer.setText(prijsbeschikbaarheidberekenen(jtfDb1,jtfDb2,jtfDb3,jtfWs1,jtfWs2,jtfWs3));
         }
         if (e.getSource() == jbSaveAs) {
             ArrayList<Server> servers = Server.getServerList();
@@ -267,14 +288,7 @@ public class Screen extends JFrame implements ActionListener {
             }
             // roep de write functie aan
             WriteJson.saveDesign(servers, name, serverAmount);
-            readDesignsList(this);
-        }
-        if (e.getSource() == jbDelete) {
-            File temp = new File("src/savedDesigns/" + dropdownedit.getSelectedItem() + ".json");
-            if (temp.delete()) {
-                System.out.println(dropdownedit.getSelectedItem() + " deleted");
-            }
-            readDesignsList(this);
+
         }
     }
 
@@ -290,9 +304,9 @@ public class Screen extends JFrame implements ActionListener {
         return true;
     }
 
-    public String prijsbeschikbaarheidberekenen(JTextField Db1, JTextField Db2, JTextField Db3, JTextField Ws1,
 
-            JTextField Ws2, JTextField Ws3) throws IndexOutOfBoundsException {
+    public String prijsbeschikbaarheidberekenen(JTextField Db1, JTextField Db2, JTextField Db3, JTextField Ws1,
+            JTextField Ws2, JTextField Ws3){
         ArrayList<Server> serverList = new ArrayList<>();
         if (isNumeric(Db1.getText()) && Integer.parseInt(Db1.getText()) >= 0) {
             int count = Integer.parseInt(Db1.getText());
@@ -336,14 +350,19 @@ public class Screen extends JFrame implements ActionListener {
                 serverList.add(ws3);
             }
         }
-        if (!serverList.isEmpty()) {
-            double a = Calculatepriceavailability.calculateavailability(serverList);
+        try {
+            if (!serverList.isEmpty()) {
+                double a = Calculatepriceavailability.calculateavailability(serverList);
+                double b = Calculatepriceavailability.calculateTotalPrice(serverList);
+                a = a * 100;
+                a = round(a, 2);
+                return "Availability: " + a + "%, Price: €" + b;
+            }
+            return "Serverlist is empty";
+        }catch (Exception ex3){
             double b = Calculatepriceavailability.calculateTotalPrice(serverList);
-            a = a * 100;
-            a = round(a, 2);
-            return "Availibility: " + a + "%, Price: €" + b;
+            return "Price : €" + b;
         }
-        return "Serverlist is empty";
     }
 
     public static double round(double value, int places) {
@@ -365,65 +384,45 @@ public class Screen extends JFrame implements ActionListener {
             for (int i : serverAmount) {
                 if (i != 0) {
                     String temp = String.valueOf(i);
+                    System.out.println(temp);
+                    System.out.println(serverAmount2[counter]);
                     JLabel jlTemp = labels[counter];
                     jlTemp.setText(serverAmount2[counter] + ":     " + temp);
                     jlTemp.setBounds(10, 50 + y, 200, 25);
                     designPanel.add(jlTemp);
                     y += 30;
-
+    
                 } else {
                     JLabel jlTemp = labels[counter];
                     jlTemp.setText("");
                 }
-
                 counter++;
-
             }
-        } catch (NullPointerException e) {
-            System.out.println("No designs found");
+        } catch (Exception e) {
+            //TODO: handle exception
         }
 
     }
-
-    private static void readDesignsList(Screen screen) {
-        File[] files = new File("src/savedDesigns").listFiles();
-        dropdownedit.removeAllItems();
-        dropdowndesign.removeAllItems();
-        for (File file : files) {
-            String name = file.getName();
-            dropdownitemsedit.add(name.replace(".json", ""));
-            dropdownedit.addItem(name.replace(".json", ""));
-            dropdowndesign.addItem(name.replace(".json", ""));
-            System.out.println(name);
-        }
-        dropdowndesign.addItem("Add new Design");
-    }
-
-    public void inputServersInEdit(ArrayList<Server> servers) {
+    public void inputServersInEdit(ArrayList<Server> servers){
         int amountDb1 = 0;
         int amountDb2 = 0;
         int amountDb3 = 0;
         int amountWs1 = 0;
         int amountWs2 = 0;
         int amountWs3 = 0;
-        for (Server server : servers) {
+        for (Server server: servers) {
             System.out.println(server.getName());
-            if (server.getName().equals("db1")) {
+            if(server.getName().equals("db1")){
                 amountDb1++;
-            }
-            if (server.getName().equals("db2")) {
+            }if(server.getName().equals("db2")){
                 amountDb2++;
-            }
-            if (server.getName().equals("db3")) {
+            }if(server.getName().equals("db3")){
                 amountDb3++;
-            }
-            if (server.getName().equals("w1")) {
+            }if(server.getName().equals("w1")){
                 amountWs1++;
-            }
-            if (server.getName().equals("w2")) {
+            }if(server.getName().equals("w2")){
                 amountWs2++;
-            }
-            if (server.getName().equals("w3")) {
+            }if(server.getName().equals("w3")){
                 amountWs3++;
             }
         }
