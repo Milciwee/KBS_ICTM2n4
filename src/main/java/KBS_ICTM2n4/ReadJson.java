@@ -41,7 +41,7 @@ public class ReadJson {
 
   }
 
-  public static String[] readDesignNames(String designName) {
+  public static String[] readDesign2(String designName) {
     // JSON parser object om file te parsen
     JSONParser jsonParser = new JSONParser();
     String[] returnArray = new String[6];
