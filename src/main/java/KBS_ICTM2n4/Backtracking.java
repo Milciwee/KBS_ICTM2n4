@@ -68,6 +68,8 @@ public class Backtracking {
             totalComponents[i] = givenComponents[i] + addedComponents[i];
         }
 
+        System.out.println(Arrays.toString(totalComponents));
+
         //Vanaf hier stellen we de beschikbaarheid van de huidige set vast.
 
         double availabilityDB = 1;
@@ -117,11 +119,11 @@ public class Backtracking {
         //daar deze regel kunnen worden ingesteld.)
 
         //Voor de zekerheid gaan we ook door naar de volgende set als we meer dan 35 componenten op het huidige niveau hebben toegevoegd (los van de opgegeven
-        //componenten), maar dit lijkt overbodig met de bovenstaande maatregelen.
+        //componenten). Dit voorkomt bijvoorbeeld een oneindig aantal toevoegingen van het eerste type webserver als er een beschikbaarheid van 100% wordt gevraagd.
 
         if ((!(cheapest == 0) && (price > cheapest)) ||
-            ((availableComponents[level].getType().equals("database")) && (availabilityW * 0.99998 < minAvailability ||
-                addedComponents[level] > 35 ))) {
+            ((availableComponents[level].getType().equals("database")) && (availabilityW * 0.99998 < minAvailability)) ||
+                (addedComponents[level] > 35 )) {
 
             //Als we tegen de bovenstaande situaties aanlopen op het laatste niveau, hebben we alle relevante sets bekeken en kunnen we stoppen.
             if (level == availableComponents.length - 1) {
@@ -169,6 +171,7 @@ public class Backtracking {
         return false;
     }
 
+    //Deze functie kan in andere delen van de code worden aangeroepen.
     public static ArrayList<Server> optimisation(int[] givenComponents, double minAvailability) {
 
         //We maken een array aan met alle beschikbare onderdelen zodat we makkelijk hiernaar kunnen verwijzen,
@@ -244,7 +247,7 @@ public class Backtracking {
         gegevenLijst[4] = 0;
         gegevenLijst[5] = 0;
 
-        ArrayList<Server> goedkoopsteMetGegevenLijst = optimisation(gegevenLijst, 99.99);
+        ArrayList<Server> goedkoopsteMetGegevenLijst = optimisation(gegevenLijst, 100);
 
         System.out.println("");
         System.out.println("Goedkoopste set: ");
