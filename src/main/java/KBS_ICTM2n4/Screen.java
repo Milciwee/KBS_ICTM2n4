@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -48,8 +49,8 @@ public class Screen extends JFrame implements ActionListener {
     static JLabel jlDb3 = new JLabel();
 
     public Screen() {
+        readDesignsList(this);
         // titel van de window
-
         setTitle("Facility Monitoring Application");
         // grootte van de window
         setSize(700, 600);
@@ -114,6 +115,7 @@ public class Screen extends JFrame implements ActionListener {
         // actionlisteneners
         jbOptimize.addActionListener(this);
         jbCalculate.addActionListener(this);
+        jbDelete.addActionListener(this);
         // toevoegen aan panel
         jbSaveAs.addActionListener(this);
         // toevoegen aan panel
@@ -181,13 +183,14 @@ public class Screen extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == dropdowndesign) {
-            jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
             if (dropdowndesign.getSelectedItem().equals("Add new Design")) {
                 tabbedPane.setSelectedComponent(editPanel);
             }
-            showConfig();
-            revalidate();
-            repaint();
+            if (!dropdowndesign.getSelectedItem().equals("Add new Design")) {
+                jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
+                showConfig();
+
+            }
 
         }
         if (e.getSource() == jbOptimize) {
@@ -229,7 +232,13 @@ public class Screen extends JFrame implements ActionListener {
             }
             // roep de write functie aan
             WriteJson.saveDesign(servers, name, serverAmount);
-
+            readDesignsList(this);
+        }
+        if (e.getSource() == jbDelete) {
+            File temp = new File("src/savedDesigns/" + dropdowndesign.getSelectedItem() + ".json");
+            if (temp.delete()) {
+                System.out.println(dropdowndesign.getSelectedItem() + " deleted");
+            }
         }
     }
 
@@ -311,29 +320,45 @@ public class Screen extends JFrame implements ActionListener {
 
     private static void showConfig() {
 
-        JLabel[] labels = new JLabel[] { jlDb1, jlDb2, jlDb3, jlWb1, jlWb2, jlWb3 };
-        int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
-        String[] serverAmount2 = ReadJson.readDesign2((String) dropdowndesign.getSelectedItem());
-        int counter = 0;
-        int y = 30;
-        for (int i : serverAmount) {
-            if (i != 0) {
-                String temp = String.valueOf(i);
-                System.out.println(temp);
-                System.out.println(serverAmount2[counter]);
-                JLabel jlTemp = labels[counter];
-                jlTemp.setText(serverAmount2[counter] + ":     " + temp);
-                jlTemp.setBounds(10, 50 + y, 200, 25);
-                designPanel.add(jlTemp);
-                y += 30;
+        try {
+            JLabel[] labels = new JLabel[] { jlDb1, jlDb2, jlDb3, jlWb1, jlWb2, jlWb3 };
+            int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
+            String[] serverAmount2 = ReadJson.readDesignNames((String) dropdowndesign.getSelectedItem());
+            int counter = 0;
+            int y = 30;
+            for (int i : serverAmount) {
+                if (i != 0) {
+                    String temp = String.valueOf(i);
+                    JLabel jlTemp = labels[counter];
+                    jlTemp.setText(serverAmount2[counter] + ":     " + temp);
+                    jlTemp.setBounds(10, 50 + y, 200, 25);
+                    designPanel.add(jlTemp);
+                    y += 30;
 
-            } else {
-                JLabel jlTemp = labels[counter];
-                jlTemp.setText("");
+                } else {
+                    JLabel jlTemp = labels[counter];
+                    jlTemp.setText("");
+                }
+
+                counter++;
+
             }
+        } catch (NullPointerException e) {
+            System.out.println("No designs found");
+        }
 
-            counter++;
+    }
+
+    private static void readDesignsList(Screen screen) {
+        File[] files = new File("src/savedDesigns").listFiles();
+        ArrayList<String> temp = new ArrayList<>();
+        for (File file : files) {
+            String name = file.getName();
+            Screen.dropdownitemsedit.add(name.replace(".json", ""));
+            System.out.println(name);
 
         }
+
     }
+
 }
