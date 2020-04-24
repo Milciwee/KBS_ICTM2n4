@@ -28,6 +28,7 @@ public class Screen extends JFrame implements ActionListener {
     static JTextField jtfOptimizeAnswer = new JTextField();
     static JLabel jlDesignName = new JLabel("");
     static JComboBox dropdowndesign;
+    DisplayGraphics graphicsPanel;
     JButton jbCalculate = new JButton("Calculate");
     JButton jbOptimize = new JButton("Optimize");
     JButton jbDelete = new JButton("Delete");
@@ -142,7 +143,7 @@ public class Screen extends JFrame implements ActionListener {
         dropdowndesign.setBounds(525, 0, 150, 25);
         dropdowndesign.addActionListener(this);
         // graphics
-        DisplayGraphics graphicsPanel = new DisplayGraphics();
+        graphicsPanel = new DisplayGraphics();
         graphicsPanel.setBounds(10, 250, 660, 270);
         // variabele JLabels
         jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
@@ -152,7 +153,7 @@ public class Screen extends JFrame implements ActionListener {
         jlDesignName.setBounds(10, 20, 250, 25);
         jlConfiguration.setBounds(10, 50, 100, 25);
         int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
-        
+
         JLabel test = new JLabel("test12313");
         test.setBounds(10,80,100,25);
         for (int i : serverAmount) {
@@ -183,6 +184,7 @@ public class Screen extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == dropdowndesign) {
             jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
+            graphicsPanel.repaint();
             if(dropdowndesign.getSelectedItem().equals("Add new Design")){
                 tabbedPane.setSelectedComponent(editPanel);
             }

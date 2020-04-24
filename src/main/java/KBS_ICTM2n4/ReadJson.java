@@ -41,7 +41,7 @@ public class ReadJson {
 
   }
 
-  private static int parseServerObject(JSONObject server) {
+  public static int parseServerObject(JSONObject server) {
     JSONObject serverObject = (JSONObject) server.get("server");
     int amount = ((Number) serverObject.get("amount")).intValue();
     String name = (String) serverObject.get("name");
