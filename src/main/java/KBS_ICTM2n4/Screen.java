@@ -71,7 +71,8 @@ public class Screen extends JFrame implements ActionListener {
         editPanel.setLayout(null);
         designPanel.setLayout(null);
 
-        // hieronder kunnen onderdelen per panel met behulp van coordinaten worden geplaatst
+        // hieronder kunnen onderdelen per panel met behulp van coordinaten worden
+        // geplaatst
         // Monitorpanel
 
         // editpanel
@@ -99,10 +100,10 @@ public class Screen extends JFrame implements ActionListener {
         jlWs2.setBounds(10, 180, 120, 25);
         jlWs3.setBounds(10, 210, 120, 25);
         jlFw.setBounds(10, 240, 120, 25);
-        jlFwAmount.setBounds(140,240,25,25);
+        jlFwAmount.setBounds(140, 240, 25, 25);
         jlAvailability.setBounds(10, 330, 150, 25);
-        jlAvailabilityDot.setBounds(173,330,10,25);
-        jlAvailabilityPercent.setBounds(215,330,10,25);
+        jlAvailabilityDot.setBounds(173, 330, 10, 25);
+        jlAvailabilityPercent.setBounds(215, 330, 10, 25);
         // button bounds
         jbCalculate.setBounds(10, 280, 100, 25);
         jbOptimize.setBounds(240, 330, 100, 25);
@@ -119,9 +120,9 @@ public class Screen extends JFrame implements ActionListener {
         jtfWs3.setBounds(140, 210, 25, 25);
         jtfCalculateAnswer.setBounds(120, 280, 300, 25);
         jtfAvailabilitypart1.setBounds(140, 330, 30, 25);
-        jtfAvailabilitypart2.setBounds(180,330,30,25);
+        jtfAvailabilitypart2.setBounds(180, 330, 30, 25);
         jtfOptimizeAnswer.setBounds(10, 370, 300, 25);
-        //niet editable
+        // niet editable
         jtfCalculateAnswer.setEditable(false);
         jtfOptimizeAnswer.setEditable(false);
         // actionlisteneners
@@ -211,107 +212,108 @@ public class Screen extends JFrame implements ActionListener {
                 }
             } catch (NullPointerException ex) {
                 // TODO
-            jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
-            graphicsPanel.repaint();
-            if(dropdowndesign.getSelectedItem().equals("Add new Design")){
-                tabbedPane.setSelectedComponent(editPanel);
-            }
-
-        }
-        if (e.getSource() == jbOptimize) {
-            int[] arrayServers = new int[6];
-            if (isNumeric(jtfDb1.getText()) && Integer.parseInt(jtfDb1.getText()) >= 0) {
-                arrayServers[0] = Integer.parseInt(jtfDb1.getText());
-            }else{
-                arrayServers[0] = 0;
-            }
-            if (isNumeric(jtfDb2.getText()) && Integer.parseInt(jtfDb2.getText()) >= 0) {
-                arrayServers[1] = Integer.parseInt(jtfDb2.getText());
-            }else{
-                arrayServers[1] = 0;
-            }
-            if (isNumeric(jtfDb3.getText()) && Integer.parseInt(jtfDb3.getText()) >= 0) {
-                arrayServers[2] = Integer.parseInt(jtfDb3.getText());
-            }else{
-                arrayServers[2] = 0;
-            }
-            if (isNumeric(jtfWs1.getText()) && Integer.parseInt(jtfWs1.getText()) >= 0) {
-                arrayServers[3] = Integer.parseInt(jtfWs1.getText());
-            }else{
-                arrayServers[3] = 0;
-            }
-            if (isNumeric(jtfWs2.getText()) && Integer.parseInt(jtfWs2.getText()) >= 0) {
-                arrayServers[4] = Integer.parseInt(jtfWs2.getText());
-            }else{
-                arrayServers[4] = 0;
-            }
-            if (isNumeric(jtfWs3.getText()) && Integer.parseInt(jtfWs3.getText()) >= 0) {
-                arrayServers[5] = Integer.parseInt(jtfWs3.getText());
-            }else{
-                arrayServers[5] = 0;
-            }
-            try {
-                if (!jtfAvailabilitypart2.getText().equals("") && jtfAvailabilitypart1.getText().equals("")){
-                    jtfAvailabilitypart1.setText("00");
+                jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
+                graphicsPanel.repaint();
+                if (dropdowndesign.getSelectedItem().equals("Add new Design")) {
+                    tabbedPane.setSelectedComponent(editPanel);
                 }
-                if (jtfAvailabilitypart2.getText().equals("") && !jtfAvailabilitypart1.getText().equals("")){
-                    jtfAvailabilitypart2.setText("00");
-                }
-                String availabilityTotal = (jtfAvailabilitypart1.getText() + jtfAvailabilitypart2.getText());
-                double availabilityDouble = Double.parseDouble(availabilityTotal);
-                if (availabilityDouble >= 10000 || availabilityDouble < 0.00) {
-                   int throwsError = 0 / 0;
-                }
-                availabilityDouble = availabilityDouble/100;
-                Backtracking backtracking = new Backtracking();
-                ArrayList<Server> calcServers = backtracking.optimisation(arrayServers, availabilityDouble);
-                double available = Calculatepriceavailability.calculateavailability(calcServers);
-                double price = Calculatepriceavailability.calculateTotalPrice(calcServers);
-                available = available * 100;
-                available = round(available, 2);
-                jtfOptimizeAnswer.setText("Availability: " + available + "%, Price: €" + price);
-                inputServersInEdit(calcServers);
-            }
-            catch(Exception ex2) {
-                jtfOptimizeAnswer.setText("Please choose a value between 0 - 99.99%");
-            }
-        }
-        if(e.getSource() == jbCalculate){
-            jtfCalculateAnswer.setText(prijsbeschikbaarheidberekenen(jtfDb1,jtfDb2,jtfDb3,jtfWs1,jtfWs2,jtfWs3));
-
-        }
-        if (e.getSource() == jbSaveAs) {
-            ArrayList<Server> servers = Server.getServerList();
-            // haal ingevulde naam op voor design
-            String name = jtfDesnameEdit.getText();
-            // haal alle aantalen op van ingevulde waardes
-            String db1 = jtfDb1.getText();
-            String db2 = jtfDb2.getText();
-            String db3 = jtfDb3.getText();
-            String wb1 = jtfWs1.getText();
-            String wb2 = jtfWs2.getText();
-            String wb3 = jtfWs3.getText();
-            // doe deze waardes in een array en daarna is een arraylist
-            ArrayList<Integer> serverAmount = new ArrayList<>();
-            String[] listString = new String[] { db1, db2, db3, wb1, wb2, wb3 };
-            // Checken of er niks is ingevuld, als dit is verander dan het naar 0
-            for (String string : listString) {
-                if (string.equals("")) {
-                    string = "0";
-                }
-                serverAmount.add(Integer.parseInt(string));
 
             }
-            // roep de write functie aan
-            WriteJson.saveDesign(servers, name, serverAmount);
-            readDesignsList(this);
-        }
-        if (e.getSource() == jbDelete) {
-            File temp = new File("src/savedDesigns/" + dropdownedit.getSelectedItem() + ".json");
-            if (temp.delete()) {
-                System.out.println(dropdownedit.getSelectedItem() + " deleted");
+            if (e.getSource() == jbOptimize) {
+                int[] arrayServers = new int[6];
+                if (isNumeric(jtfDb1.getText()) && Integer.parseInt(jtfDb1.getText()) >= 0) {
+                    arrayServers[0] = Integer.parseInt(jtfDb1.getText());
+                } else {
+                    arrayServers[0] = 0;
+                }
+                if (isNumeric(jtfDb2.getText()) && Integer.parseInt(jtfDb2.getText()) >= 0) {
+                    arrayServers[1] = Integer.parseInt(jtfDb2.getText());
+                } else {
+                    arrayServers[1] = 0;
+                }
+                if (isNumeric(jtfDb3.getText()) && Integer.parseInt(jtfDb3.getText()) >= 0) {
+                    arrayServers[2] = Integer.parseInt(jtfDb3.getText());
+                } else {
+                    arrayServers[2] = 0;
+                }
+                if (isNumeric(jtfWs1.getText()) && Integer.parseInt(jtfWs1.getText()) >= 0) {
+                    arrayServers[3] = Integer.parseInt(jtfWs1.getText());
+                } else {
+                    arrayServers[3] = 0;
+                }
+                if (isNumeric(jtfWs2.getText()) && Integer.parseInt(jtfWs2.getText()) >= 0) {
+                    arrayServers[4] = Integer.parseInt(jtfWs2.getText());
+                } else {
+                    arrayServers[4] = 0;
+                }
+                if (isNumeric(jtfWs3.getText()) && Integer.parseInt(jtfWs3.getText()) >= 0) {
+                    arrayServers[5] = Integer.parseInt(jtfWs3.getText());
+                } else {
+                    arrayServers[5] = 0;
+                }
+                try {
+                    if (!jtfAvailabilitypart2.getText().equals("") && jtfAvailabilitypart1.getText().equals("")) {
+                        jtfAvailabilitypart1.setText("00");
+                    }
+                    if (jtfAvailabilitypart2.getText().equals("") && !jtfAvailabilitypart1.getText().equals("")) {
+                        jtfAvailabilitypart2.setText("00");
+                    }
+                    String availabilityTotal = (jtfAvailabilitypart1.getText() + jtfAvailabilitypart2.getText());
+                    double availabilityDouble = Double.parseDouble(availabilityTotal);
+                    if (availabilityDouble >= 10000 || availabilityDouble < 0.00) {
+                        int throwsError = 0 / 0;
+                    }
+                    availabilityDouble = availabilityDouble / 100;
+                    Backtracking backtracking = new Backtracking();
+                    ArrayList<Server> calcServers = backtracking.optimisation(arrayServers, availabilityDouble);
+                    double available = Calculatepriceavailability.calculateavailability(calcServers);
+                    double price = Calculatepriceavailability.calculateTotalPrice(calcServers);
+                    available = available * 100;
+                    available = round(available, 2);
+                    jtfOptimizeAnswer.setText("Availability: " + available + "%, Price: €" + price);
+                    inputServersInEdit(calcServers);
+                } catch (Exception ex2) {
+                    jtfOptimizeAnswer.setText("Please choose a value between 0 - 99.99%");
+                }
             }
-            readDesignsList(this);
+            if (e.getSource() == jbCalculate) {
+                jtfCalculateAnswer
+                        .setText(prijsbeschikbaarheidberekenen(jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3));
+
+            }
+            if (e.getSource() == jbSaveAs) {
+                ArrayList<Server> servers = Server.getServerList();
+                // haal ingevulde naam op voor design
+                String name = jtfDesnameEdit.getText();
+                // haal alle aantalen op van ingevulde waardes
+                String db1 = jtfDb1.getText();
+                String db2 = jtfDb2.getText();
+                String db3 = jtfDb3.getText();
+                String wb1 = jtfWs1.getText();
+                String wb2 = jtfWs2.getText();
+                String wb3 = jtfWs3.getText();
+                // doe deze waardes in een array en daarna is een arraylist
+                ArrayList<Integer> serverAmount = new ArrayList<>();
+                String[] listString = new String[] { db1, db2, db3, wb1, wb2, wb3 };
+                // Checken of er niks is ingevuld, als dit is verander dan het naar 0
+                for (String string : listString) {
+                    if (string.equals("")) {
+                        string = "0";
+                    }
+                    serverAmount.add(Integer.parseInt(string));
+
+                }
+                // roep de write functie aan
+                WriteJson.saveDesign(servers, name, serverAmount);
+                readDesignsList(this);
+            }
+            if (e.getSource() == jbDelete) {
+                File temp = new File("src/savedDesigns/" + dropdownedit.getSelectedItem() + ".json");
+                if (temp.delete()) {
+                    System.out.println(dropdownedit.getSelectedItem() + " deleted");
+                }
+                readDesignsList(this);
+            }
         }
     }
 
@@ -327,10 +329,8 @@ public class Screen extends JFrame implements ActionListener {
         return true;
     }
 
-
-
     public String prijsbeschikbaarheidberekenen(JTextField Db1, JTextField Db2, JTextField Db3, JTextField Ws1,
-            JTextField Ws2, JTextField Ws3){
+            JTextField Ws2, JTextField Ws3) {
         ArrayList<Server> serverList = new ArrayList<>();
         if (isNumeric(Db1.getText()) && Integer.parseInt(Db1.getText()) >= 0) {
             int count = Integer.parseInt(Db1.getText());
@@ -383,7 +383,7 @@ public class Screen extends JFrame implements ActionListener {
                 return "Availability: " + a + "%, Price: €" + b;
             }
             return "Serverlist is empty";
-        }catch (Exception ex3){
+        } catch (Exception ex3) {
             double b = Calculatepriceavailability.calculateTotalPrice(serverList);
             return "Price : €" + b;
         }
@@ -423,11 +423,10 @@ public class Screen extends JFrame implements ActionListener {
                 counter++;
             }
         } catch (Exception e) {
-            //TODO: handle exception
+            // TODO: handle exception
         }
 
     }
-
 
     private static void readDesignsList(Screen screen) {
         File[] files = new File("src/savedDesigns").listFiles();
@@ -444,27 +443,31 @@ public class Screen extends JFrame implements ActionListener {
 
     }
 
-
-    public void inputServersInEdit(ArrayList<Server> servers){
+    public void inputServersInEdit(ArrayList<Server> servers) {
         int amountDb1 = 0;
         int amountDb2 = 0;
         int amountDb3 = 0;
         int amountWs1 = 0;
         int amountWs2 = 0;
         int amountWs3 = 0;
-        for (Server server: servers) {
+        for (Server server : servers) {
             System.out.println(server.getName());
-            if(server.getName().equals("db1")){
+            if (server.getName().equals("db1")) {
                 amountDb1++;
-            }if(server.getName().equals("db2")){
+            }
+            if (server.getName().equals("db2")) {
                 amountDb2++;
-            }if(server.getName().equals("db3")){
+            }
+            if (server.getName().equals("db3")) {
                 amountDb3++;
-            }if(server.getName().equals("w1")){
+            }
+            if (server.getName().equals("w1")) {
                 amountWs1++;
-            }if(server.getName().equals("w2")){
+            }
+            if (server.getName().equals("w2")) {
                 amountWs2++;
-            }if(server.getName().equals("w3")){
+            }
+            if (server.getName().equals("w3")) {
                 amountWs3++;
             }
         }
