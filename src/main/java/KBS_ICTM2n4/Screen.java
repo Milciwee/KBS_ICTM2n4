@@ -170,8 +170,7 @@ public class Screen extends JFrame implements ActionListener {
         // graphics
         graphicsPanel = new DisplayGraphics();
         graphicsPanel.setBounds(10, 250, 660, 270);
-        DisplayGraphics graphicsPanel = new DisplayGraphics();
-        graphicsPanel.setBounds(10, 260, 660, 265);
+
         // variabele JLabels
         jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
         // statische JLabels
@@ -205,16 +204,18 @@ public class Screen extends JFrame implements ActionListener {
                 if (dropdowndesign.getSelectedItem().equals("Add new Design")) {
                     tabbedPane.setSelectedComponent(editPanel);
                 }
+
                 if (!dropdowndesign.getSelectedItem().equals("Add new Design")) {
                     jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
-                    graphicsPanel.repaint();
+
                     if (dropdowndesign.getSelectedItem().equals("Add new Design")) {
                         tabbedPane.setSelectedComponent(editPanel);
-
                     }
                     showConfig();
 
                 }
+                graphicsPanel.repaint();
+                System.out.println("test");
             } catch (NullPointerException ex) {
                 // TODO
 
