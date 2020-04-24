@@ -210,9 +210,10 @@ public class Screen extends JFrame implements ActionListener {
                     graphicsPanel.repaint();
                     if (dropdowndesign.getSelectedItem().equals("Add new Design")) {
                         tabbedPane.setSelectedComponent(editPanel);
-                        showConfig();
 
                     }
+                    showConfig();
+
                 }
             } catch (NullPointerException ex) {
                 // TODO
