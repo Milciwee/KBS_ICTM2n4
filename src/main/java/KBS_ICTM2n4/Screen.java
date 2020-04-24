@@ -70,8 +70,7 @@ public class Screen extends JFrame implements ActionListener {
         editPanel.setLayout(null);
         designPanel.setLayout(null);
 
-        // hieronder kunnen onderdelen per panel met behulp van coordinaten wordn
-        // geplaatste
+        // hieronder kunnen onderdelen per panel met behulp van coordinaten worden geplaatst
         // Monitorpanel
 
         // editpanel
@@ -88,7 +87,7 @@ public class Screen extends JFrame implements ActionListener {
         JLabel jlWs3 = new JLabel("Webserver 3");
         JLabel jlFw = new JLabel("Pfsense");
         JLabel jlFwAmount = new JLabel("1");
-        JLabel jlAvailability = new JLabel("Availability");
+        JLabel jlAvailability = new JLabel("Minimum Availability:");
         JLabel jlAvailabilityDot = new JLabel(",");
         JLabel jlAvailabilityPercent = new JLabel("%");
         // label bounds
@@ -100,12 +99,12 @@ public class Screen extends JFrame implements ActionListener {
         jlWs3.setBounds(10, 210, 120, 25);
         jlFw.setBounds(10, 240, 120, 25);
         jlFwAmount.setBounds(140,240,25,25);
-        jlAvailability.setBounds(10, 330, 100, 25);
-        jlAvailabilityDot.setBounds(113,330,10,25);
-        jlAvailabilityPercent.setBounds(155,330,10,25);
+        jlAvailability.setBounds(10, 330, 150, 25);
+        jlAvailabilityDot.setBounds(173,330,10,25);
+        jlAvailabilityPercent.setBounds(215,330,10,25);
         // button bounds
         jbCalculate.setBounds(10, 280, 100, 25);
-        jbOptimize.setBounds(190, 330, 100, 25);
+        jbOptimize.setBounds(240, 330, 100, 25);
         jbDelete.setBounds(70, 500, 100, 25);
         jbSave.setBounds(270, 500, 100, 25);
         jbSaveAs.setBounds(470, 500, 150, 25);
@@ -118,8 +117,8 @@ public class Screen extends JFrame implements ActionListener {
         jtfWs2.setBounds(140, 180, 25, 25);
         jtfWs3.setBounds(140, 210, 25, 25);
         jtfCalculateAnswer.setBounds(120, 280, 300, 25);
-        jtfAvailabilitypart1.setBounds(80, 330, 30, 25);
-        jtfAvailabilitypart2.setBounds(120,330,30,25);
+        jtfAvailabilitypart1.setBounds(140, 330, 30, 25);
+        jtfAvailabilitypart2.setBounds(180,330,30,25);
         jtfOptimizeAnswer.setBounds(10, 370, 300, 25);
         //niet editable
         jtfCalculateAnswer.setEditable(false);
@@ -245,10 +244,10 @@ public class Screen extends JFrame implements ActionListener {
                 arrayServers[5] = 0;
             }
             try {
-                if (jtfAvailabilitypart1.getText().equals("")){
+                if (!jtfAvailabilitypart2.getText().equals("") && jtfAvailabilitypart1.getText().equals("")){
                     jtfAvailabilitypart1.setText("00");
                 }
-                if (jtfAvailabilitypart2.getText().equals("")){
+                if (jtfAvailabilitypart2.getText().equals("") && !jtfAvailabilitypart1.getText().equals("")){
                     jtfAvailabilitypart2.setText("00");
                 }
                 String availabilityTotal = (jtfAvailabilitypart1.getText() + jtfAvailabilitypart2.getText());
@@ -409,7 +408,7 @@ public class Screen extends JFrame implements ActionListener {
                     jlTemp.setBounds(10, 50 + y, 200, 25);
                     designPanel.add(jlTemp);
                     y += 30;
-    
+
                 } else {
                     JLabel jlTemp = labels[counter];
                     jlTemp.setText("");
