@@ -32,13 +32,14 @@ public class Screen extends JFrame implements ActionListener {
     static JTextField jtfOptimizeAnswer = new JTextField();
     static JLabel jlDesignName = new JLabel("");
     static JComboBox dropdowndesign;
-    DisplayGraphics graphicsPanel;
+    //DisplayGraphics graphicsPanel;
     static JComboBox dropdownedit;
     JButton jbCalculate = new JButton("Calculate");
     JButton jbOptimize = new JButton("Optimize");
     JButton jbDelete = new JButton("Delete");
     JButton jbSave = new JButton("Save");
     JButton jbSaveAs = new JButton("Save as new Design");
+    JButton jbOpenDesign = new JButton("Show visual design");
     JTabbedPane tabbedPane = new JTabbedPane();
     JPanel monitorPanel = new JPanel();
     static JPanel designPanel = new JPanel();
@@ -110,6 +111,7 @@ public class Screen extends JFrame implements ActionListener {
         jbDelete.setBounds(70, 500, 100, 25);
         jbSave.setBounds(270, 500, 100, 25);
         jbSaveAs.setBounds(470, 500, 150, 25);
+        jbOpenDesign.setBounds(255, 500, 150, 25);
         // textfield bounds
         jtfDesnameEdit.setBounds(110, 20, 100, 25);
         jtfDb1.setBounds(140, 60, 25, 25);
@@ -129,6 +131,7 @@ public class Screen extends JFrame implements ActionListener {
         jbOptimize.addActionListener(this);
         jbCalculate.addActionListener(this);
         jbDelete.addActionListener(this);
+        jbOpenDesign.addActionListener(this);
         // toevoegen aan panel
         jbSaveAs.addActionListener(this);
         // toevoegen aan panel
@@ -168,8 +171,8 @@ public class Screen extends JFrame implements ActionListener {
         dropdowndesign.setBounds(525, 0, 150, 25);
         dropdowndesign.addActionListener(this);
         // graphics
-        graphicsPanel = new DisplayGraphics();
-        graphicsPanel.setBounds(10, 250, 660, 270);
+        //graphicsPanel = new DisplayGraphics();
+        //graphicsPanel.setBounds(10, 250, 660, 270);
 
         // variabele JLabels
         jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
@@ -182,7 +185,8 @@ public class Screen extends JFrame implements ActionListener {
         // for loop waarin door de lijst met opgeslagen servers wordt gegaan om deze
         // onder elkaar te krijgen.
 
-        designPanel.add(graphicsPanel);
+//        designPanel.add(graphicsPanel);
+        designPanel.add(jbOpenDesign);
         designPanel.add(jlDesignName);
         designPanel.add(jlConfiguration);
         designPanel.add(dropdowndesign);
@@ -199,6 +203,9 @@ public class Screen extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == jbOpenDesign){
+            JDialog designDialog = new DesignDialog(this);
+        }
         if (e.getSource() == dropdowndesign) {
             try {
                 if (dropdowndesign.getSelectedItem().equals("Add new Design")) {
@@ -214,7 +221,7 @@ public class Screen extends JFrame implements ActionListener {
                     showConfig();
 
                 }
-                graphicsPanel.repaint();
+                //graphicsPanel.repaint();
                 System.out.println("test");
             } catch (NullPointerException ex) {
                 // TODO
