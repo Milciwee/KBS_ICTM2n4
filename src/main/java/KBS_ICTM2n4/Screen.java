@@ -20,19 +20,19 @@ public class Screen extends JFrame implements ActionListener {
     static ArrayList<String> dropdownitemsedit = new ArrayList<>();
     static ArrayList<String> dropdownitemsdesign = new ArrayList<>();
     static JTextField jtfDesnameEdit = new JTextField(); // designnaam
-    static JTextField jtfWs1 = new JTextField();
-    static JTextField jtfWs2 = new JTextField();
-    static JTextField jtfWs3 = new JTextField();
-    static JTextField jtfDb1 = new JTextField();
-    static JTextField jtfDb2 = new JTextField();
-    static JTextField jtfDb3 = new JTextField();
+    JTextField jtfWs1 = new JTextField();
+    JTextField jtfWs2 = new JTextField();
+    JTextField jtfWs3 = new JTextField();
+    JTextField jtfDb1 = new JTextField();
+    JTextField jtfDb2 = new JTextField();
+    JTextField jtfDb3 = new JTextField();
     static JTextField jtfCalculateAnswer = new JTextField();
     static JTextField jtfAvailabilitypart1 = new JTextField();
     static JTextField jtfAvailabilitypart2 = new JTextField();
     static JTextField jtfOptimizeAnswer = new JTextField();
     static JLabel jlDesignName = new JLabel("");
     static JComboBox dropdowndesign;
-    //DisplayGraphics graphicsPanel;
+    // DisplayGraphics graphicsPanel;
     static JComboBox dropdownedit;
     JButton jbCalculate = new JButton("Calculate");
     JButton jbOptimize = new JButton("Optimize");
@@ -134,6 +134,7 @@ public class Screen extends JFrame implements ActionListener {
         jbOpenDesign.addActionListener(this);
         // toevoegen aan panel
         jbSaveAs.addActionListener(this);
+        dropdownedit.addActionListener(this);
         // toevoegen aan panel
         editPanel.add(dropdownedit);
         editPanel.add(jlDesnameEdit);
@@ -171,8 +172,8 @@ public class Screen extends JFrame implements ActionListener {
         dropdowndesign.setBounds(525, 0, 150, 25);
         dropdowndesign.addActionListener(this);
         // graphics
-        //graphicsPanel = new DisplayGraphics();
-        //graphicsPanel.setBounds(10, 250, 660, 270);
+        // graphicsPanel = new DisplayGraphics();
+        // graphicsPanel.setBounds(10, 250, 660, 270);
 
         // variabele JLabels
         jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
@@ -185,7 +186,7 @@ public class Screen extends JFrame implements ActionListener {
         // for loop waarin door de lijst met opgeslagen servers wordt gegaan om deze
         // onder elkaar te krijgen.
 
-//        designPanel.add(graphicsPanel);
+        // designPanel.add(graphicsPanel);
         designPanel.add(jbOpenDesign);
         designPanel.add(jlDesignName);
         designPanel.add(jlConfiguration);
@@ -197,32 +198,39 @@ public class Screen extends JFrame implements ActionListener {
         tabbedPane.addTab("Design", designPanel);
         add(tabbedPane);
         readDesignsList(this);
-        showConfig();
+        showConfigDesign();
+        showConfigEdit();
         // zichtbaarheid aanzetten
         setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == jbOpenDesign){
+        if (e.getSource() == jbOpenDesign) {
             JDialog designDialog = new DesignDialog(this);
         }
         if (e.getSource() == dropdowndesign) {
             try {
-                if (dropdowndesign.getSelectedItem().equals("Add new Design")) {
-                    tabbedPane.setSelectedComponent(editPanel);
-                }
 
                 if (!dropdowndesign.getSelectedItem().equals("Add new Design")) {
                     jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
-
+                    showConfigDesign();
                     if (dropdowndesign.getSelectedItem().equals("Add new Design")) {
                         tabbedPane.setSelectedComponent(editPanel);
                     }
-                    showConfig();
 
                 }
-                //graphicsPanel.repaint();
-                System.out.println("test");
+                // graphicsPanel.repaint();
+            } catch (NullPointerException ex) {
+                // TODO
+
+            }
+
+        }
+        if (e.getSource() == dropdownedit) {
+            try {
+                showConfigEdit();
+
+                // graphicsPanel.repaint();
             } catch (NullPointerException ex) {
                 // TODO
 
@@ -406,32 +414,45 @@ public class Screen extends JFrame implements ActionListener {
         return bd.doubleValue();
     }
 
-    private static void showConfig() {
-        try {
-            JLabel[] labels = new JLabel[] { jlDb1, jlDb2, jlDb3, jlWb1, jlWb2, jlWb3 };
-            int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
-            String[] serverAmount2 = ReadJson.readDesignNames((String) dropdowndesign.getSelectedItem());
-            int counter = 0;
-            int y = 30;
-            for (int i : serverAmount) {
-                if (i != 0) {
-                    String temp = String.valueOf(i);
-                    System.out.println(temp);
-                    System.out.println(serverAmount2[counter]);
-                    JLabel jlTemp = labels[counter];
-                    jlTemp.setText(serverAmount2[counter] + ":     " + temp);
-                    jlTemp.setBounds(10, 50 + y, 200, 25);
-                    designPanel.add(jlTemp);
-                    y += 30;
+    private void showConfigDesign() {
+        JLabel[] labels = new JLabel[] { jlDb1, jlDb2, jlDb3, jlWb1, jlWb2, jlWb3 };
+        int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
+        String[] serverNames = ReadJson.readDesignNames((String) dropdowndesign.getSelectedItem());
+        int counter = 0;
+        int y = 30;
+        for (int i : serverAmount) {
+            if (i != 0) {
+                String temp = String.valueOf(i);
+                JLabel jlTemp = labels[counter];
+                jlTemp.setText(serverNames[counter] + ":     " + temp);
+                jlTemp.setBounds(10, 50 + y, 200, 25);
+                designPanel.add(jlTemp);
+                y += 30;
 
-                } else {
-                    JLabel jlTemp = labels[counter];
-                    jlTemp.setText("");
-                }
-                counter++;
+            } else {
+                JLabel jlTemp = labels[counter];
+                jlTemp.setText("");
             }
-        } catch (Exception e) {
-            // TODO: handle exception
+            counter++;
+        }
+        repaint();
+    }
+
+    private void showConfigEdit() {
+        String DesignName = (String) dropdownedit.getSelectedItem();
+        int[] serverAmount = ReadJson.readDesign((String) dropdownedit.getSelectedItem());
+        String[] serverNames = ReadJson.readDesignNames((String) dropdownedit.getSelectedItem());
+        JTextField[] labelsEdit = new JTextField[] { jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3, };
+        int counter = 0;
+        jtfDesnameEdit.setText(DesignName);
+        for (int i : serverAmount) {
+            JTextField jtfTemp = labelsEdit[counter];
+            jtfTemp.setText("");
+            if (i != 0) {
+                jtfTemp.setText(String.valueOf(serverAmount[counter]));
+            }
+            counter++;
+
         }
 
     }
@@ -445,7 +466,6 @@ public class Screen extends JFrame implements ActionListener {
             dropdownitemsedit.add(name.replace(".json", ""));
             dropdownedit.addItem(name.replace(".json", ""));
             dropdowndesign.addItem(name.replace(".json", ""));
-            System.out.println(name);
         }
         dropdowndesign.addItem("Add new Design");
 
