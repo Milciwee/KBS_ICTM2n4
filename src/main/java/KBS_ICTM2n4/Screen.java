@@ -5,11 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 //gui, hier komen alle knoppen en weergaves van het progamma, het liefst geen functies
 public class Screen extends JFrame implements ActionListener {
@@ -20,12 +18,12 @@ public class Screen extends JFrame implements ActionListener {
     static ArrayList<String> dropdownitemsedit = new ArrayList<>();
     static ArrayList<String> dropdownitemsdesign = new ArrayList<>();
     static JTextField jtfDesnameEdit = new JTextField(); // designnaam
-    JTextField jtfWs1 = new JTextField();
-    JTextField jtfWs2 = new JTextField();
-    JTextField jtfWs3 = new JTextField();
-    JTextField jtfDb1 = new JTextField();
-    JTextField jtfDb2 = new JTextField();
-    JTextField jtfDb3 = new JTextField();
+    static JTextField jtfWs1 = new JTextField();
+    static JTextField jtfWs2 = new JTextField();
+    static JTextField jtfWs3 = new JTextField();
+    static JTextField jtfDb1 = new JTextField();
+    static JTextField jtfDb2 = new JTextField();
+    static JTextField jtfDb3 = new JTextField();
     static JTextField jtfCalculateAnswer = new JTextField();
     static JTextField jtfAvailabilitypart1 = new JTextField();
     static JTextField jtfAvailabilitypart2 = new JTextField();
@@ -225,6 +223,7 @@ public class Screen extends JFrame implements ActionListener {
                 if (!dropdowndesign.getSelectedItem().equals("Add new Design")) {
                     jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
                     showConfigDesign();
+                    repaint();
                 }
                 // graphicsPanel.repaint();
             } catch (NullPointerException ex) {
@@ -421,7 +420,7 @@ public class Screen extends JFrame implements ActionListener {
         return bd.doubleValue();
     }
 
-    private void showConfigDesign() {
+    private static void showConfigDesign() {
         JLabel[] labels = new JLabel[] { jlDb1, jlDb2, jlDb3, jlWb1, jlWb2, jlWb3 };
         int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
         String[] serverNames = ReadJson.readDesignNames((String) dropdowndesign.getSelectedItem());
@@ -442,10 +441,9 @@ public class Screen extends JFrame implements ActionListener {
             }
             counter++;
         }
-        repaint();
     }
 
-    private void showConfigEdit() {
+    private static void showConfigEdit() {
         String DesignName = (String) dropdownedit.getSelectedItem();
         int[] serverAmount = ReadJson.readDesign((String) dropdownedit.getSelectedItem());
         String[] serverNames = ReadJson.readDesignNames((String) dropdownedit.getSelectedItem());
