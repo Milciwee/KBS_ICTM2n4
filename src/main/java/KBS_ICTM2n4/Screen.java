@@ -132,6 +132,7 @@ public class Screen extends JFrame implements ActionListener {
         jbCalculate.addActionListener(this);
         jbDelete.addActionListener(this);
         jbOpenDesign.addActionListener(this);
+        jbSave.addActionListener(this);
         // toevoegen aan panel
         jbSaveAs.addActionListener(this);
         dropdownedit.addActionListener(this);
@@ -210,14 +211,20 @@ public class Screen extends JFrame implements ActionListener {
         }
         if (e.getSource() == dropdowndesign) {
             try {
+                if (dropdowndesign.getSelectedItem().equals("Add new Design")) {
+                    // clear de textfields in edit tab
+                    JTextField[] labelsEdit = new JTextField[] { jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3, };
+                    jtfDesnameEdit.setText("");
+                    for (JTextField jTextField : labelsEdit) {
+                        jTextField.setText("");
+                    }
+
+                    tabbedPane.setSelectedComponent(editPanel);
+                }
 
                 if (!dropdowndesign.getSelectedItem().equals("Add new Design")) {
                     jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
                     showConfigDesign();
-                    if (dropdowndesign.getSelectedItem().equals("Add new Design")) {
-                        tabbedPane.setSelectedComponent(editPanel);
-                    }
-
                 }
                 // graphicsPanel.repaint();
             } catch (NullPointerException ex) {
@@ -298,7 +305,7 @@ public class Screen extends JFrame implements ActionListener {
             jtfCalculateAnswer.setText(prijsbeschikbaarheidberekenen(jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3));
 
         }
-        if (e.getSource() == jbSaveAs) {
+        if (e.getSource() == jbSaveAs || e.getSource() == jbSave) {
             ArrayList<Server> servers = Server.getServerList();
             // haal ingevulde naam op voor design
             String name = jtfDesnameEdit.getText();
@@ -458,9 +465,9 @@ public class Screen extends JFrame implements ActionListener {
     }
 
     private static void readDesignsList(Screen screen) {
-        File[] files = new File("src/savedDesigns").listFiles();
         dropdownedit.removeAllItems();
         dropdowndesign.removeAllItems();
+        File[] files = new File("src/savedDesigns").listFiles();
         for (File file : files) {
             String name = file.getName();
             dropdownitemsedit.add(name.replace(".json", ""));

@@ -31,7 +31,7 @@ public class ReadJson {
       }
       return returnArray;
     } catch (FileNotFoundException e) {
-      System.out.println("This design doesn't exist");
+     //TODO
     } catch (IOException e) {
       e.printStackTrace();
     } catch (ParseException e) {
@@ -60,7 +60,7 @@ public class ReadJson {
       }
       return returnArray;
     } catch (FileNotFoundException e) {
-      System.out.println("This design doesn't exist");
+      //TODO
     } catch (IOException e) {
       e.printStackTrace();
     } catch (ParseException e) {
