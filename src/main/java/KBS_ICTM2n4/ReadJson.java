@@ -31,7 +31,7 @@ public class ReadJson {
       }
       return returnArray;
     } catch (FileNotFoundException e) {
-      System.out.println("This design doesn't exist");
+     //TODO
     } catch (IOException e) {
       e.printStackTrace();
     } catch (ParseException e) {
@@ -60,7 +60,7 @@ public class ReadJson {
       }
       return returnArray;
     } catch (FileNotFoundException e) {
-      System.out.println("This design doesn't exist");
+      //TODO
     } catch (IOException e) {
       e.printStackTrace();
     } catch (ParseException e) {
@@ -80,7 +80,7 @@ public class ReadJson {
   private static String parseServerObject2(JSONObject server) {
     JSONObject serverObject = (JSONObject) server.get("server");
     int amount = ((Number) serverObject.get("amount")).intValue();
-    if(amount != 0 ){
+    if (amount != 0) {
       String name = (String) serverObject.get("name");
       return name;
     }
