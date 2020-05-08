@@ -43,6 +43,7 @@ public class Screen extends JFrame implements ActionListener {
     static JPanel designPanel = new JPanel();
     JPanel editPanel = new JPanel();
     // Labels voor de configuration op de designtab
+    JLabel jlCostAvailability;
     static JLabel jlWb1 = new JLabel();
     static JLabel jlWb2 = new JLabel();
     static JLabel jlWb3 = new JLabel();
@@ -78,50 +79,66 @@ public class Screen extends JFrame implements ActionListener {
         dropdownedit = new JComboBox();
         dropdownedit.setBounds(525, 0, 150, 25);
         JLabel jlDesnameEdit = new JLabel("Design name:");
-        jlDesnameEdit.setBounds(10, 20, 100, 25);
+        jlDesnameEdit.setBounds(10, 10, 100, 25);
         // labels
+        JLabel jlSpecs = new JLabel("Name:               Availability:       Price:");
         JLabel jlDbs1 = new JLabel("Database server 1");
+        JLabel jlDbs1i = new JLabel("HAL9001DB           90%               €5100");
         JLabel jlDbs2 = new JLabel("Database server 2");
+        JLabel jlDbs2i = new JLabel("HAL9002DB           95%               €7700");
         JLabel jlDbs3 = new JLabel("Database server 3");
+        JLabel jlDbs3i = new JLabel("HAL9003DB           98%               €12200");
         JLabel jlWs1 = new JLabel("Webserver 1");
+        JLabel jlWs1i = new JLabel("HAL9001W            80%               €2200");
         JLabel jlWs2 = new JLabel("Webserver 2");
+        JLabel jlWs2i = new JLabel("HAL9002W            90%               €3200");
         JLabel jlWs3 = new JLabel("Webserver 3");
+        JLabel jlWs3i = new JLabel("HAL9003W            95%               €5100");
         JLabel jlFw = new JLabel("Pfsense");
+        JLabel jlFwi = new JLabel("pfSense             99.998%           €4000");
         JLabel jlFwAmount = new JLabel("1");
         JLabel jlAvailability = new JLabel("Minimum Availability:");
         JLabel jlAvailabilityDot = new JLabel(",");
         JLabel jlAvailabilityPercent = new JLabel("%");
         // label bounds
+        jlSpecs.setBounds(220, 35, 350, 25);
         jlDbs1.setBounds(10, 60, 120, 25);
+        jlDbs1i.setBounds(220, 60, 350, 25);
         jlDbs2.setBounds(10, 90, 120, 25);
+        jlDbs2i.setBounds(220, 90, 350, 25);
         jlDbs3.setBounds(10, 120, 120, 25);
+        jlDbs3i.setBounds(220, 120, 350, 25);
         jlWs1.setBounds(10, 150, 120, 25);
+        jlWs1i.setBounds(220, 150, 350, 25);
         jlWs2.setBounds(10, 180, 120, 25);
+        jlWs2i.setBounds(220, 180, 350, 25);
         jlWs3.setBounds(10, 210, 120, 25);
+        jlWs3i.setBounds(220, 210, 350, 25);
         jlFw.setBounds(10, 240, 120, 25);
+        jlFwi.setBounds(220, 240, 350, 25);
         jlFwAmount.setBounds(140, 240, 25, 25);
-        jlAvailability.setBounds(10, 330, 150, 25);
-        jlAvailabilityDot.setBounds(173, 330, 10, 25);
-        jlAvailabilityPercent.setBounds(215, 330, 10, 25);
+        jlAvailability.setBounds(10, 360, 150, 25);
+        jlAvailabilityDot.setBounds(173, 360, 10, 25);
+        jlAvailabilityPercent.setBounds(215, 360, 10, 25);
         // button bounds
-        jbCalculate.setBounds(10, 280, 100, 25);
-        jbOptimize.setBounds(240, 330, 100, 25);
+        jbCalculate.setBounds(10, 300, 100, 25);
+        jbOptimize.setBounds(240, 360, 100, 25);
         jbDelete.setBounds(70, 500, 100, 25);
         jbSave.setBounds(270, 500, 100, 25);
         jbSaveAs.setBounds(470, 500, 150, 25);
         jbOpenDesign.setBounds(255, 500, 150, 25);
         // textfield bounds
-        jtfDesnameEdit.setBounds(110, 20, 100, 25);
+        jtfDesnameEdit.setBounds(110, 10, 100, 25);
         jtfDb1.setBounds(140, 60, 25, 25);
         jtfDb2.setBounds(140, 90, 25, 25);
         jtfDb3.setBounds(140, 120, 25, 25);
         jtfWs1.setBounds(140, 150, 25, 25);
         jtfWs2.setBounds(140, 180, 25, 25);
         jtfWs3.setBounds(140, 210, 25, 25);
-        jtfCalculateAnswer.setBounds(120, 280, 300, 25);
-        jtfAvailabilitypart1.setBounds(140, 330, 30, 25);
-        jtfAvailabilitypart2.setBounds(180, 330, 30, 25);
-        jtfOptimizeAnswer.setBounds(10, 370, 300, 25);
+        jtfCalculateAnswer.setBounds(120, 300, 300, 25);
+        jtfAvailabilitypart1.setBounds(140, 360, 30, 25);
+        jtfAvailabilitypart2.setBounds(180, 360, 30, 25);
+        jtfOptimizeAnswer.setBounds(10, 400, 300, 25);
         // niet editable
         jtfCalculateAnswer.setEditable(false);
         jtfOptimizeAnswer.setEditable(false);
@@ -138,13 +155,21 @@ public class Screen extends JFrame implements ActionListener {
         editPanel.add(dropdownedit);
         editPanel.add(jlDesnameEdit);
         editPanel.add(jtfDesnameEdit);
+        editPanel.add(jlSpecs);
         editPanel.add(jlWs1);
+        editPanel.add(jlWs1i);
         editPanel.add(jlWs2);
+        editPanel.add(jlWs2i);
         editPanel.add(jlWs3);
+        editPanel.add(jlWs3i);
         editPanel.add(jlDbs1);
+        editPanel.add(jlDbs1i);
         editPanel.add(jlDbs2);
+        editPanel.add(jlDbs2i);
         editPanel.add(jlDbs3);
+        editPanel.add(jlDbs3i);
         editPanel.add(jlFw);
+        editPanel.add(jlFwi);
         editPanel.add(jlFwAmount);
         editPanel.add(jlAvailability);
         editPanel.add(jbCalculate);
@@ -176,20 +201,23 @@ public class Screen extends JFrame implements ActionListener {
 
         // variabele JLabels
         jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
+        jlCostAvailability = new JLabel();
         // statische JLabels
         JLabel jlConfiguration = new JLabel("Configuration:");
-        JLabel jlFirewall = new JLabel("PFsense");
-        jlDesignName.setBounds(10, 20, 250, 25);
-        jlConfiguration.setBounds(10, 50, 100, 25);
+        JLabel jlFirewall = new JLabel("PFsense:   1");
 
-        // for loop waarin door de lijst met opgeslagen servers wordt gegaan om deze
-        // onder elkaar te krijgen.
+        jlDesignName.setBounds(10, 10, 250, 25);
+
+        jlConfiguration.setBounds(10, 60, 100, 25);
+        jlFirewall.setBounds(10, 85, 100, 25);
 
         // designPanel.add(graphicsPanel);
         designPanel.add(jbOpenDesign);
         designPanel.add(jlDesignName);
         designPanel.add(jlConfiguration);
+        designPanel.add(jlFirewall);
         designPanel.add(dropdowndesign);
+
 
         // voegt de panes toe aan tabbedpane met een name
         tabbedPane.addTab("Monitor", monitorPanel);
@@ -211,7 +239,7 @@ public class Screen extends JFrame implements ActionListener {
             try {
                 if (dropdowndesign.getSelectedItem().equals("Add new Design")) {
                     // clear de textfields in edit tab
-                    JTextField[] labelsEdit = new JTextField[] { jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3, };
+                    JTextField[] labelsEdit = new JTextField[]{jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3,};
                     jtfDesnameEdit.setText("");
                     for (JTextField jTextField : labelsEdit) {
                         jTextField.setText("");
@@ -302,7 +330,6 @@ public class Screen extends JFrame implements ActionListener {
         }
         if (e.getSource() == jbCalculate) {
             jtfCalculateAnswer.setText(prijsbeschikbaarheidberekenen(jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3));
-
         }
         if (e.getSource() == jbSaveAs || e.getSource() == jbSave) {
             ArrayList<Server> servers = Server.getServerList();
@@ -317,7 +344,7 @@ public class Screen extends JFrame implements ActionListener {
             String wb3 = jtfWs3.getText();
             // doe deze waardes in een array en daarna is een arraylist
             ArrayList<Integer> serverAmount = new ArrayList<>();
-            String[] listString = new String[] { db1, db2, db3, wb1, wb2, wb3 };
+            String[] listString = new String[]{db1, db2, db3, wb1, wb2, wb3};
             // Checken of er niks is ingevuld, als dit is verander dan het naar 0
             for (String string : listString) {
                 if (string.equals("")) {
@@ -352,7 +379,7 @@ public class Screen extends JFrame implements ActionListener {
     }
 
     public String prijsbeschikbaarheidberekenen(JTextField Db1, JTextField Db2, JTextField Db3, JTextField Ws1,
-            JTextField Ws2, JTextField Ws3) {
+                                                JTextField Ws2, JTextField Ws3) {
         ArrayList<Server> serverList = new ArrayList<>();
         if (isNumeric(Db1.getText()) && Integer.parseInt(Db1.getText()) >= 0) {
             int count = Integer.parseInt(Db1.getText());
@@ -421,11 +448,11 @@ public class Screen extends JFrame implements ActionListener {
     }
 
     private static void showConfigDesign() {
-        JLabel[] labels = new JLabel[] { jlDb1, jlDb2, jlDb3, jlWb1, jlWb2, jlWb3 };
+        JLabel[] labels = new JLabel[]{jlDb1, jlDb2, jlDb3, jlWb1, jlWb2, jlWb3};
         int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
         String[] serverNames = ReadJson.readDesignNames((String) dropdowndesign.getSelectedItem());
         int counter = 0;
-        int y = 30;
+        int y = 60;
         for (int i : serverAmount) {
             if (i != 0) {
                 String temp = String.valueOf(i);
@@ -447,7 +474,7 @@ public class Screen extends JFrame implements ActionListener {
         String DesignName = (String) dropdownedit.getSelectedItem();
         int[] serverAmount = ReadJson.readDesign((String) dropdownedit.getSelectedItem());
         String[] serverNames = ReadJson.readDesignNames((String) dropdownedit.getSelectedItem());
-        JTextField[] labelsEdit = new JTextField[] { jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3, };
+        JTextField[] labelsEdit = new JTextField[]{jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3,};
         int counter = 0;
         jtfDesnameEdit.setText(DesignName);
         for (int i : serverAmount) {
@@ -511,5 +538,36 @@ public class Screen extends JFrame implements ActionListener {
         jtfWs2.setText(String.valueOf(amountWs2));
         jtfWs3.setText(String.valueOf(amountWs3));
     }
-
 }
+//    public ArrayList<Server> readDesignArrayList(){
+//        int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
+//        ArrayList<Server> allServers = Server.getServerList();
+//        ArrayList<Server> designServers = new ArrayList<>();
+//        while ((serverAmount != null && serverAmount[0] > 0)){
+//            designServers.add(allServers.get(0));
+//            serverAmount[0]--;
+//        }
+//        while ((serverAmount != null && serverAmount[1] > 0)){
+//            designServers.add(allServers.get(1));
+//            serverAmount[1]--;
+//        }
+//        while ((serverAmount != null && serverAmount[2] > 0)){
+//            designServers.add(allServers.get(2));
+//            serverAmount[2]--;
+//        }
+//        while ((serverAmount != null && serverAmount[3] > 0)){
+//            designServers.add(allServers.get(3));
+//            serverAmount[3]--;
+//        }
+//        while ((serverAmount != null && serverAmount[4] > 0)){
+//            designServers.add(allServers.get(4));
+//            serverAmount[4]--;
+//        }
+//        while ((serverAmount != null && serverAmount[5] > 0)){
+//            designServers.add(allServers.get(5));
+//            serverAmount[5]--;
+//        }
+//        return designServers;
+//    }
+//
+//}
