@@ -174,14 +174,15 @@ public class Backtracking {
 
         //We maken een array aan met alle beschikbare onderdelen zodat we makkelijk hiernaar kunnen verwijzen,
         //omdat de index van deze array en de amountPerComponent-array naar dezelfde componentsoort verwijst.
-        //Dit zou misschien een losse functie kunnen zijn, en wat dynamischer kunnen worden opgezet.
-        //Idealiter vormt een dergelijke functie ook de basis voor de gegegeven array, zodat alles altijd dezelfde lengte heeft.
-        Server db1 = new Server("database", "db1", 0.90, 5100);
-        Server db2 = new Server("database", "db2", 0.95, 7700);
-        Server db3 = new Server("database", "db3", 0.98, 12200);
-        Server w1 = new Server("webserver", "w1", 0.80, 2200);
-        Server w2 = new Server("webserver", "w2", 0.90, 3200);
-        Server w3 = new Server("webserver", "w3", 0.95, 5100);
+        //de servers die worden gebruikt voor het backtrackingproces worden uit de Screen klasse gehaald,
+        //hierdoor is een aanpassing aan de prijs of naam van een of meerdere servers makkelijker
+        ArrayList<Server> totalServers = Server.getServerList();
+        Server db1 = totalServers.get(0);
+        Server db2 = totalServers.get(1);
+        Server db3 = totalServers.get(2);
+        Server w1 = totalServers.get(3);
+        Server w2 = totalServers.get(4);
+        Server w3 = totalServers.get(5);
 
         Server[] availableComponents = new Server[6];
 
@@ -235,22 +236,22 @@ public class Backtracking {
         return resultCheapestSet;
     }
 
-    public static void main(String[] args) {
-
-        int[] gegevenLijst = new int[6];
-        gegevenLijst[0] = 0;
-        gegevenLijst[1] = 0;
-        gegevenLijst[2] = 0;
-        gegevenLijst[3] = 0;
-        gegevenLijst[4] = 0;
-        gegevenLijst[5] = 0;
-
-        ArrayList<Server> goedkoopsteMetGegevenLijst = optimisation(gegevenLijst, 99.99);
-
-        System.out.println("");
-        System.out.println("Goedkoopste set: ");
-        for(Server server : goedkoopsteMetGegevenLijst) {
-            System.out.println(server.getName());
-        }
-    }
+//    public static void main(String[] args) {
+//
+//        int[] gegevenLijst = new int[6];
+//        gegevenLijst[0] = 0;
+//        gegevenLijst[1] = 0;
+//        gegevenLijst[2] = 0;
+//        gegevenLijst[3] = 0;
+//        gegevenLijst[4] = 0;
+//        gegevenLijst[5] = 0;
+//
+//        ArrayList<Server> goedkoopsteMetGegevenLijst = optimisation(gegevenLijst, 99.99);
+//
+//        System.out.println("");
+//        System.out.println("Goedkoopste set: ");
+//        for(Server server : goedkoopsteMetGegevenLijst) {
+//            System.out.println(server.getName());
+//        }
+//    }
 }

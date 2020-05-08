@@ -63,12 +63,12 @@ public class Server {
 
   public static ArrayList<Server> getServerList() {
     ArrayList<Server> servers = new ArrayList<>();
-    Server db1 = new Server(0, "database", "Database server 1", 0.90, 5100);
-    Server db2 = new Server(1, "database", "Database server 2", 0.95, 7700);
-    Server db3 = new Server(2, "database", "Database server 3", 0.98, 12200);
-    Server ws1 = new Server(3, "webserver", "Webserver 1", 0.80, 2200);
-    Server ws2 = new Server(4, "webserver", "Webserver 2", 0.90, 3200);
-    Server ws3 = new Server(5, "webserver", "Webserver 3", 0.95, 5100);
+    Server db1 = new Server(0, "database", "HAL9001DB", 0.90, 5100);
+    Server db2 = new Server(1, "database", "HAL9002DB", 0.95, 7700);
+    Server db3 = new Server(2, "database", "HAL9003DB", 0.98, 12200);
+    Server ws1 = new Server(3, "webserver", "HAL9001W", 0.80, 2200);
+    Server ws2 = new Server(4, "webserver", "HAL9002W", 0.90, 3200);
+    Server ws3 = new Server(5, "webserver", "HAL9003W", 0.95, 5100);
     servers.add(db1);
     servers.add(db2);
     servers.add(db3);

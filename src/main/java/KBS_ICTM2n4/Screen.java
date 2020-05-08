@@ -50,6 +50,7 @@ public class Screen extends JFrame implements ActionListener {
     static JLabel jlDb1 = new JLabel();
     static JLabel jlDb2 = new JLabel();
     static JLabel jlDb3 = new JLabel();
+    ArrayList<Server> totalServers = Server.getServerList();
 
     public Screen() {
 
@@ -83,19 +84,19 @@ public class Screen extends JFrame implements ActionListener {
         // labels
         JLabel jlSpecs = new JLabel("Name:               Availability:       Price:");
         JLabel jlDbs1 = new JLabel("Database server 1");
-        JLabel jlDbs1i = new JLabel("HAL9001DB           90%               €5100");
+        JLabel jlDbs1i = new JLabel(totalServers.get(0).getName() + "          " + (totalServers.get(0).getavailability() *100) + "%             €" + totalServers.get(0).getPrice());
         JLabel jlDbs2 = new JLabel("Database server 2");
-        JLabel jlDbs2i = new JLabel("HAL9002DB           95%               €7700");
+        JLabel jlDbs2i = new JLabel(totalServers.get(1).getName() + "          " + (totalServers.get(1).getavailability() *100) + "%             €" + totalServers.get(1).getPrice());
         JLabel jlDbs3 = new JLabel("Database server 3");
-        JLabel jlDbs3i = new JLabel("HAL9003DB           98%               €12200");
+        JLabel jlDbs3i = new JLabel(totalServers.get(2).getName() + "          " + (totalServers.get(2).getavailability() *100) + "%             €" + totalServers.get(2).getPrice());
         JLabel jlWs1 = new JLabel("Webserver 1");
-        JLabel jlWs1i = new JLabel("HAL9001W            80%               €2200");
+        JLabel jlWs1i = new JLabel(totalServers.get(3).getName() + "           " + (totalServers.get(3).getavailability() *100) + "%             €" + totalServers.get(3).getPrice());
         JLabel jlWs2 = new JLabel("Webserver 2");
-        JLabel jlWs2i = new JLabel("HAL9002W            90%               €3200");
+        JLabel jlWs2i = new JLabel(totalServers.get(4).getName() + "           " + (totalServers.get(4).getavailability() *100) + "%             €" + totalServers.get(4).getPrice());
         JLabel jlWs3 = new JLabel("Webserver 3");
-        JLabel jlWs3i = new JLabel("HAL9003W            95%               €5100");
+        JLabel jlWs3i = new JLabel(totalServers.get(5).getName() + "           " + (totalServers.get(5).getavailability() *100) + "%             €" + totalServers.get(5).getPrice());
         JLabel jlFw = new JLabel("Pfsense");
-        JLabel jlFwi = new JLabel("pfSense             99.998%           €4000");
+        JLabel jlFwi = new JLabel("pfSense              99.998%          €4000");
         JLabel jlFwAmount = new JLabel("1");
         JLabel jlAvailability = new JLabel("Minimum Availability:");
         JLabel jlAvailabilityDot = new JLabel(",");
@@ -359,7 +360,7 @@ public class Screen extends JFrame implements ActionListener {
         }
         if (e.getSource() == jbDelete) {
             int dialogButton = 0;
-            int dialogResult = JOptionPane.showConfirmDialog (this, "are you sure you want to delete this design?","Delete design",dialogButton);
+            int dialogResult = JOptionPane.showConfirmDialog (this, "are you sure you want to delete design " + dropdownedit.getSelectedItem() + "?","Delete design",dialogButton);
             if(dialogResult == JOptionPane.YES_OPTION){
                 File temp = new File("src/savedDesigns/" + dropdownedit.getSelectedItem() + ".json");
                 if (temp.delete()) {
@@ -385,45 +386,46 @@ public class Screen extends JFrame implements ActionListener {
     public String prijsbeschikbaarheidberekenen(JTextField Db1, JTextField Db2, JTextField Db3, JTextField Ws1,
                                                 JTextField Ws2, JTextField Ws3) {
         ArrayList<Server> serverList = new ArrayList<>();
+        ArrayList<Server> totalServers = Server.getServerList();
         if (isNumeric(Db1.getText()) && Integer.parseInt(Db1.getText()) >= 0) {
             int count = Integer.parseInt(Db1.getText());
             for (int i = 0; i < count; i++) {
-                Server db1 = new Server(0, "database", "Database server 1", 0.90, 5100);
+                Server db1 = totalServers.get(0);
                 serverList.add(db1);
             }
         }
         if (isNumeric(Db2.getText()) && Integer.parseInt(Db2.getText()) >= 0) {
             int count2 = Integer.parseInt(Db2.getText());
             for (int i = 0; i < count2; i++) {
-                Server db2 = new Server(1, "database", "Database server 2", 0.95, 7700);
+                Server db2 = totalServers.get(1);
                 serverList.add(db2);
             }
         }
         if (isNumeric(Db3.getText()) && Integer.parseInt(Db3.getText()) >= 0) {
             int count3 = Integer.parseInt(Db3.getText());
             for (int i = 0; i < count3; i++) {
-                Server db3 = new Server(2, "database", "Database server 3", 0.98, 12200);
+                Server db3 = totalServers.get(2);
                 serverList.add(db3);
             }
         }
         if (isNumeric(Ws1.getText()) && Integer.parseInt(Ws1.getText()) >= 0) {
             int count4 = Integer.parseInt(Ws1.getText());
             for (int i = 0; i < count4; i++) {
-                Server ws1 = new Server(3, "webserver", "Webserver 1", 0.80, 2200);
+                Server ws1 = totalServers.get(3);
                 serverList.add(ws1);
             }
         }
         if (isNumeric(Ws2.getText()) && Integer.parseInt(Ws2.getText()) >= 0) {
             int count5 = Integer.parseInt(Ws2.getText());
             for (int i = 0; i < count5; i++) {
-                Server ws2 = new Server(4, "webserver", "Webserver 2", 0.90, 3200);
+                Server ws2 = totalServers.get(4);
                 serverList.add(ws2);
             }
         }
         if (isNumeric(Ws3.getText()) && Integer.parseInt(Ws3.getText()) >= 0) {
             int count6 = Integer.parseInt(Ws3.getText());
             for (int i = 0; i < count6; i++) {
-                Server ws3 = new Server(5, "webserver", "Webserver 3", 0.95, 5100);
+                Server ws3 = totalServers.get(5);
                 serverList.add(ws3);
             }
         }
@@ -516,22 +518,22 @@ public class Screen extends JFrame implements ActionListener {
         int amountWs3 = 0;
         for (Server server : servers) {
             System.out.println(server.getName());
-            if (server.getName().equals("db1")) {
+            if (server.getId() == 0) {
                 amountDb1++;
             }
-            if (server.getName().equals("db2")) {
+            if (server.getId() == 1) {
                 amountDb2++;
             }
-            if (server.getName().equals("db3")) {
+            if (server.getId() == 2) {
                 amountDb3++;
             }
-            if (server.getName().equals("w1")) {
+            if (server.getId() == 3) {
                 amountWs1++;
             }
-            if (server.getName().equals("w2")) {
+            if (server.getId() == 4) {
                 amountWs2++;
             }
-            if (server.getName().equals("w3")) {
+            if (server.getId() == 5) {
                 amountWs3++;
             }
         }
