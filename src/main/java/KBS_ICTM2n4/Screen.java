@@ -358,9 +358,13 @@ public class Screen extends JFrame implements ActionListener {
             readDesignsList(this);
         }
         if (e.getSource() == jbDelete) {
-            File temp = new File("src/savedDesigns/" + dropdownedit.getSelectedItem() + ".json");
-            if (temp.delete()) {
-                System.out.println(dropdownedit.getSelectedItem() + " deleted");
+            int dialogButton = 0;
+            int dialogResult = JOptionPane.showConfirmDialog (this, "are you sure you want to delete this design?","Delete design",dialogButton);
+            if(dialogResult == JOptionPane.YES_OPTION){
+                File temp = new File("src/savedDesigns/" + dropdownedit.getSelectedItem() + ".json");
+                if (temp.delete()) {
+                    System.out.println(dropdownedit.getSelectedItem() + " deleted");
+                }
             }
             readDesignsList(this);
         }
