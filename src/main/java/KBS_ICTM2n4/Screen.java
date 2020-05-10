@@ -337,12 +337,30 @@ public class Screen extends JFrame implements ActionListener {
             // haal ingevulde naam op voor design
             String name = jtfDesnameEdit.getText();
             // haal alle aantalen op van ingevulde waardes
-            String db1 = jtfDb1.getText();
-            String db2 = jtfDb2.getText();
-            String db3 = jtfDb3.getText();
-            String wb1 = jtfWs1.getText();
-            String wb2 = jtfWs2.getText();
-            String wb3 = jtfWs3.getText();
+            String db1 = "0";
+            String db2 = "0";
+            String db3 = "0";
+            String wb1 = "0";
+            String wb2 = "0";
+            String wb3 = "0";
+            if (isNumeric(jtfDb1.getText()) && Integer.parseInt(jtfDb1.getText()) >= 0) {
+                db1 = jtfDb1.getText();
+            }
+            if (isNumeric(jtfDb2.getText()) && Integer.parseInt(jtfDb2.getText()) >= 0) {
+                db2 = jtfDb2.getText();
+            }
+            if (isNumeric(jtfDb3.getText()) && Integer.parseInt(jtfDb3.getText()) >= 0) {
+                db3 = jtfDb3.getText();
+            }
+            if (isNumeric(jtfWs1.getText()) && Integer.parseInt(jtfWs1.getText()) >= 0) {
+                wb1 = jtfWs1.getText();
+            }
+            if (isNumeric(jtfWs2.getText()) && Integer.parseInt(jtfWs2.getText()) >= 0) {
+                wb2 = jtfWs2.getText();
+            }
+            if (isNumeric(jtfWs3.getText()) && Integer.parseInt(jtfWs3.getText()) >= 0) {
+                wb3 = jtfWs3.getText();
+            }
             // doe deze waardes in een array en daarna is een arraylist
             ArrayList<Integer> serverAmount = new ArrayList<>();
             String[] listString = new String[]{db1, db2, db3, wb1, wb2, wb3};
