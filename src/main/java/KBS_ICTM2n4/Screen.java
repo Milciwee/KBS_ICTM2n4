@@ -332,49 +332,119 @@ public class Screen extends JFrame implements ActionListener {
         if (e.getSource() == jbCalculate) {
             jtfCalculateAnswer.setText(prijsbeschikbaarheidberekenen(jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3));
         }
-        if (e.getSource() == jbSaveAs || e.getSource() == jbSave) {
-            ArrayList<Server> servers = Server.getServerList();
-            // haal ingevulde naam op voor design
-            String name = jtfDesnameEdit.getText();
-            // haal alle aantalen op van ingevulde waardes
-            String db1 = "0";
-            String db2 = "0";
-            String db3 = "0";
-            String wb1 = "0";
-            String wb2 = "0";
-            String wb3 = "0";
-            if (isNumeric(jtfDb1.getText()) && Integer.parseInt(jtfDb1.getText()) >= 0) {
-                db1 = jtfDb1.getText();
-            }
-            if (isNumeric(jtfDb2.getText()) && Integer.parseInt(jtfDb2.getText()) >= 0) {
-                db2 = jtfDb2.getText();
-            }
-            if (isNumeric(jtfDb3.getText()) && Integer.parseInt(jtfDb3.getText()) >= 0) {
-                db3 = jtfDb3.getText();
-            }
-            if (isNumeric(jtfWs1.getText()) && Integer.parseInt(jtfWs1.getText()) >= 0) {
-                wb1 = jtfWs1.getText();
-            }
-            if (isNumeric(jtfWs2.getText()) && Integer.parseInt(jtfWs2.getText()) >= 0) {
-                wb2 = jtfWs2.getText();
-            }
-            if (isNumeric(jtfWs3.getText()) && Integer.parseInt(jtfWs3.getText()) >= 0) {
-                wb3 = jtfWs3.getText();
-            }
-            // doe deze waardes in een array en daarna is een arraylist
-            ArrayList<Integer> serverAmount = new ArrayList<>();
-            String[] listString = new String[]{db1, db2, db3, wb1, wb2, wb3};
-            // Checken of er niks is ingevuld, als dit is verander dan het naar 0
-            for (String string : listString) {
-                if (string.equals("")) {
-                    string = "0";
+        if (e.getSource() == jbSave) {//hierin worden bestaande designs ge edit
+            try {
+                ArrayList<Server> servers = Server.getServerList();
+                // haal ingevulde naam op voor design
+                if(jtfDesnameEdit.getText().equals("")){
+                    JOptionPane.showMessageDialog(this, "Please enter a valid design name");
+                    int x = 0/0;
                 }
-                serverAmount.add(Integer.parseInt(string));
+                String name = jtfDesnameEdit.getText();
+                // haal alle aantalen op van ingevulde waardes
+                String db1 = "0";
+                String db2 = "0";
+                String db3 = "0";
+                String wb1 = "0";
+                String wb2 = "0";
+                String wb3 = "0";
+                if (isNumeric(jtfDb1.getText()) && Integer.parseInt(jtfDb1.getText()) >= 0) {
+                    db1 = jtfDb1.getText();
+                }
+                if (isNumeric(jtfDb2.getText()) && Integer.parseInt(jtfDb2.getText()) >= 0) {
+                    db2 = jtfDb2.getText();
+                }
+                if (isNumeric(jtfDb3.getText()) && Integer.parseInt(jtfDb3.getText()) >= 0) {
+                    db3 = jtfDb3.getText();
+                }
+                if (isNumeric(jtfWs1.getText()) && Integer.parseInt(jtfWs1.getText()) >= 0) {
+                    wb1 = jtfWs1.getText();
+                }
+                if (isNumeric(jtfWs2.getText()) && Integer.parseInt(jtfWs2.getText()) >= 0) {
+                    wb2 = jtfWs2.getText();
+                }
+                if (isNumeric(jtfWs3.getText()) && Integer.parseInt(jtfWs3.getText()) >= 0) {
+                    wb3 = jtfWs3.getText();
+                }
+                if (db1.equals("0")&&db2.equals("0")&&db3.equals("0")||wb1.equals("0")&&wb2.equals("0")&&wb3.equals("0")){
+                    JOptionPane.showMessageDialog(this, "Please choose at least 1 webserver and 1 databaseserver");
+                    int x = 0/0;
+                }
+                // doe deze waardes in een array en daarna is een arraylist
+                ArrayList<Integer> serverAmount = new ArrayList<>();
+                String[] listString = new String[]{db1, db2, db3, wb1, wb2, wb3};
+                // Checken of er niks is ingevuld, als dit is verander dan het naar 0
+                for (String string : listString) {
+                    if (string.equals("")) {
+                        string = "0";
+                    }
+                    serverAmount.add(Integer.parseInt(string));
 
+                }
+                // roep de write functie aan
+                WriteJson.saveDesign(servers, name, serverAmount);
+                readDesignsList(this);
+                System.out.println("design saved");
+            }catch (Exception eSave){
+                System.out.println("invalid user input, design was not saved");
             }
-            // roep de write functie aan
-            WriteJson.saveDesign(servers, name, serverAmount);
-            readDesignsList(this);
+        }
+        if (e.getSource() == jbSaveAs){//hierbij mag de naam van het design niet bestaan in de lijst
+            try {
+                ArrayList<Server> servers = Server.getServerList();
+                // haal ingevulde naam op voor design
+                if(jtfDesnameEdit.getText().equals("")){
+                    JOptionPane.showMessageDialog(this, "Please enter a valid design name");
+                    int x = 0/0;
+                }
+                String name = jtfDesnameEdit.getText();
+                // haal alle aantalen op van ingevulde waardes
+                String db1 = "0";
+                String db2 = "0";
+                String db3 = "0";
+                String wb1 = "0";
+                String wb2 = "0";
+                String wb3 = "0";
+                if (isNumeric(jtfDb1.getText()) && Integer.parseInt(jtfDb1.getText()) >= 0) {
+                    db1 = jtfDb1.getText();
+                }
+                if (isNumeric(jtfDb2.getText()) && Integer.parseInt(jtfDb2.getText()) >= 0) {
+                    db2 = jtfDb2.getText();
+                }
+                if (isNumeric(jtfDb3.getText()) && Integer.parseInt(jtfDb3.getText()) >= 0) {
+                    db3 = jtfDb3.getText();
+                }
+                if (isNumeric(jtfWs1.getText()) && Integer.parseInt(jtfWs1.getText()) >= 0) {
+                    wb1 = jtfWs1.getText();
+                }
+                if (isNumeric(jtfWs2.getText()) && Integer.parseInt(jtfWs2.getText()) >= 0) {
+                    wb2 = jtfWs2.getText();
+                }
+                if (isNumeric(jtfWs3.getText()) && Integer.parseInt(jtfWs3.getText()) >= 0) {
+                    wb3 = jtfWs3.getText();
+                }
+                if (db1.equals("0")&&db2.equals("0")&&db3.equals("0")||wb1.equals("0")&&wb2.equals("0")&&wb3.equals("0")){
+                    JOptionPane.showMessageDialog(this, "Please choose at least 1 webserver and 1 databaseserver");
+                    int x = 0/0;
+                }
+                // doe deze waardes in een array en daarna is een arraylist
+                ArrayList<Integer> serverAmount = new ArrayList<>();
+                String[] listString = new String[]{db1, db2, db3, wb1, wb2, wb3};
+                // Checken of er niks is ingevuld, als dit is verander dan het naar 0
+                for (String string : listString) {
+                    if (string.equals("")) {
+                        string = "0";
+                    }
+                    serverAmount.add(Integer.parseInt(string));
+
+                }
+                // roep de write functie aan
+                WriteJson.saveDesign(servers, name, serverAmount);
+                readDesignsList(this);
+                System.out.println("design saved");
+            }catch (Exception eSave){
+                System.out.println("invalid user input, design was not saved");
+            }
         }
         if (e.getSource() == jbDelete) {
             int dialogButton = 0;
