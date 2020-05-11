@@ -373,17 +373,18 @@ public class Screen extends JFrame implements ActionListener {
                 // doe deze waardes in een array en daarna is een arraylist
                 ArrayList<Integer> serverAmount = new ArrayList<>();
                 String[] listString = new String[]{db1, db2, db3, wb1, wb2, wb3};
-                // Checken of er niks is ingevuld, als dit is verander dan het naar 0
                 for (String string : listString) {
-                    if (string.equals("")) {
-                        string = "0";
-                    }
                     serverAmount.add(Integer.parseInt(string));
-
                 }
                 // roep de write functie aan
+                int locatie1 = dropdownedit.getSelectedIndex();
+                File temp = new File("src/savedDesigns/" + dropdownedit.getSelectedItem() + ".json");
+                if (temp.delete()) {
+                    System.out.println(dropdownedit.getSelectedItem() + " deleted");
+                }
                 WriteJson.saveDesign(servers, name, serverAmount);
                 readDesignsList(this);
+                dropdownedit.setSelectedIndex(locatie1);
                 System.out.println("design saved");
             }catch (Exception eSave){
                 System.out.println("invalid user input, design was not saved");
@@ -398,6 +399,22 @@ public class Screen extends JFrame implements ActionListener {
                     int x = 0/0;
                 }
                 String name = jtfDesnameEdit.getText();
+                //int locatie2 = dropdownedit.getSelectedIndex();
+                boolean found = false;
+                int length = dropdownedit.getItemCount() - 1;
+                while (length >= 0){
+                    dropdownedit.setSelectedIndex(length);
+                    if (dropdownedit.getSelectedItem().equals(name)){
+                        found = true;
+                    }
+                    length--;
+                }
+                if(found){
+                    JOptionPane.showMessageDialog(this, "This design name already exists");
+                    int x = 0/0;
+                }
+
+
                 // haal alle aantalen op van ingevulde waardes
                 String db1 = "0";
                 String db2 = "0";
@@ -441,6 +458,7 @@ public class Screen extends JFrame implements ActionListener {
                 // roep de write functie aan
                 WriteJson.saveDesign(servers, name, serverAmount);
                 readDesignsList(this);
+                dropdownedit.setSelectedItem(name);
                 System.out.println("design saved");
             }catch (Exception eSave){
                 System.out.println("invalid user input, design was not saved");
