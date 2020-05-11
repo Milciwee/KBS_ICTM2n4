@@ -8,6 +8,8 @@ import com.jcraft.jsch.Session;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Serverconnection {
 
@@ -18,7 +20,7 @@ public class Serverconnection {
         String host = destinationIP;
         String username = "root"; //root
         String password = "Teamsvmware01!"; //Teamsvmware01!
-        int port = 3389; //3389
+        int port = 3389; //3389?
 
         try {
 
@@ -40,6 +42,69 @@ public class Serverconnection {
 
             System.out.println("Er is iets misgegaan bij het maken van een verbinding met de server.");
             return false;
+
+        }
+    }
+
+    public static String serverDiskSpaceAvailable() {
+
+        String command = "df -h\nexit\n";
+
+        try {
+
+            Channel channel = session.openChannel("shell");
+
+            channel.setInputStream(new ByteArrayInputStream(command.getBytes(StandardCharsets.UTF_8)));
+            InputStream in = channel.getInputStream();
+            StringBuilder outBuff = new StringBuilder();
+
+            channel.connect();
+
+            while (true) {
+                for (int c; ((c = in.read()) >= 0); ) {
+                    outBuff.append((char) c);
+                }
+
+                if (channel.isClosed()) {
+                    if (in.available() > 0) continue;
+                    break;
+                }
+            }
+
+            channel.disconnect();
+
+            String[] lines = outBuff.toString().split("\\r?\\n");
+
+            String relevantLine = null;
+
+            for (String line : lines) {
+                if (line.startsWith("/dev/mapper/cl-root")) {
+                    relevantLine = line;
+                }
+            }
+
+            String[] splitLine = relevantLine.split(" ");
+
+            ArrayList<String> lineContent = new ArrayList<>();
+
+            for (int i = 0; i < splitLine.length; i++) {
+                if(!(splitLine[i].equals(""))) {
+                    lineContent.add(splitLine[i]);
+                }
+            }
+
+            int percentageUsed = Integer.parseInt(lineContent.get(4).replace("%", ""));
+
+            int percentageAvailable = 100 - percentageUsed;
+
+            String output = lineContent.get(3) + " (" + percentageAvailable + "% of " + lineContent.get(1) + ")";
+
+            return output;
+
+        } catch (Exception e) {
+
+            System.out.println("Er is iets misgegaan bij het achterhalen van de beschikbare diskruimte.");
+            return "";
 
         }
     }
@@ -82,11 +147,13 @@ public class Serverconnection {
                 }
             }
 
+            output = output.replace("up ", "");
+
             return output;
 
         } catch (Exception e) {
 
-            System.out.println("Er is iets misgegaan bij het achterhalen van de uptime");
+            System.out.println("Er is iets misgegaan bij het achterhalen van de uptime.");
             return "";
 
         }
@@ -100,16 +167,17 @@ public class Serverconnection {
     public static void main(String[] args) {
 
         String upTime = null;
+        String diskSpace = null;
 
-        //145.44.233.16
-
-        if(makeConnectionWithServer("145.44.233.16")) {
+        if(makeConnectionWithServer("192.168.1.2")) {
             upTime = serverUpTime();
+            diskSpace = serverDiskSpaceAvailable();
             closeConnectionWithServer();
         }
 
         System.out.println("---");
-        System.out.println(upTime);
+        System.out.println("Uptime: " + upTime);
+        System.out.println("Diskruimte beschikbaar: " + diskSpace);
 
     }
 }
