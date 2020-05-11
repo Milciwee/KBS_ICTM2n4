@@ -82,7 +82,7 @@ public class Screen extends JFrame implements ActionListener {
         JLabel jlDesnameEdit = new JLabel("Design name:");
         jlDesnameEdit.setBounds(10, 10, 100, 25);
         // labels
-        JLabel jlSpecs = new JLabel("Name:               Availability:       Price:");
+        JLabel jlSpecs = new JLabel("Name:               Availability:       Price per server:");
         JLabel jlDbs1 = new JLabel("Database server 1");
         JLabel jlDbs1i = new JLabel(totalServers.get(0).getName() + "          " + (totalServers.get(0).getavailability() *100) + "%             €" + totalServers.get(0).getPrice());
         JLabel jlDbs2 = new JLabel("Database server 2");
@@ -245,7 +245,7 @@ public class Screen extends JFrame implements ActionListener {
                     for (JTextField jTextField : labelsEdit) {
                         jTextField.setText("");
                     }
-
+                    dropdowndesign.setSelectedIndex(0);
                     tabbedPane.setSelectedComponent(editPanel);
                 }
 
@@ -314,7 +314,7 @@ public class Screen extends JFrame implements ActionListener {
                 String availabilityTotal = (jtfAvailabilitypart1.getText() + jtfAvailabilitypart2.getText());
                 double availabilityDouble = Double.parseDouble(availabilityTotal);
                 if (availabilityDouble >= 10000 || availabilityDouble < 0.00) {
-                    int throwsError = 0 / 0;
+                    int throwsError = 0 / 0; //geeft een error zodat de code verdergaat in de catch
                 }
                 availabilityDouble = availabilityDouble / 100;
                 Backtracking backtracking = new Backtracking();
@@ -455,7 +455,7 @@ public class Screen extends JFrame implements ActionListener {
                 a = round(a, 2);
                 return "Availability: " + a + "%, Price: €" + b;
             }
-            return "Serverlist is empty";
+            return "Design is empty";
         } catch (Exception ex3) {
             double b = Calculatepriceavailability.calculateTotalPrice(serverList);
             return "Price : €" + b;
@@ -563,35 +563,3 @@ public class Screen extends JFrame implements ActionListener {
         jtfWs3.setText(String.valueOf(amountWs3));
     }
 }
-//    public ArrayList<Server> readDesignArrayList(){
-//        int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
-//        ArrayList<Server> allServers = Server.getServerList();
-//        ArrayList<Server> designServers = new ArrayList<>();
-//        while ((serverAmount != null && serverAmount[0] > 0)){
-//            designServers.add(allServers.get(0));
-//            serverAmount[0]--;
-//        }
-//        while ((serverAmount != null && serverAmount[1] > 0)){
-//            designServers.add(allServers.get(1));
-//            serverAmount[1]--;
-//        }
-//        while ((serverAmount != null && serverAmount[2] > 0)){
-//            designServers.add(allServers.get(2));
-//            serverAmount[2]--;
-//        }
-//        while ((serverAmount != null && serverAmount[3] > 0)){
-//            designServers.add(allServers.get(3));
-//            serverAmount[3]--;
-//        }
-//        while ((serverAmount != null && serverAmount[4] > 0)){
-//            designServers.add(allServers.get(4));
-//            serverAmount[4]--;
-//        }
-//        while ((serverAmount != null && serverAmount[5] > 0)){
-//            designServers.add(allServers.get(5));
-//            serverAmount[5]--;
-//        }
-//        return designServers;
-//    }
-//
-//}
