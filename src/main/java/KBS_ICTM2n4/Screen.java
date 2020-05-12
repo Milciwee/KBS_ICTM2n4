@@ -602,7 +602,7 @@ public class Screen extends JFrame implements ActionListener {
                 }
                 availabilityDouble = availabilityDouble / 100;
                 Backtracking backtracking = new Backtracking();
-                ArrayList<Server> calcServers = Backtracking.optimisation(arrayServers, availabilityDouble);
+                ArrayList<Server> calcServers = backtracking.optimisation(arrayServers, availabilityDouble);
                 double available = Calculatepriceavailability.calculateavailability(calcServers);
                 double price = Calculatepriceavailability.calculateTotalPrice(calcServers);
                 available = available * 100;
