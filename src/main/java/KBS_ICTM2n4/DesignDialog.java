@@ -30,8 +30,6 @@ public class DesignDialog extends JDialog implements ActionListener {
         mainPanel.add(jbReturn);
 
         setVisible(true);
-
-
     }
 
     public void actionPerformed(ActionEvent e) {
