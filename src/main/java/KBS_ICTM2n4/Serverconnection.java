@@ -18,7 +18,7 @@ public class Serverconnection {
 
     // Deze functie poogt een session met het opgegeven IP-adres op te slaan in het bovenstaande static Session-object "session",
     // en geeft true terug als dit lukt, en false als dit niet lukt.
-    public static boolean makeConnectionWithServer(String destinationIP) {
+    public boolean makeConnectionWithServer(String destinationIP) {
 
         // Deze gegevens worden gebruikt om met SSH in te loggen.
         String username = "root";
@@ -54,7 +54,7 @@ public class Serverconnection {
     // Deze functie geeft een String terug waarin de uptime wordt weergegeven van de server waarmee.
     // een SSH-connectie is gemaakt in het static Session-object "session" (in het format "X week(s), X day(s), X hour(s), X minute(s)").
     // Als de session niet verbonden is geeft het een lege String terug.
-    public static String serverUpTime() {
+    public String serverUpTime() {
 
         // Dit SSH-command zal de uptime weergeven.
         String command = "uptime -p\nexit\n";
@@ -115,7 +115,7 @@ public class Serverconnection {
     }
 
     // Deze functie geeft een String terug, dat het percentage van het CPU dat in gebruik is weergeeft.
-    public static String serverCpuUsage() {
+    public String serverCpuUsage() {
 
         // Dit SSH-command zal informatie over het CPU-gebruik weergeven.
         String command = "top\nq\nexit";
@@ -203,7 +203,7 @@ public class Serverconnection {
 
     // Deze functie geeft een String terug die de hoeveelheid diskruimte die beschikbaar is in bytes aangeeft,
     // alsook het percentage dat dit is van de gehele diskruimte in bytes.
-    public static String serverDiskSpaceAvailable() {
+    public String serverDiskSpaceAvailable() {
 
         // Dit SSH-command zal informatie over de diskruimte weergeven.
         String command = "df -h\nexit\n";
@@ -289,7 +289,7 @@ public class Serverconnection {
     }
 
     // Deze functie sluit de connectie van het Sessie-object, en maakt dit object ook leeg voor de volgende keer dat er een verbinding wordt gemaakt.
-    public static void closeConnectionWithServer() {
+    public void closeConnectionWithServer() {
         session.disconnect();
         session = null;
     }
