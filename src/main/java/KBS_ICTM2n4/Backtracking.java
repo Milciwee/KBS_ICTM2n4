@@ -1,7 +1,6 @@
 package KBS_ICTM2n4;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 //berekent de goedkoopste servercombinatie met het gegeven beschikbaarheidspercentage
 
@@ -13,13 +12,13 @@ public class Backtracking {
     private static boolean firstLoop = true;
 
     //Dit is niet de functie die in andere delen van de code zou moeten worden aangeroepen, maar vormt een groot onderdeel van de optimisation-functie
-    //die later in deze class staat
+    //die later in deze class staat.
     public static boolean optimisationMainLoop(int[] givenComponents, int[] addedComponents, Server[] availableComponents, double minAvailability, int level) {
 
         //We voegen een server toe op het huidige niveau.
         //Als dit echter de eerste keer is dat we de functie gebruiken, willen we controleren of de set "as-is" (+ al dan niet één db1 of w1)
         //een kandidaat oplevert. Dit is natuurlijk niet netjes, maar met deze uitwerking levert het andere problemen op als we proberen het +1 moment
-        //later in de functie te verwerken
+        //later in de functie te verwerken.
         if (!(firstLoop)) {
             addedComponents[level] += 1;
         }
@@ -62,7 +61,7 @@ public class Backtracking {
             }
         }
 
-        //We zullen regelmatig willen weten wat de som van de gegeven en de toegevoegde componenten is
+        //We zullen regelmatig willen weten wat de som van de gegeven en de toegevoegde componenten is.
         int[] totalComponents = new int[availableComponents.length];
         for(int i = 0; i < availableComponents.length; i++) {
             totalComponents[i] = givenComponents[i] + addedComponents[i];
@@ -193,7 +192,7 @@ public class Backtracking {
         availableComponents[4] = w2;
         availableComponents[5] = w3;
 
-        //We maken ook een array met de componenten die toe worden gevoegd aan de gegeven set
+        //We maken ook een array met de componenten die toe worden gevoegd aan de gegeven set.
         int[] addedComponents = new int[availableComponents.length];
 
         //We gebruiken kommagetallen in deze functie, maar we krijgen een percentage opgegeven. Deze passen we dus aan.
