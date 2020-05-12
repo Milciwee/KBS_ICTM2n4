@@ -15,8 +15,8 @@ public class Screen extends JFrame implements ActionListener {
     // static String[] dropdownitemsdesign = new String[50];
     // //beschikbare ontwerpen
     // static String[] dropdownitemsedit = new String[50];
-    static ArrayList<String> dropdownitemsedit = new ArrayList<>();
-    static ArrayList<String> dropdownitemsdesign = new ArrayList<>();
+    //static ArrayList<String> dropdownitemsedit = new ArrayList<>();
+    //static ArrayList<String> dropdownitemsdesign = new ArrayList<>();
     static JTextField jtfDesnameEdit = new JTextField(); // designnaam
     static JTextField jtfWs1 = new JTextField();
     static JTextField jtfWs2 = new JTextField();
@@ -560,43 +560,51 @@ public class Screen extends JFrame implements ActionListener {
     }
 
     private static void showConfigDesign() {
-        JLabel[] labels = new JLabel[]{jlDb1, jlDb2, jlDb3, jlWb1, jlWb2, jlWb3};
-        int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
-        String[] serverNames = ReadJson.readDesignNames((String) dropdowndesign.getSelectedItem());
-        int counter = 0;
-        int y = 60;
-        for (int i : serverAmount) {
-            if (i != 0) {
-                String temp = String.valueOf(i);
-                JLabel jlTemp = labels[counter];
-                jlTemp.setText(serverNames[counter] + ":     " + temp);
-                jlTemp.setBounds(10, 50 + y, 200, 25);
-                designPanel.add(jlTemp);
-                y += 30;
+        try {
+            JLabel[] labels = new JLabel[]{jlDb1, jlDb2, jlDb3, jlWb1, jlWb2, jlWb3};
+            int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
+            String[] serverNames = ReadJson.readDesignNames((String) dropdowndesign.getSelectedItem());
+            int counter = 0;
+            int y = 60;
+            for (int i : serverAmount) {
+                if (i != 0) {
+                    String temp = String.valueOf(i);
+                    JLabel jlTemp = labels[counter];
+                    jlTemp.setText(serverNames[counter] + ":     " + temp);
+                    jlTemp.setBounds(10, 50 + y, 200, 25);
+                    designPanel.add(jlTemp);
+                    y += 30;
 
-            } else {
-                JLabel jlTemp = labels[counter];
-                jlTemp.setText("");
+                } else {
+                    JLabel jlTemp = labels[counter];
+                    jlTemp.setText("");
+                }
+                counter++;
             }
-            counter++;
+        }catch (Exception exRead){
+            System.out.println("error whilst reading designs");
         }
     }
 
     private static void showConfigEdit() {
-        String DesignName = (String) dropdownedit.getSelectedItem();
-        int[] serverAmount = ReadJson.readDesign((String) dropdownedit.getSelectedItem());
-        String[] serverNames = ReadJson.readDesignNames((String) dropdownedit.getSelectedItem());
-        JTextField[] labelsEdit = new JTextField[]{jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3,};
-        int counter = 0;
-        jtfDesnameEdit.setText(DesignName);
-        for (int i : serverAmount) {
-            JTextField jtfTemp = labelsEdit[counter];
-            jtfTemp.setText("");
-            if (i != 0) {
-                jtfTemp.setText(String.valueOf(serverAmount[counter]));
-            }
-            counter++;
+        try {
+            String DesignName = (String) dropdownedit.getSelectedItem();
+            int[] serverAmount = ReadJson.readDesign((String) dropdownedit.getSelectedItem());
+            String[] serverNames = ReadJson.readDesignNames((String) dropdownedit.getSelectedItem());
+            JTextField[] labelsEdit = new JTextField[]{jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3,};
+            int counter = 0;
+            jtfDesnameEdit.setText(DesignName);
+            for (int i : serverAmount) {
+                JTextField jtfTemp = labelsEdit[counter];
+                jtfTemp.setText("");
+                if (i != 0) {
+                    jtfTemp.setText(String.valueOf(serverAmount[counter]));
+                }
+                counter++;
 
+            }
+        }catch (Exception exRead){
+            System.out.println("error whilst reading designs");
         }
 
     }
@@ -607,7 +615,7 @@ public class Screen extends JFrame implements ActionListener {
         File[] files = new File("src/savedDesigns").listFiles();
         for (File file : files) {
             String name = file.getName();
-            dropdownitemsedit.add(name.replace(".json", ""));
+            //dropdownitemsedit.add(name.replace(".json", ""));
             dropdownedit.addItem(name.replace(".json", ""));
             dropdowndesign.addItem(name.replace(".json", ""));
         }
