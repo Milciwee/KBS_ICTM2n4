@@ -56,6 +56,9 @@ public class Screen extends JFrame implements ActionListener {
 
         // titel van de window
         setTitle("Facility Monitoring Application");
+        // logo van de window
+        ImageIcon img = new ImageIcon("src/Images/NerdyGadgets.png");
+        setIconImage(img.getImage());
         // grootte van de window
         setSize(700, 600);
         // gebruiker kan groote van window niet aanpassen
