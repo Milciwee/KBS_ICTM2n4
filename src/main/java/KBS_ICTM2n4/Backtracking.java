@@ -13,7 +13,7 @@ public class Backtracking {
 
     //Dit is niet de functie die in andere delen van de code zou moeten worden aangeroepen, maar vormt een groot onderdeel van de optimisation-functie
     //die later in deze class staat.
-    public static boolean optimisationMainLoop(int[] givenComponents, int[] addedComponents, Server[] availableComponents, double minAvailability, int level) {
+    public boolean optimisationMainLoop(int[] givenComponents, int[] addedComponents, Server[] availableComponents, double minAvailability, int level) {
 
         //We voegen een server toe op het huidige niveau.
         //Als dit echter de eerste keer is dat we de functie gebruiken, willen we controleren of de set "as-is" (+ al dan niet één db1 of w1)
@@ -169,7 +169,7 @@ public class Backtracking {
     }
 
     //Deze functie kan in andere delen van de code worden aangeroepen.
-    public static ArrayList<Server> optimisation(int[] givenComponents, double minAvailability) {
+    public ArrayList<Server> optimisation(int[] givenComponents, double minAvailability) {
 
         //We maken een array aan met alle beschikbare onderdelen zodat we makkelijk hiernaar kunnen verwijzen,
         //omdat de index van deze array en de amountPerComponent-array naar dezelfde componentsoort verwijst.
