@@ -12,14 +12,14 @@ import org.json.simple.parser.ParseException;
 
 public class ReadJson {
 
+  // method om de gegevens van het design op te halen, heeft een designName dat
+  // overeenkomt met een file naam nodig
   public static int[] readDesign(String designName) {
-    // JSON parser object om file te parsen
     JSONParser jsonParser = new JSONParser();
     int[] returnArray = new int[6];
 
     try (FileReader reader = new FileReader("src/savedDesigns/" + designName + ".json")) {
 
-      // JSON file readen
       Object obj = jsonParser.parse(reader);
       int counter = 0;
       JSONArray serverList = (JSONArray) obj;
@@ -31,7 +31,7 @@ public class ReadJson {
       }
       return returnArray;
     } catch (FileNotFoundException e) {
-     //TODO
+      System.out.println("File not found");
     } catch (IOException e) {
       e.printStackTrace();
     } catch (ParseException e) {
@@ -41,14 +41,14 @@ public class ReadJson {
 
   }
 
+  // method voor het ophalen van alle file names, heeft een designName dat
+  // overeenkomt met een file naam nodig
   public static String[] readDesignNames(String designName) {
-    // JSON parser object om file te parsen
     JSONParser jsonParser = new JSONParser();
     String[] returnArray = new String[6];
 
     try (FileReader reader = new FileReader("src/savedDesigns/" + designName + ".json")) {
 
-      // JSON file readen
       Object obj = jsonParser.parse(reader);
       int counter = 0;
       JSONArray serverList = (JSONArray) obj;
@@ -60,7 +60,7 @@ public class ReadJson {
       }
       return returnArray;
     } catch (FileNotFoundException e) {
-      //TODO
+      System.out.println("File not found");
     } catch (IOException e) {
       e.printStackTrace();
     } catch (ParseException e) {
@@ -86,13 +86,6 @@ public class ReadJson {
     }
     return null;
 
-  }
-
-  public static void main(String[] args) {
-    int[] test = readDesign("Design1");
-    for (int i : test) {
-      System.out.println(i);
-    }
   }
 
 }
