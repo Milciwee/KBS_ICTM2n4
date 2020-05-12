@@ -465,15 +465,19 @@ public class Screen extends JFrame implements ActionListener {
             }
         }
         if (e.getSource() == jbDelete) {
-            int dialogButton = 0;
-            int dialogResult = JOptionPane.showConfirmDialog (this, "are you sure you want to delete design " + dropdownedit.getSelectedItem() + "?","Delete design",dialogButton);
-            if(dialogResult == JOptionPane.YES_OPTION){
-                File temp = new File("src/savedDesigns/" + dropdownedit.getSelectedItem() + ".json");
-                if (temp.delete()) {
-                    System.out.println(dropdownedit.getSelectedItem() + " deleted");
+            if (dropdownedit.getItemCount() > 1) {
+                int dialogButton = 0;
+                int dialogResult = JOptionPane.showConfirmDialog(this, "are you sure you want to delete design " + dropdownedit.getSelectedItem() + "?", "Delete design", dialogButton);
+                if (dialogResult == JOptionPane.YES_OPTION) {
+                    File temp = new File("src/savedDesigns/" + dropdownedit.getSelectedItem() + ".json");
+                    if (temp.delete()) {
+                        System.out.println(dropdownedit.getSelectedItem() + " deleted");
+                    }
                 }
+                readDesignsList(this);
+            }else{
+                JOptionPane.showMessageDialog(this, "this application requires at least 1 design");
             }
-            readDesignsList(this);
         }
     }
 
