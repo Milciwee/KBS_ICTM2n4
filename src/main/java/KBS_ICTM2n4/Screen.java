@@ -399,20 +399,7 @@ public class Screen extends JFrame implements ActionListener {
                     int x = 0/0;
                 }
                 String name = jtfDesnameEdit.getText();
-                //int locatie2 = dropdownedit.getSelectedIndex();
-                boolean found = false;
-                int length = dropdownedit.getItemCount() - 1;
-                while (length >= 0){
-                    dropdownedit.setSelectedIndex(length);
-                    if (dropdownedit.getSelectedItem().equals(name)){
-                        found = true;
-                    }
-                    length--;
-                }
-                if(found){
-                    JOptionPane.showMessageDialog(this, "This design name already exists");
-                    int x = 0/0;
-                }
+
 
 
                 // haal alle aantalen op van ingevulde waardes
@@ -442,6 +429,19 @@ public class Screen extends JFrame implements ActionListener {
                 }
                 if (db1.equals("0")&&db2.equals("0")&&db3.equals("0")||wb1.equals("0")&&wb2.equals("0")&&wb3.equals("0")){
                     JOptionPane.showMessageDialog(this, "Please choose at least 1 webserver and 1 databaseserver");
+                    int x = 0/0;
+                }
+                boolean found = false;
+                int length = dropdownedit.getItemCount() - 1;
+                while (length >= 0){
+                    dropdownedit.setSelectedIndex(length);
+                    if (dropdownedit.getSelectedItem().equals(name)){
+                        found = true;
+                    }
+                    length--;
+                }
+                if(found){
+                    JOptionPane.showMessageDialog(this, "This design name already exists");
                     int x = 0/0;
                 }
                 // doe deze waardes in een array en daarna is een arraylist
