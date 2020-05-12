@@ -294,23 +294,23 @@ public class Serverconnection {
         session = null;
     }
 
-    public static void main(String[] args) {
-
-        String upTime = null;
-        String diskSpace = null;
-        String cpuUsage = null;
-
-        if(makeConnectionWithServer("192.168.1.2")) {
-            upTime = serverUpTime();
-            diskSpace = serverDiskSpaceAvailable();
-            cpuUsage = serverCpuUsage();
-
-            closeConnectionWithServer();
-        }
-
-        System.out.println("---");
-        System.out.println("Uptime: " + upTime);
-        System.out.println("Diskruimte beschikbaar: " + diskSpace);
-        System.out.println("Percentage van CPU in gebruik: " + cpuUsage);
-    }
+//    public static void main(String[] args) {
+//
+//        String upTime = null;
+//        String diskSpace = null;
+//        String cpuUsage = null;
+//
+//        if(makeConnectionWithServer("192.168.1.2")) {
+//            upTime = serverUpTime();
+//            diskSpace = serverDiskSpaceAvailable();
+//            cpuUsage = serverCpuUsage();
+//
+//            closeConnectionWithServer();
+//        }
+//
+//        System.out.println("---");
+//        System.out.println("Uptime: " + upTime);
+//        System.out.println("Diskruimte beschikbaar: " + diskSpace);
+//        System.out.println("Percentage van CPU in gebruik: " + cpuUsage);
+//    }
 }
