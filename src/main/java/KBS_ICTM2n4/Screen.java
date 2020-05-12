@@ -8,6 +8,11 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+import java.awt.BorderLayout;
+import java.awt.Font;
+
 
 //gui, hier komen alle knoppen en weergaves van het progamma, het liefst geen functies
 public class Screen extends JFrame implements ActionListener {
@@ -32,24 +37,61 @@ public class Screen extends JFrame implements ActionListener {
     static JComboBox dropdowndesign;
     // DisplayGraphics graphicsPanel;
     static JComboBox dropdownedit;
-    JButton jbCalculate = new JButton("Calculate");
-    JButton jbOptimize = new JButton("Optimize");
-    JButton jbDelete = new JButton("Delete");
-    JButton jbSave = new JButton("Save");
-    JButton jbSaveAs = new JButton("Save as new Design");
-    JButton jbOpenDesign = new JButton("Show visual design");
-    JTabbedPane tabbedPane = new JTabbedPane();
-    JPanel monitorPanel = new JPanel();
+    static JButton jbDeleteServer = new JButton("Delete Server");
+    static JButton jbNewServer = new JButton("Add New Server");
+    static JPanel monitorPanel = new JPanel();
     static JPanel designPanel = new JPanel();
-    JPanel editPanel = new JPanel();
-    // Labels voor de configuration op de designtab
-    JLabel jlCostAvailability;
     static JLabel jlWb1 = new JLabel();
     static JLabel jlWb2 = new JLabel();
     static JLabel jlWb3 = new JLabel();
     static JLabel jlDb1 = new JLabel();
     static JLabel jlDb2 = new JLabel();
     static JLabel jlDb3 = new JLabel();
+    // Dingen voor Monitoring
+    static JPanel Panel1 = new JPanel();
+    static JPanel Panel2 = new JPanel();
+    static JPanel Server1 = new JPanel();
+    static JPanel Server2 = new JPanel();
+    static JPanel Server3 = new JPanel();
+    static JPanel Server4 = new JPanel();
+    static JLabel Servernaam1 = new JLabel("Server 1 - Ip address");
+    static JLabel Servernaam2 = new JLabel("Server 2 - Ip address");
+    static JLabel Servernaam3 = new JLabel("Server 3 - Ip address");
+    static JLabel Servernaam4 = new JLabel("Server 4 - Ip address");
+    static JPanel Kopje1 = new JPanel();
+    static JPanel Kopje2 = new JPanel();
+    static JPanel Kopje3 = new JPanel();
+    static JPanel Kopje4 = new JPanel();
+    static JPanel Statuspanel1 = new JPanel();
+    static JPanel Statuspanel2 = new JPanel();
+    static JPanel Statuspanel3 = new JPanel();
+    static JPanel Statuspanel4 = new JPanel();
+    static JLabel Status1 = new JLabel();
+    static JLabel Status2 = new JLabel();
+    static JLabel Status3 = new JLabel();
+    static JLabel Status4 = new JLabel();
+    static JTextArea Info1 = new JTextArea();
+    static JTextArea Info2 = new JTextArea();
+    static JTextArea Info3 = new JTextArea();
+    static JTextArea Info4 = new JTextArea();
+    // Buttons
+    JButton jbCalculate = new JButton("Calculate");
+    JButton jbOptimize = new JButton("Optimize");
+    JButton jbDelete = new JButton("Delete");
+    JButton jbSave = new JButton("Save");
+    JButton jbSaveAs = new JButton("Save as new Design");
+    JButton jbOpenDesign = new JButton("Show visual design");
+    JButton jbRefresh = new JButton("Refresh");
+    JTabbedPane tabbedPane = new JTabbedPane();
+    JPanel editPanel = new JPanel();
+    // Labels voor de configuration op de designtab
+    JLabel jlCostAvailability;
+    /*static JLabel jlWb1 = new JLabel();
+    static JLabel jlWb2 = new JLabel();
+    static JLabel jlWb3 = new JLabel();
+    static JLabel jlDb1 = new JLabel();
+    static JLabel jlDb2 = new JLabel();
+    static JLabel jlDb3 = new JLabel();*/
     ArrayList<Server> totalServers = Server.getServerList();
 
     public Screen() {
@@ -61,7 +103,7 @@ public class Screen extends JFrame implements ActionListener {
         setIconImage(img.getImage());
         // grootte van de window
         setSize(700, 600);
-        // gebruiker kan groote van window niet aanpassen
+        // gebruiker kan grootte van window niet aanpassen
         setResizable(false);
         // bij klikken op kruisje sluit het proces af
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -70,7 +112,6 @@ public class Screen extends JFrame implements ActionListener {
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
         // componenten initialiseren
-
         monitorPanel.setLayout(null);
         editPanel.setLayout(null);
         designPanel.setLayout(null);
@@ -78,6 +119,160 @@ public class Screen extends JFrame implements ActionListener {
         // hieronder kunnen onderdelen per panel met behulp van coordinaten worden
         // geplaatst
         // Monitorpanel
+        //button bounds
+        jbRefresh.setBounds(330, 5, 80, 25);
+        jbDeleteServer.setBounds(420, 5, 115, 25);
+        jbNewServer.setBounds(545, 5, 129, 25);
+
+        // ActionListener
+        jbNewServer.addActionListener(this);
+        jbDeleteServer.addActionListener(this);
+
+        //Monitorpanel instellen
+        monitorPanel.setLayout(new BorderLayout());
+        monitorPanel.setPreferredSize(new Dimension(100, 50));
+        Panel2.setLayout(null);
+        Panel2.setPreferredSize(new Dimension(100, 500));
+        monitorPanel.add(Panel1, BorderLayout.LINE_END);
+        monitorPanel.add(Panel2, BorderLayout.PAGE_END);
+        Panel1.add(jbRefresh);
+        Panel1.add(jbDeleteServer);
+        Panel1.add(jbNewServer);
+        this.add(monitorPanel);
+
+        //server layouts en borders
+        Server1.setLayout(null);
+        Server2.setLayout(null);
+        Server3.setLayout(null);
+        Server4.setLayout(null);
+        Server1.setBorder(BorderFactory.createLineBorder(Color.black));
+        Server2.setBorder(BorderFactory.createLineBorder(Color.black));
+        Server3.setBorder(BorderFactory.createLineBorder(Color.black));
+        Server4.setBorder(BorderFactory.createLineBorder(Color.black));
+
+        //-------------------------- Server 1 -----------------------------------
+        // Panel toevoegen
+        Panel2.add(Screen.Server1);
+        Server1.setBounds(20, 20, 300, 200);
+        //Kopje met naam
+        Server1.add(Kopje1);
+        Kopje1.setLayout(null);
+        Kopje1.setBounds(0, 0, 300, 30);
+        Kopje1.setBorder(BorderFactory.createLineBorder(Color.black));
+        Kopje1.add(Servernaam1);
+        Servernaam1.setBounds(7, -3, 300, 30);
+        Servernaam1.setFont(Servernaam1.getFont().deriveFont(15.0f));
+        //StatusPanel
+        Server1.add(Statuspanel1);
+        Statuspanel1.setBackground(Color.red);
+        Statuspanel1.setBounds(50, 40, 200, 30);
+        Statuspanel1.add(Status1);
+        Status1.setText("Offline");
+        Status1.setFont(Status1.getFont().deriveFont(16.0f));
+        Status1.setForeground(Color.white);
+        //TextArea
+        Server1.add(Info1);
+        Info1.setBounds(30, 80, 240, 110);
+        Info1.setEditable(false);
+        Info1.setBorder(BorderFactory.createLineBorder(Color.black));
+        Info1.setFont(new Font("Consolas", Font.ITALIC, 13));
+        Info1.setText("Uptime        -\n" +
+            "CPU usage     -\n" +
+            "Meer info     -");
+        //Nog niet zichtbaar
+        Server1.setVisible(false);
+
+        //-------------------------- Server 2 -----------------------------------
+        Panel2.add(Screen.Server2);
+        Server2.setBounds(340, 20, 300, 200);
+        //Kopje met naam
+        Server2.add(Kopje2);
+        Kopje2.setLayout(null);
+        Kopje2.setBounds(0, 0, 300, 30);
+        Kopje2.setBorder(BorderFactory.createLineBorder(Color.black));
+        Kopje2.add(Servernaam2);
+        Servernaam2.setBounds(7, -3, 300, 30);
+        Servernaam2.setFont(Servernaam1.getFont());
+        //StatusPanel
+        Server2.add(Statuspanel2);
+        Statuspanel2.setBackground(Color.red);
+        Statuspanel2.setBounds(50, 40, 200, 30);
+        Statuspanel2.add(Status2);
+        Status2.setText("Offline");
+        Status2.setFont(Status2.getFont().deriveFont(16.0f));
+        Status2.setForeground(Color.white);
+        //TextArea
+        Server2.add(Info2);
+        Info2.setBounds(30, 80, 240, 110);
+        Info2.setEditable(false);
+        Info2.setBorder(BorderFactory.createLineBorder(Color.black));
+        Info2.setFont(Info1.getFont());
+        Info2.setText("Uptime        -\n" +
+            "CPU usage     -\n" +
+            "Meer info     -");
+        //Nog niet zichtbaar
+        Server2.setVisible(false);
+        //-------------------------- Server 3 -----------------------------------
+        Panel2.add(Screen.Server3);
+        Server3.setBounds(20, 240, 300, 200);
+        //Kopje met naam
+        Server3.add(Kopje3);
+        Kopje3.setLayout(null);
+        Kopje3.setBounds(0, 0, 300, 30);
+        Kopje3.setBorder(BorderFactory.createLineBorder(Color.black));
+        Kopje3.add(Servernaam3);
+        Servernaam3.setBounds(7, -3, 300, 30);
+        Servernaam3.setFont(Servernaam1.getFont());
+        //StatusPanel
+        Server3.add(Statuspanel3);
+        Statuspanel3.setBackground(Color.red);
+        Statuspanel3.setBounds(50, 40, 200, 30);
+        Statuspanel3.add(Status3);
+        Status3.setText("Offline");
+        Status3.setFont(Status1.getFont());
+        Status3.setForeground(Color.white);
+        //TextArea
+        Server3.add(Info3);
+        Info3.setBounds(30, 80, 240, 110);
+        Info3.setEditable(false);
+        Info3.setBorder(BorderFactory.createLineBorder(Color.black));
+        Info3.setFont(Info1.getFont());
+        Info3.setText("Uptime        -\n" +
+            "CPU usage     -\n" +
+            "Meer info     -");
+        //Nog niet zichtbaar
+        Server3.setVisible(false);
+        //-------------------------- Server 4 -----------------------------------
+        Panel2.add(Screen.Server4);
+        Server4.setBounds(340, 240, 300, 200);
+        //Kopje met naam
+        Server4.add(Kopje4);
+        Kopje4.setLayout(null);
+        Kopje4.setBounds(0, 0, 300, 30);
+        Kopje4.setBorder(BorderFactory.createLineBorder(Color.black));
+        Kopje4.add(Servernaam4);
+        Servernaam4.setBounds(7, -3, 300, 30);
+        Servernaam4.setFont(Servernaam1.getFont());
+        //StatusPanel
+        Server4.add(Statuspanel4);
+        Statuspanel4.setBackground(Color.red);
+        Statuspanel4.setBounds(50, 40, 200, 30);
+        Statuspanel4.add(Status4);
+        Status4.setText("Offline");
+        Status4.setFont(Status1.getFont());
+        Status4.setForeground(Color.white);
+        //TextArea
+        Server4.add(Info4);
+        Info4.setBounds(30, 80, 240, 110);
+        Info4.setEditable(false);
+        Info4.setBorder(BorderFactory.createLineBorder(Color.black));
+        Info4.setFont(Info1.getFont());
+        Info4.setText("Uptime        -\n" +
+            "CPU usage     -\n" +
+            "Meer info     -");
+        //Nog niet zichtbaar
+        Server4.setVisible(false);
+
 
         // editpanel
         dropdownedit = new JComboBox();
@@ -235,9 +430,95 @@ public class Screen extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0)
+            throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
+    private static void showConfigDesign() {
+        JLabel[] labels = new JLabel[]{jlDb1, jlDb2, jlDb3, jlWb1, jlWb2, jlWb3};
+        int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
+        String[] serverNames = ReadJson.readDesignNames((String) dropdowndesign.getSelectedItem());
+        int counter = 0;
+        int y = 60;
+        for (int i : serverAmount) {
+            if (i != 0) {
+                String temp = String.valueOf(i);
+                JLabel jlTemp = labels[counter];
+                jlTemp.setText(serverNames[counter] + ":     " + temp);
+                jlTemp.setBounds(10, 50 + y, 200, 25);
+                designPanel.add(jlTemp);
+                y += 30;
+
+            } else {
+                JLabel jlTemp = labels[counter];
+                jlTemp.setText("");
+            }
+            counter++;
+        }
+    }
+
+    private static void showConfigEdit() {
+        String DesignName = (String) dropdownedit.getSelectedItem();
+        int[] serverAmount = ReadJson.readDesign((String) dropdownedit.getSelectedItem());
+        String[] serverNames = ReadJson.readDesignNames((String) dropdownedit.getSelectedItem());
+        JTextField[] labelsEdit = new JTextField[]{jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3,};
+        int counter = 0;
+        jtfDesnameEdit.setText(DesignName);
+        for (int i : serverAmount) {
+            JTextField jtfTemp = labelsEdit[counter];
+            jtfTemp.setText("");
+            if (i != 0) {
+                jtfTemp.setText(String.valueOf(serverAmount[counter]));
+            }
+            counter++;
+
+        }
+
+    }
+
+    private static void readDesignsList(Screen screen) {
+        dropdownedit.removeAllItems();
+        dropdowndesign.removeAllItems();
+        File[] files = new File("src/savedDesigns").listFiles();
+        for (File file : files) {
+            String name = file.getName();
+            /*dropdownitemsedit.add(name.replace(".json", ""));*/
+            dropdownedit.addItem(name.replace(".json", ""));
+            dropdowndesign.addItem(name.replace(".json", ""));
+        }
+        dropdowndesign.addItem("Add new Design");
+
+    }
+
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == jbOpenDesign) {
             JDialog designDialog = new DesignDialog(this);
+        }
+        if (e.getSource() == jbNewServer) {
+            JDialog monitoringDialog = new MonitoringDialog(this);
+        }
+        if (e.getSource() == jbDeleteServer) {
+            Panel2.removeAll();
+            revalidate();
+            repaint();
+            MonitoringDialog.serverCount = 0;
         }
         if (e.getSource() == dropdowndesign) {
             try {
@@ -321,7 +602,7 @@ public class Screen extends JFrame implements ActionListener {
                 }
                 availabilityDouble = availabilityDouble / 100;
                 Backtracking backtracking = new Backtracking();
-                ArrayList<Server> calcServers = backtracking.optimisation(arrayServers, availabilityDouble);
+                ArrayList<Server> calcServers = Backtracking.optimisation(arrayServers, availabilityDouble);
                 double available = Calculatepriceavailability.calculateavailability(calcServers);
                 double price = Calculatepriceavailability.calculateTotalPrice(calcServers);
                 available = available * 100;
@@ -484,18 +765,6 @@ public class Screen extends JFrame implements ActionListener {
         }
     }
 
-    public static boolean isNumeric(String strNum) {
-        if (strNum == null) {
-            return false;
-        }
-        try {
-            double d = Double.parseDouble(strNum);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
     public String prijsbeschikbaarheidberekenen(JTextField Db1, JTextField Db2, JTextField Db3, JTextField Ws1,
                                                 JTextField Ws2, JTextField Ws3) {
         ArrayList<Server> serverList = new ArrayList<>();
@@ -557,7 +826,7 @@ public class Screen extends JFrame implements ActionListener {
         }
     }
 
-    public static double round(double value, int places) {
+    /*public static double round(double value, int places) {
         if (places < 0)
             throw new IllegalArgumentException();
 
@@ -628,7 +897,7 @@ public class Screen extends JFrame implements ActionListener {
         }
         dropdowndesign.addItem("Add new Design");
 
-    }
+    }*/
 
     public void inputServersInEdit(ArrayList<Server> servers) {
         int amountDb1 = 0;
