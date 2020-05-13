@@ -5,12 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
-import javax.swing.border.Border;
 import java.awt.BorderLayout;
 import java.awt.Font;
 
@@ -48,32 +46,32 @@ public class Screen extends JFrame implements ActionListener {
     static JLabel jlDb2 = new JLabel();
     static JLabel jlDb3 = new JLabel();
     // Dingen voor Monitoring
-    static JPanel Panel1 = new JPanel();
-    static JPanel Panel2 = new JPanel();
-    static JPanel Server1 = new JPanel();
-    static JPanel Server2 = new JPanel();
-    static JPanel Server3 = new JPanel();
-    static JPanel Server4 = new JPanel();
-    static JLabel Servernaam1 = new JLabel("Server 1 - Ip address");
-    static JLabel Servernaam2 = new JLabel("Server 2 - Ip address");
-    static JLabel Servernaam3 = new JLabel("Server 3 - Ip address");
-    static JLabel Servernaam4 = new JLabel("Server 4 - Ip address");
-    static JPanel Kopje1 = new JPanel();
-    static JPanel Kopje2 = new JPanel();
-    static JPanel Kopje3 = new JPanel();
-    static JPanel Kopje4 = new JPanel();
-    static JPanel Statuspanel1 = new JPanel();
-    static JPanel Statuspanel2 = new JPanel();
-    static JPanel Statuspanel3 = new JPanel();
-    static JPanel Statuspanel4 = new JPanel();
-    static JLabel Status1 = new JLabel();
-    static JLabel Status2 = new JLabel();
-    static JLabel Status3 = new JLabel();
-    static JLabel Status4 = new JLabel();
-    static JTextArea Info1 = new JTextArea();
-    static JTextArea Info2 = new JTextArea();
-    static JTextArea Info3 = new JTextArea();
-    static JTextArea Info4 = new JTextArea();
+    static JPanel jpPanel1 = new JPanel();
+    static JPanel jpPanel2 = new JPanel();
+    static JPanel jpServer1 = new JPanel();
+    static JPanel jpServer2 = new JPanel();
+    static JPanel jpServer3 = new JPanel();
+    static JPanel jpServer4 = new JPanel();
+    static JLabel jlServernaam1 = new JLabel("Server 1 - Ip address");
+    static JLabel jlServernaam2 = new JLabel("Server 2 - Ip address");
+    static JLabel jlServernaam3 = new JLabel("Server 3 - Ip address");
+    static JLabel jlServernaam4 = new JLabel("Server 4 - Ip address");
+    static JPanel jpKopje1 = new JPanel();
+    static JPanel jpKopje2 = new JPanel();
+    static JPanel jpKopje3 = new JPanel();
+    static JPanel jpKopje4 = new JPanel();
+    static JPanel jpStatuspanel1 = new JPanel();
+    static JPanel jpStatuspanel2 = new JPanel();
+    static JPanel jpStatuspanel3 = new JPanel();
+    static JPanel jpStatuspanel4 = new JPanel();
+    static JLabel jlStatus1 = new JLabel();
+    static JLabel jlStatus2 = new JLabel();
+    static JLabel jlStatus3 = new JLabel();
+    static JLabel jlStatus4 = new JLabel();
+    static JTextArea jtaInfo1 = new JTextArea();
+    static JTextArea jtaInfo2 = new JTextArea();
+    static JTextArea jtaInfo3 = new JTextArea();
+    static JTextArea jtaInfo4 = new JTextArea();
     JButton jbKruisje1 = new JButton("X");
     JButton jbKruisje2 = new JButton("X");
     JButton jbKruisje3 = new JButton("X");
@@ -133,166 +131,168 @@ public class Screen extends JFrame implements ActionListener {
         //Monitorpanel instellen
         monitorPanel.setLayout(new BorderLayout());
         monitorPanel.setPreferredSize(new Dimension(100, 50));
-        Panel2.setLayout(null);
-        Panel2.setPreferredSize(new Dimension(100, 500));
-        monitorPanel.add(Panel1, BorderLayout.LINE_END);
-        monitorPanel.add(Panel2, BorderLayout.PAGE_END);
-        Panel1.add(jbRefresh);
-        Panel1.add(jbNewServer);
+        jpPanel2.setLayout(null);
+        jpPanel2.setPreferredSize(new Dimension(100, 500));
+        monitorPanel.add(jpPanel1, BorderLayout.LINE_END);
+        monitorPanel.add(jpPanel2, BorderLayout.PAGE_END);
+        jpPanel1.add(jbRefresh);
+        jpPanel1.add(jbNewServer);
         this.add(monitorPanel);
 
         //server layouts en borders
-        Server1.setLayout(null);
-        Server2.setLayout(null);
-        Server3.setLayout(null);
-        Server4.setLayout(null);
-        Server1.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
-        Server2.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
-        Server3.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
-        Server4.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        jpServer1.setLayout(null);
+        jpServer2.setLayout(null);
+        jpServer3.setLayout(null);
+        jpServer4.setLayout(null);
+        jpServer1.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        jpServer2.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        jpServer3.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        jpServer4.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+
+
 
         //-------------------------- Server 1 -----------------------------------
         // Panel toevoegen
-        Panel2.add(Screen.Server1);
-        Server1.setBounds(20, 20, 300, 200);
+        jpPanel2.add(Screen.jpServer1);
+        jpServer1.setBounds(20, 20, 300, 200);
         //Kopje met naam
-        Server1.add(Kopje1);
-        Kopje1.setLayout(null);
-        Kopje1.setBounds(0, 0, 300, 30);
-        Kopje1.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
-        Kopje1.add(Servernaam1);
-        Servernaam1.setBounds(7, -3, 300, 30);
-        Servernaam1.setFont(Servernaam1.getFont().deriveFont(15.0f));
+        jpServer1.add(jpKopje1);
+        jpKopje1.setLayout(null);
+        jpKopje1.setBounds(0, 0, 300, 30);
+        jpKopje1.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        jpKopje1.add(jlServernaam1);
+        jlServernaam1.setBounds(7, -3, 300, 30);
+        jlServernaam1.setFont(jlServernaam1.getFont().deriveFont(15.0f));
         //Kruisje
-        Kopje1.add(jbKruisje1);
+        jpKopje1.add(jbKruisje1);
         jbKruisje1.setBounds(270, 0, 30, 30);
         jbKruisje1.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
         jbKruisje1.addActionListener(this);
         //StatusPanel
-        Server1.add(Statuspanel1);
-        Statuspanel1.setBackground(Color.red);
-        Statuspanel1.setBounds(50, 40, 200, 30);
-        Statuspanel1.add(Status1);
-        Status1.setText("Offline");
-        Status1.setFont(Status1.getFont().deriveFont(16.0f));
-        Status1.setForeground(Color.white);
+        jpServer1.add(jpStatuspanel1);
+        jpStatuspanel1.setBackground(Color.red);
+        jpStatuspanel1.setBounds(50, 40, 200, 30);
+        jpStatuspanel1.add(jlStatus1);
+        jlStatus1.setText("Offline");
+        jlStatus1.setFont(jlStatus1.getFont().deriveFont(16.0f));
+        jlStatus1.setForeground(Color.white);
         //TextArea
-        Server1.add(Info1);
-        Info1.setBounds(30, 80, 240, 110);
-        Info1.setEditable(false);
-        Info1.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
-        Info1.setFont(new Font("Consolas", Font.ITALIC, 13));
-        Info1.setText("Uptime        -\n" +
-            "CPU usage     -\n" +
-            "Meer info     -");
+        jpServer1.add(jtaInfo1);
+        jtaInfo1.setBounds(30, 80, 240, 110);
+        jtaInfo1.setEditable(false);
+        jtaInfo1.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        jtaInfo1.setFont(new Font("Consolas", Font.ITALIC, 13));
+        jtaInfo1.setText("Uptime          - unavailable\n" +
+            "CPU usage       - unavailable\n" +
+            "Free Disk space - unavailable");
         //Nog niet zichtbaar
-        Server1.setVisible(false);
+        jpServer1.setVisible(false);
 
         //-------------------------- Server 2 -----------------------------------
-        Panel2.add(Screen.Server2);
-        Server2.setBounds(340, 20, 300, 200);
+        jpPanel2.add(Screen.jpServer2);
+        jpServer2.setBounds(340, 20, 300, 200);
         //Kopje met naam
-        Server2.add(Kopje2);
-        Kopje2.setLayout(null);
-        Kopje2.setBounds(0, 0, 300, 30);
-        Kopje2.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
-        Kopje2.add(Servernaam2);
-        Servernaam2.setBounds(7, -3, 300, 30);
-        Servernaam2.setFont(Servernaam1.getFont());
-        //Kruisje
-        Kopje2.add(jbKruisje2);
+        jpServer2.add(jpKopje2);
+        jpKopje2.setLayout(null);
+        jpKopje2.setBounds(0, 0, 300, 30);
+        jpKopje2.setBorder(BorderFactory.createLineBorder(Color.black));
+        jpKopje2.add(jlServernaam2);
+        jlServernaam2.setBounds(7, -3, 300, 30);
+        jlServernaam2.setFont(jlServernaam1.getFont());
+        //kruisje
+        jpKopje2.add(jbKruisje2);
         jbKruisje2.setBounds(270, 0, 30, 30);
         jbKruisje2.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
         jbKruisje2.addActionListener(this);
         //StatusPanel
-        Server2.add(Statuspanel2);
-        Statuspanel2.setBackground(Color.red);
-        Statuspanel2.setBounds(50, 40, 200, 30);
-        Statuspanel2.add(Status2);
-        Status2.setText("Offline");
-        Status2.setFont(Status2.getFont().deriveFont(16.0f));
-        Status2.setForeground(Color.white);
+        jpServer2.add(jpStatuspanel2);
+        jpStatuspanel2.setBackground(Color.red);
+        jpStatuspanel2.setBounds(50, 40, 200, 30);
+        jpStatuspanel2.add(jlStatus2);
+        jlStatus2.setText("Offline");
+        jlStatus2.setFont(jlStatus2.getFont().deriveFont(16.0f));
+        jlStatus2.setForeground(Color.white);
         //TextArea
-        Server2.add(Info2);
-        Info2.setBounds(30, 80, 240, 110);
-        Info2.setEditable(false);
-        Info2.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
-        Info2.setFont(Info1.getFont());
-        Info2.setText("Uptime        -\n" +
-            "CPU usage     -\n" +
-            "Meer info     -");
+        jpServer2.add(jtaInfo2);
+        jtaInfo2.setBounds(30, 80, 240, 110);
+        jtaInfo2.setEditable(false);
+        jtaInfo2.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        jtaInfo2.setFont(jtaInfo1.getFont());
+        jtaInfo2.setText("Uptime          - unavailable\n" +
+            "CPU usage       - unavailable\n" +
+            "Free Disk space - unavailable");
         //Nog niet zichtbaar
-        Server2.setVisible(false);
+        jpServer2.setVisible(false);
         //-------------------------- Server 3 -----------------------------------
-        Panel2.add(Screen.Server3);
-        Server3.setBounds(20, 240, 300, 200);
+        jpPanel2.add(Screen.jpServer3);
+        jpServer3.setBounds(20, 240, 300, 200);
         //Kopje met naam
-        Server3.add(Kopje3);
-        Kopje3.setLayout(null);
-        Kopje3.setBounds(0, 0, 300, 30);
-        Kopje3.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
-        Kopje3.add(Servernaam3);
-        Servernaam3.setBounds(7, -3, 300, 30);
-        Servernaam3.setFont(Servernaam1.getFont());
+        jpServer3.add(jpKopje3);
+        jpKopje3.setLayout(null);
+        jpKopje3.setBounds(0, 0, 300, 30);
+        jpKopje3.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        jpKopje3.add(jlServernaam3);
+        jlServernaam3.setBounds(7, -3, 300, 30);
+        jlServernaam3.setFont(jlServernaam1.getFont());
         //Kruisje
-        Kopje3.add(jbKruisje3);
+        jpKopje3.add(jbKruisje3);
         jbKruisje3.setBounds(270, 0, 30, 30);
         jbKruisje3.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
         jbKruisje3.addActionListener(this);
         //StatusPanel
-        Server3.add(Statuspanel3);
-        Statuspanel3.setBackground(Color.red);
-        Statuspanel3.setBounds(50, 40, 200, 30);
-        Statuspanel3.add(Status3);
-        Status3.setText("Offline");
-        Status3.setFont(Status1.getFont());
-        Status3.setForeground(Color.white);
+        jpServer3.add(jpStatuspanel3);
+        jpStatuspanel3.setBackground(Color.red);
+        jpStatuspanel3.setBounds(50, 40, 200, 30);
+        jpStatuspanel3.add(jlStatus3);
+        jlStatus3.setText("Offline");
+        jlStatus3.setFont(jlStatus1.getFont());
+        jlStatus3.setForeground(Color.white);
         //TextArea
-        Server3.add(Info3);
-        Info3.setBounds(30, 80, 240, 110);
-        Info3.setEditable(false);
-        Info3.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
-        Info3.setFont(Info1.getFont());
-        Info3.setText("Uptime        -\n" +
-            "CPU usage     -\n" +
-            "Meer info     -");
+        jpServer3.add(jtaInfo3);
+        jtaInfo3.setBounds(30, 80, 240, 110);
+        jtaInfo3.setEditable(false);
+        jtaInfo3.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        jtaInfo3.setFont(jtaInfo1.getFont());
+        jtaInfo3.setText("Uptime          - unavailable\n" +
+            "CPU usage       - unavailable\n" +
+            "Free Disk space - unavailable");
         //Nog niet zichtbaar
-        Server3.setVisible(false);
+        jpServer3.setVisible(false);
         //-------------------------- Server 4 -----------------------------------
-        Panel2.add(Screen.Server4);
-        Server4.setBounds(340, 240, 300, 200);
+        jpPanel2.add(Screen.jpServer4);
+        jpServer4.setBounds(340, 240, 300, 200);
         //Kopje met naam
-        Server4.add(Kopje4);
-        Kopje4.setLayout(null);
-        Kopje4.setBounds(0, 0, 300, 30);
-        Kopje4.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
-        Kopje4.add(Servernaam4);
-        Servernaam4.setBounds(7, -3, 300, 30);
-        Servernaam4.setFont(Servernaam1.getFont());
+        jpServer4.add(jpKopje4);
+        jpKopje4.setLayout(null);
+        jpKopje4.setBounds(0, 0, 300, 30);
+        jpKopje4.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        jpKopje4.add(jlServernaam4);
+        jlServernaam4.setBounds(7, -3, 300, 30);
+        jlServernaam4.setFont(jlServernaam1.getFont());
         //Kruisje
-        Kopje4.add(jbKruisje4);
+        jpKopje4.add(jbKruisje4);
         jbKruisje4.setBounds(270, 0, 30, 30);
         jbKruisje4.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
         jbKruisje4.addActionListener(this);
         //StatusPanel
-        Server4.add(Statuspanel4);
-        Statuspanel4.setBackground(Color.red);
-        Statuspanel4.setBounds(50, 40, 200, 30);
-        Statuspanel4.add(Status4);
-        Status4.setText("Offline");
-        Status4.setFont(Status1.getFont());
-        Status4.setForeground(Color.white);
+        jpServer4.add(jpStatuspanel4);
+        jpStatuspanel4.setBackground(Color.red);
+        jpStatuspanel4.setBounds(50, 40, 200, 30);
+        jpStatuspanel4.add(jlStatus4);
+        jlStatus4.setText("Offline");
+        jlStatus4.setFont(jlStatus1.getFont());
+        jlStatus4.setForeground(Color.white);
         //TextArea
-        Server4.add(Info4);
-        Info4.setBounds(30, 80, 240, 110);
-        Info4.setEditable(false);
-        Info4.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
-        Info4.setFont(Info1.getFont());
-        Info4.setText("Uptime        -\n" +
-            "CPU usage     -\n" +
-            "Meer info     -");
+        jpServer4.add(jtaInfo4);
+        jtaInfo4.setBounds(30, 80, 240, 110);
+        jtaInfo4.setEditable(false);
+        jtaInfo4.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        jtaInfo4.setFont(jtaInfo1.getFont());
+        jtaInfo4.setText("Uptime          - unavailable\n" +
+            "CPU usage       - unavailable\n" +
+            "Free Disk space - unavailable");
         //Nog niet zichtbaar
-        Server4.setVisible(false);
+        jpServer4.setVisible(false);
 
 
         // editpanel
@@ -523,16 +523,21 @@ public class Screen extends JFrame implements ActionListener {
     }
 
     private static void readDesignsList(Screen screen) {
-        dropdownedit.removeAllItems();
-        dropdowndesign.removeAllItems();
-        File[] files = new File("src/savedDesigns").listFiles();
-        for (File file : files) {
-            String name = file.getName();
-            /*dropdownitemsedit.add(name.replace(".json", ""));*/
-            dropdownedit.addItem(name.replace(".json", ""));
-            dropdowndesign.addItem(name.replace(".json", ""));
+        try {
+            dropdownedit.removeAllItems();
+            dropdowndesign.removeAllItems();
+            File[] files = new File("src/savedDesigns").listFiles();
+            for (File file : files) {
+                String name = file.getName();
+                /*dropdownitemsedit.add(name.replace(".json", ""));*/
+                dropdownedit.addItem(name.replace(".json", ""));
+                dropdowndesign.addItem(name.replace(".json", ""));
+            }
+            dropdowndesign.addItem("Add new Design");
+        }catch(Exception ex2){
+            System.out.println("error whilst reading Designs");
+            dropdowndesign.addItem("Add new Design");
         }
-        dropdowndesign.addItem("Add new Design");
 
     }
 
@@ -722,9 +727,6 @@ public class Screen extends JFrame implements ActionListener {
                     int x = 0/0;
                 }
                 String name = jtfDesnameEdit.getText();
-
-
-
                 // haal alle aantalen op van ingevulde waardes
                 String db1 = "0";
                 String db2 = "0";

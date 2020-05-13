@@ -56,68 +56,68 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
         if (welkeServer == 1){
             //Schuif alles door
             //Server 2 naar 1
-            Screen.Servernaam1.setText(Screen.Servernaam2.getText());
-            Screen.Status1.setText(Screen.Status2.getText());
-            Screen.Statuspanel1.setBackground(Screen.Statuspanel2.getBackground());
-            Screen.Info1.setText(Screen.Info2.getText());
+            Screen.jlServernaam1.setText(Screen.jlServernaam2.getText());
+            Screen.jlStatus1.setText(Screen.jlStatus2.getText());
+            Screen.jpStatuspanel1.setBackground(Screen.jpStatuspanel2.getBackground());
+            Screen.jtaInfo1.setText(Screen.jtaInfo2.getText());
             //Server 3 naar 2
-            Screen.Servernaam2.setText(Screen.Servernaam3.getText());
-            Screen.Status2.setText(Screen.Status3.getText());
-            Screen.Statuspanel2.setBackground(Screen.Statuspanel3.getBackground());
-            Screen.Info2.setText(Screen.Info3.getText());
+            Screen.jlServernaam2.setText(Screen.jlServernaam3.getText());
+            Screen.jlStatus2.setText(Screen.jlStatus3.getText());
+            Screen.jpStatuspanel2.setBackground(Screen.jpStatuspanel3.getBackground());
+            Screen.jtaInfo2.setText(Screen.jtaInfo3.getText());
             //Server 4 naar 3
-            Screen.Servernaam3.setText(Screen.Servernaam4.getText());
-            Screen.Status3.setText(Screen.Status4.getText());
-            Screen.Statuspanel3.setBackground(Screen.Statuspanel4.getBackground());
-            Screen.Info3.setText(Screen.Info4.getText());
+            Screen.jlServernaam3.setText(Screen.jlServernaam4.getText());
+            Screen.jlStatus3.setText(Screen.jlStatus4.getText());
+            Screen.jpStatuspanel3.setBackground(Screen.jpStatuspanel4.getBackground());
+            Screen.jtaInfo3.setText(Screen.jtaInfo4.getText());
             //setVisible(false) welke server
             if (MonitoringDialog.serverCount == 1){
-                Screen.Server1.setVisible(false);
+                Screen.jpServer1.setVisible(false);
             } else if (MonitoringDialog.serverCount == 2){
-                Screen.Server2.setVisible(false);
+                Screen.jpServer2.setVisible(false);
             } else if (MonitoringDialog.serverCount == 3){
-                Screen.Server3.setVisible(false);
+                Screen.jpServer3.setVisible(false);
             } else if (MonitoringDialog.serverCount == 4){
-                Screen.Server4.setVisible(false);
+                Screen.jpServer4.setVisible(false);
             }
             MonitoringDialog.serverCount--;
         } else if (welkeServer == 2){
             //Schuif alles door
             //Server 3 naar 2
-            Screen.Servernaam2.setText(Screen.Servernaam3.getText());
-            Screen.Status2.setText(Screen.Status3.getText());
-            Screen.Statuspanel2.setBackground(Screen.Statuspanel3.getBackground());
-            Screen.Info2.setText(Screen.Info3.getText());
+            Screen.jlServernaam2.setText(Screen.jlServernaam3.getText());
+            Screen.jlStatus2.setText(Screen.jlStatus3.getText());
+            Screen.jpStatuspanel2.setBackground(Screen.jpStatuspanel3.getBackground());
+            Screen.jtaInfo2.setText(Screen.jtaInfo3.getText());
             //Server 4 naar 3
-            Screen.Servernaam3.setText(Screen.Servernaam4.getText());
-            Screen.Status3.setText(Screen.Status4.getText());
-            Screen.Statuspanel3.setBackground(Screen.Statuspanel4.getBackground());
-            Screen.Info3.setText(Screen.Info4.getText());
+            Screen.jlServernaam3.setText(Screen.jlServernaam4.getText());
+            Screen.jlStatus3.setText(Screen.jlStatus4.getText());
+            Screen.jpStatuspanel3.setBackground(Screen.jpStatuspanel4.getBackground());
+            Screen.jtaInfo3.setText(Screen.jtaInfo4.getText());
             //setVisible(false) welke server
             if (MonitoringDialog.serverCount == 2){
-                Screen.Server2.setVisible(false);
+                Screen.jpServer2.setVisible(false);
             } else if (MonitoringDialog.serverCount == 3){
-                Screen.Server3.setVisible(false);
+                Screen.jpServer3.setVisible(false);
             } else if (MonitoringDialog.serverCount == 4){
-                Screen.Server4.setVisible(false);
+                Screen.jpServer4.setVisible(false);
             }
             MonitoringDialog.serverCount--;
         } else if (welkeServer == 3){
             //Schuif alles door
             //Server 4 naar 3
-            Screen.Servernaam3.setText(Screen.Servernaam4.getText());
-            Screen.Status3.setText(Screen.Status4.getText());
-            Screen.Statuspanel3.setBackground(Screen.Statuspanel4.getBackground());
-            Screen.Info3.setText(Screen.Info4.getText());
+            Screen.jlServernaam3.setText(Screen.jlServernaam4.getText());
+            Screen.jlStatus3.setText(Screen.jlStatus4.getText());
+            Screen.jpStatuspanel3.setBackground(Screen.jpStatuspanel4.getBackground());
+            Screen.jtaInfo3.setText(Screen.jtaInfo4.getText());
             //setVisible(false) welke server
             if (MonitoringDialog.serverCount == 3){
-                Screen.Server3.setVisible(false);
+                Screen.jpServer3.setVisible(false);
             } else if (MonitoringDialog.serverCount == 4){
-                Screen.Server4.setVisible(false);
+                Screen.jpServer4.setVisible(false);
             }
             MonitoringDialog.serverCount--;
         } else if (welkeServer == 4){
-            Screen.Server4.setVisible(false);
+            Screen.jpServer4.setVisible(false);
             MonitoringDialog.serverCount--;
         }
     }

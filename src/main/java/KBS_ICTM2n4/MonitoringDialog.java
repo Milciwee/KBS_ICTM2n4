@@ -69,17 +69,105 @@ public class MonitoringDialog extends JDialog implements ActionListener {
     public void addServer() {
         serverCount++;
         if (serverCount == 1) {
-            Screen.Server1.setVisible(true);
-            Screen.Servernaam1.setText(jtfName.getText() + "  -  " + jtfIP.getText());
+            Screen.jpServer1.setVisible(true);
+            Screen.jlServernaam1.setText(jtfName.getText() + "  -  " + jtfIP.getText());
+            Serverconnection server1 = new Serverconnection();
+            if(server1.makeConnectionWithServer(getServerIP(),getServerHostname(),getServerPassword())){
+                Screen.jlStatus1.setText("Online");
+                Screen.jpStatuspanel1.setBackground(Color.green);
+                Screen.jtaInfo1.setText(
+                        "Uptime:\n" +
+                        "- " + server1.serverUpTime() + "\n" +
+                        "CPU usage:\n" +
+                        "- " + server1.serverCpuUsed() + "\n" +
+                        "Available disk space:\n" +
+                        "- " + server1.serverDiskSpaceAvailable() + "\n");
+            }else{
+                Screen.jlStatus1.setText("Offline");
+                Screen.jpStatuspanel1.setBackground(Color.red);
+                Screen.jtaInfo1.setText(
+                    "Uptime:\n" +
+                    "- unavailable\n" +
+                    "CPU usage:\n" +
+                    "- unavailable\n" +
+                    "Available disk space:\n" +
+                    "- unavailable\n" );
+            }
         } else if (serverCount == 2) {
-            Screen.Server2.setVisible(true);
-            Screen.Servernaam2.setText(jtfName.getText() + "  -  " + jtfIP.getText());
+            Screen.jpServer2.setVisible(true);
+            Screen.jlServernaam2.setText(jtfName.getText() + "  -  " + jtfIP.getText());
+            Serverconnection server2 = new Serverconnection();
+            if(server2.makeConnectionWithServer(getServerIP(),getServerHostname(),getServerPassword())){
+                Screen.jlStatus2.setText("Online");
+                Screen.jpStatuspanel2.setBackground(Color.green);
+                Screen.jtaInfo2.setText(
+                    "Uptime:\n" +
+                        "- " + server2.serverUpTime() + "\n" +
+                        "CPU usage:\n" +
+                        "- " + server2.serverCpuUsed() + "\n" +
+                        "Available disk space:\n" +
+                        "- " + server2.serverDiskSpaceAvailable() + "\n");
+            }else{
+                Screen.jlStatus2.setText("Offline");
+                Screen.jpStatuspanel2.setBackground(Color.red);
+                Screen.jtaInfo2.setText(
+                    "Uptime:\n" +
+                        "- unavailable\n" +
+                        "CPU usage:\n" +
+                        "- unavailable\n" +
+                        "Available disk space:\n" +
+                        "- unavailable\n" );
+            }
         } else if (serverCount == 3) {
-            Screen.Server3.setVisible(true);
-            Screen.Servernaam3.setText(jtfName.getText() + "  -  " + jtfIP.getText());
+            Screen.jpServer3.setVisible(true);
+            Screen.jlServernaam3.setText(jtfName.getText() + "  -  " + jtfIP.getText());
+            Serverconnection server3 = new Serverconnection();
+            if(server3.makeConnectionWithServer(getServerIP(),getServerHostname(),getServerPassword())){
+                Screen.jlStatus3.setText("Online");
+                Screen.jpStatuspanel3.setBackground(Color.green);
+                Screen.jtaInfo3.setText(
+                    "Uptime:\n" +
+                        "- " + server3.serverUpTime() + "\n" +
+                        "CPU usage:\n" +
+                        "- " + server3.serverCpuUsed() + "\n" +
+                        "Available disk space:\n" +
+                        "- " + server3.serverDiskSpaceAvailable() + "\n");
+            }else{
+                Screen.jlStatus3.setText("Offline");
+                Screen.jpStatuspanel3.setBackground(Color.red);
+                Screen.jtaInfo3.setText(
+                    "Uptime:\n" +
+                        "- unavailable\n" +
+                        "CPU usage:\n" +
+                        "- unavailable\n" +
+                        "Available disk space:\n" +
+                        "- unavailable\n" );
+            }
         } else if (serverCount == 4) {
-            Screen.Server4.setVisible(true);
-            Screen.Servernaam4.setText(jtfName.getText() + "  -  " + jtfIP.getText());
+            Screen.jpServer4.setVisible(true);
+            Screen.jlServernaam4.setText(jtfName.getText() + "  -  " + jtfIP.getText());
+            Serverconnection server4 = new Serverconnection();
+            if(server4.makeConnectionWithServer(getServerIP(),getServerHostname(),getServerPassword())){
+                Screen.jlStatus4.setText("Online");
+                Screen.jpStatuspanel4.setBackground(Color.green);
+                Screen.jtaInfo4.setText(
+                    "Uptime:\n" +
+                        "- " + server4.serverUpTime() + "\n" +
+                        "CPU usage:\n" +
+                        "- " + server4.serverCpuUsed() + "\n" +
+                        "Available disk space:\n" +
+                        "- " + server4.serverDiskSpaceAvailable() + "\n");
+            }else{
+                Screen.jlStatus4.setText("Offline");
+                Screen.jpStatuspanel4.setBackground(Color.red);
+                Screen.jtaInfo4.setText(
+                    "Uptime:\n" +
+                        "- unavailable\n" +
+                        "CPU usage:\n" +
+                        "- unavailable\n" +
+                        "Available disk space:\n" +
+                        "- unavailable\n" );
+            }
         }
         Screen.monitorPanel.revalidate();
         jtfName.setText(getServerName());

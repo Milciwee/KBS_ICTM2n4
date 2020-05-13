@@ -45,6 +45,7 @@ public class Serverconnection {
 
         } catch(Exception e) {
             System.out.println("Er is iets misgegaan bij verbinden met de server.");
+            System.out.println(e);
             return false;
         }
     }
