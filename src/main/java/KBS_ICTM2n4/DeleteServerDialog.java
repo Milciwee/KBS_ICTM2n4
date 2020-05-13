@@ -135,7 +135,6 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
             jpServer[3].setVisible(false);
             MonitoringDialog.serverCount--;
         }
-        System.out.println(MonitoringDialog.serverCount);
 
 
 
