@@ -20,6 +20,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
     JButton jbCancel = new JButton("Cancel");
     JButton jbSubmit = new JButton("Submit");
 
+
     public MonitoringDialog(JFrame frame) {
         super(frame, true);
         setTitle("Add New Server");
