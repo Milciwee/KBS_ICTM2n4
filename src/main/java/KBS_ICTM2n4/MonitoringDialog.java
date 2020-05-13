@@ -174,6 +174,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         jtfIP.setText(getServerIP());
         jtfHostname.setText(getServerHostname());
         jpfPassword.setText(getServerPassword());
+        WriteJson.saveServer(getServerName(), getServerIP(), getServerHostname(), getServerPassword());
     }
 
 

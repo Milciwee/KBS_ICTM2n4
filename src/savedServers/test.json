@@ -1,8 +1,1 @@
-{
-  "server": {
-    "hostname": "test",
-    "password": "test",
-    "ip": "192.168.1.1",
-    "name": "test"
-  }
-}
+{"server":{"hostname":"root","password":"Teamsvmware01!","ip":"192.168.1.2","name":"test"}}
