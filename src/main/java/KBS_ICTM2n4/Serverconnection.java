@@ -18,11 +18,9 @@ public class Serverconnection {
 
     // Deze functie poogt een session met het opgegeven IP-adres op te slaan in het bovenstaande static Session-object "session",
     // en geeft true terug als dit lukt, en false als dit niet lukt.
-    public boolean makeConnectionWithServer(String destinationIP) {
+    public boolean makeConnectionWithServer(String destinationIP, String username, String password) {
 
-        // Deze gegevens worden gebruikt om met SSH in te loggen.
-        String username = "root";
-        String password = "Teamsvmware01!";
+        // Dit poortnummer wordt gebruikt om met SSH in te loggen.
         int port = 3389;
 
         try {
