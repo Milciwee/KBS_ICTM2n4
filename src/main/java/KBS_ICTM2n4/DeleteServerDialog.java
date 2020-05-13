@@ -35,6 +35,7 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
         jbConfirm.addActionListener(this);
 
         setVisible(true);
+        
     }
 
     public static void setWelkeServer(int welkeServer) {
@@ -51,6 +52,7 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
             dispose();
         }
     }
+    
 
     public void DeleteServer(){
         if (welkeServer == 1){

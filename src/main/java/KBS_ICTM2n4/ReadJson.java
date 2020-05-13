@@ -78,6 +78,39 @@ public class ReadJson {
 
   }
 
+  public static String[] readServer(String servername) {
+    String[] returnArray = new String[4];
+    JSONParser jsonParser = new JSONParser();
+
+    try (FileReader reader = new FileReader("src/savedServers/" + servername + ".json")) {
+
+      Object obj = jsonParser.parse(reader);
+      int counter = 0;
+      String name = parseServerName((JSONObject) obj);
+      returnArray[counter] = name;
+      counter++;
+      String ip = parseServerIp((JSONObject) obj);
+      returnArray[counter] = ip;
+      counter++;
+      String password = parseServerPassword((JSONObject) obj);
+      returnArray[counter] = password;
+      counter++;
+      String hostname = parseServerHostname((JSONObject) obj);
+      returnArray[counter] = hostname;
+      counter++;
+
+      return returnArray;
+    } catch (FileNotFoundException e) {
+      System.out.println("File not found");
+    } catch (IOException e) {
+      System.out.println("Invalid permissions");
+    } catch (ParseException e) {
+      System.out.println("Parsing went wrong");
+    }
+    return null;
+
+  }
+
   // Method om amount op te halen van Server Object in de file.
   private static int parseServerObject(JSONObject server) {
     JSONObject serverObject = (JSONObject) server.get("server");
@@ -97,4 +130,39 @@ public class ReadJson {
 
   }
 
+  private static String parseServerName(JSONObject server) {
+    JSONObject serverObject = (JSONObject) server.get("server");
+    String name = (String) serverObject.get("name");
+    return name;
+
+  }
+
+  private static String parseServerIp(JSONObject server) {
+    JSONObject serverObject = (JSONObject) server.get("server");
+    String name = (String) serverObject.get("ip");
+    return name;
+
+  }
+
+  private static String parseServerPassword(JSONObject server) {
+    JSONObject serverObject = (JSONObject) server.get("server");
+    String name = (String) serverObject.get("password");
+    return name;
+
+  }
+
+  private static String parseServerHostname(JSONObject server) {
+    JSONObject serverObject = (JSONObject) server.get("server");
+    String name = (String) serverObject.get("hostname");
+    return name;
+
+  }
+
+  public static void main(String[] args) {
+    String[] array = readServer("test");
+    for (int i = 0; i < array.length; i++) {
+      System.out.println(array[i]);
+    }
+
+  }
 }

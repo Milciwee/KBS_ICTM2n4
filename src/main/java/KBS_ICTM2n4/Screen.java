@@ -551,6 +551,7 @@ public class Screen extends JFrame implements ActionListener {
         if(e.getSource() == jbKruisje1){
             DeleteServerDialog.setWelkeServer(1);
             JDialog deleteDialog = new DeleteServerDialog(this);
+            
         }
         if (e.getSource() == jbKruisje2){
             DeleteServerDialog.setWelkeServer(2);
