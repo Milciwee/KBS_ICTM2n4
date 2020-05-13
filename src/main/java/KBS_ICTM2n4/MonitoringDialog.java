@@ -13,7 +13,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
     private JTextField jtfName = new JTextField();
     private JTextField jtfIP = new JTextField();
     private JTextField jtfHostname = new JTextField();
-    private JTextField jtfPassword = new JTextField();
+    private JPasswordField jpfPassword = new JPasswordField();
     private boolean isOkPressed = false;
     //Counter voor servers
     static int serverCount = 0;
@@ -44,7 +44,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         jtfName.setBounds(25, 35, 191, 25);
         jtfIP.setBounds(25, 100, 191, 25);
         jtfHostname.setBounds(25, 165, 191, 25);
-        jtfPassword.setBounds(25, 230, 191, 25);
+        jpfPassword.setBounds(25, 230, 191, 25);
 
         //toevoegen aan panel
         add(mainPanel);
@@ -55,7 +55,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         mainPanel.add(jlHostname);
         mainPanel.add(jtfHostname);
         mainPanel.add(jlPassword);
-        mainPanel.add(jtfPassword);
+        mainPanel.add(jpfPassword);
         mainPanel.add(jlIP);
         mainPanel.add(jtfIP);
 
@@ -173,7 +173,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         jtfName.setText(getServerName());
         jtfIP.setText(getServerIP());
         jtfHostname.setText(getServerHostname());
-        jtfPassword.setText(getServerPassword());
+        jpfPassword.setText(getServerPassword());
     }
 
 
@@ -185,7 +185,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             jtfName.setText("");
             jtfIP.setText("");
             jtfHostname.setText("");
-            jtfPassword.setText("");
+            jpfPassword.setText("");
         }
         if (e.getSource() == jbSubmit) {
             addServer();
@@ -207,6 +207,6 @@ public class MonitoringDialog extends JDialog implements ActionListener {
     }
 
     public String getServerPassword() {
-        return jtfPassword.getText();
+        return String.valueOf(jpfPassword.getPassword());
     }
 }
