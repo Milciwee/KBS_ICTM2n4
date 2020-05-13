@@ -1,38 +1,38 @@
 [
   {
     "server": {
-      "amount": 2,
-      "name": "Database server 1"
-    }
-  },
-  {
-    "server": {
-      "amount": 4,
-      "name": "Database server 2"
-    }
-  },
-  {
-    "server": {
-      "amount": 0,
-      "name": "Database server 3"
+      "amount": 1,
+      "name": "HAL9001DB"
     }
   },
   {
     "server": {
       "amount": 1,
-      "name": "Webserver 1"
+      "name": "HAL9002DB"
     }
   },
   {
     "server": {
-      "amount": 3,
-      "name": "Webserver 2"
+      "amount": 1,
+      "name": "HAL9003DB"
     }
   },
   {
     "server": {
-      "amount": 3,
-      "name": "Webserver 3"
+      "amount": 1,
+      "name": "HAL9001W"
+    }
+  },
+  {
+    "server": {
+      "amount": 1,
+      "name": "HAL9002W"
+    }
+  },
+  {
+    "server": {
+      "amount": 1,
+      "name": "HAL9003W"
     }
   }
 ]
