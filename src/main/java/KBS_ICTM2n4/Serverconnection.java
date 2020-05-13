@@ -18,11 +18,9 @@ public class Serverconnection {
 
     // Deze functie poogt een session met het opgegeven IP-adres op te slaan in het bovenstaande static Session-object "session",
     // en geeft true terug als dit lukt, en false als dit niet lukt.
-    public boolean makeConnectionWithServer(String destinationIP) {
+    public boolean makeConnectionWithServer(String destinationIP, String username, String password) {
 
-        // Deze gegevens worden gebruikt om met SSH in te loggen.
-        String username = "root";
-        String password = "Teamsvmware01!";
+        // Dit poortnummer wordt gebruikt om met SSH in te loggen.
         int port = 3389;
 
         try {
@@ -115,7 +113,7 @@ public class Serverconnection {
     }
 
     // Deze functie geeft een String terug, dat het percentage van het CPU dat in gebruik is weergeeft.
-    public String serverCpuUsage() {
+    public String serverCpuUsed() {
 
         // Dit SSH-command zal informatie over het CPU-gebruik weergeven.
         String command = "top\nq\nexit";
@@ -137,7 +135,7 @@ public class Serverconnection {
             // Met de volgende code wordt de inhoud van de inputStream overgeschreven naar een outputStream.
 
             // Aangezien het "top"-command blijft updaten, kunnen we niet bytes blijven lezen tot het einde.
-            // Na vier cycli geeft het de relevante gegevens weer, die we vervolgens in de laatste buffer vangen.
+            // Na acht cycli geeft het (in ieder geval) de relevante gegevens weer (vijf is voldoende voor databaservers).
             // (Kan waarschijnlijk efficiënter en netter).
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -145,7 +143,7 @@ public class Serverconnection {
             int length;
             int i = 0;
 
-            while (i < 5) {
+            while (i < 8) {
                 length = inputStream.read(buffer);
                 outputStream.write(buffer, 0, length);
                 i++;
@@ -294,16 +292,16 @@ public class Serverconnection {
         session = null;
     }
 
-//    public static void main(String[] args) {
+//    public void main(String[] args) {
 //
 //        String upTime = null;
 //        String diskSpace = null;
-//        String cpuUsage = null;
+//        String cpuUsed = null;
 //
-//        if(makeConnectionWithServer("192.168.1.2")) {
+//        if(makeConnectionWithServer("192.168.0.5")) {
 //            upTime = serverUpTime();
 //            diskSpace = serverDiskSpaceAvailable();
-//            cpuUsage = serverCpuUsage();
+//            cpuUsed = serverCpuUsed();
 //
 //            closeConnectionWithServer();
 //        }
@@ -311,6 +309,6 @@ public class Serverconnection {
 //        System.out.println("---");
 //        System.out.println("Uptime: " + upTime);
 //        System.out.println("Diskruimte beschikbaar: " + diskSpace);
-//        System.out.println("Percentage van CPU in gebruik: " + cpuUsage);
+//        System.out.println("Percentage van CPU in gebruik: " + cpuUsed);
 //    }
 }

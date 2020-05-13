@@ -1,0 +1,38 @@
+[
+  {
+    "server": {
+      "amount": 1,
+      "name": "HAL9001DB"
+    }
+  },
+  {
+    "server": {
+      "amount": 1,
+      "name": "HAL9002DB"
+    }
+  },
+  {
+    "server": {
+      "amount": 1,
+      "name": "HAL9003DB"
+    }
+  },
+  {
+    "server": {
+      "amount": 1,
+      "name": "HAL9001W"
+    }
+  },
+  {
+    "server": {
+      "amount": 1,
+      "name": "HAL9002W"
+    }
+  },
+  {
+    "server": {
+      "amount": 1,
+      "name": "HAL9003W"
+    }
+  }
+]

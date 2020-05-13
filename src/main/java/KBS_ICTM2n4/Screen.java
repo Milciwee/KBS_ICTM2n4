@@ -126,6 +126,7 @@ public class Screen extends JFrame implements ActionListener {
 
         // ActionListener
         jbNewServer.addActionListener(this);
+        jbRefresh.addActionListener(this);
         jbDeleteServer.addActionListener(this);
 
         //Monitorpanel instellen
@@ -452,43 +453,51 @@ public class Screen extends JFrame implements ActionListener {
     }
 
     private static void showConfigDesign() {
-        JLabel[] labels = new JLabel[]{jlDb1, jlDb2, jlDb3, jlWb1, jlWb2, jlWb3};
-        int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
-        String[] serverNames = ReadJson.readDesignNames((String) dropdowndesign.getSelectedItem());
-        int counter = 0;
-        int y = 60;
-        for (int i : serverAmount) {
-            if (i != 0) {
-                String temp = String.valueOf(i);
-                JLabel jlTemp = labels[counter];
-                jlTemp.setText(serverNames[counter] + ":     " + temp);
-                jlTemp.setBounds(10, 50 + y, 200, 25);
-                designPanel.add(jlTemp);
-                y += 30;
+        try {
+            JLabel[] labels = new JLabel[]{jlDb1, jlDb2, jlDb3, jlWb1, jlWb2, jlWb3};
+            int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
+            String[] serverNames = ReadJson.readDesignNames((String) dropdowndesign.getSelectedItem());
+            int counter = 0;
+            int y = 60;
+            for (int i : serverAmount) {
+                if (i != 0) {
+                    String temp = String.valueOf(i);
+                    JLabel jlTemp = labels[counter];
+                    jlTemp.setText(serverNames[counter] + ":     " + temp);
+                    jlTemp.setBounds(10, 50 + y, 200, 25);
+                    designPanel.add(jlTemp);
+                    y += 30;
 
-            } else {
-                JLabel jlTemp = labels[counter];
-                jlTemp.setText("");
+                } else {
+                    JLabel jlTemp = labels[counter];
+                    jlTemp.setText("");
+                }
+                counter++;
             }
-            counter++;
+        }catch (Exception exRead){
+            System.out.println("error whilst reading Designs");
         }
     }
 
     private static void showConfigEdit() {
-        String DesignName = (String) dropdownedit.getSelectedItem();
-        int[] serverAmount = ReadJson.readDesign((String) dropdownedit.getSelectedItem());
-        String[] serverNames = ReadJson.readDesignNames((String) dropdownedit.getSelectedItem());
-        JTextField[] labelsEdit = new JTextField[]{jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3,};
-        int counter = 0;
-        jtfDesnameEdit.setText(DesignName);
-        for (int i : serverAmount) {
-            JTextField jtfTemp = labelsEdit[counter];
-            jtfTemp.setText("");
-            if (i != 0) {
-                jtfTemp.setText(String.valueOf(serverAmount[counter]));
-            }
-            counter++;
+        try {
+            String DesignName = (String) dropdownedit.getSelectedItem();
+            int[] serverAmount = ReadJson.readDesign((String) dropdownedit.getSelectedItem());
+            String[] serverNames = ReadJson.readDesignNames((String) dropdownedit.getSelectedItem());
+            JTextField[] labelsEdit = new JTextField[]{jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3,};
+            int counter = 0;
+            jtfDesnameEdit.setText(DesignName);
+            for (int i : serverAmount) {
+                JTextField jtfTemp = labelsEdit[counter];
+                jtfTemp.setText("");
+                if (i != 0) {
+                    jtfTemp.setText(String.valueOf(serverAmount[counter]));
+                }
+                counter++;
 
+            }
+        }catch (Exception exRead2){
+            System.out.println("error whilst reading Designs");
         }
 
     }
@@ -512,7 +521,9 @@ public class Screen extends JFrame implements ActionListener {
             JDialog designDialog = new DesignDialog(this);
         }
         if (e.getSource() == jbNewServer) {
-            JDialog monitoringDialog = new MonitoringDialog(this);
+            MonitoringDialog monitoringDialog = new MonitoringDialog(this);
+            monitoringDialog.getServerName();
+
         }
         if (e.getSource() == jbDeleteServer) {
             Panel2.removeAll();

@@ -7,14 +7,15 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class MonitoringDialog extends JDialog implements ActionListener {
-    static JLabel jlName = new JLabel("Name");
-    static JLabel jlIP = new JLabel("Ip Address");
-    static JLabel jlHostname = new JLabel("Hostname");
-    static JLabel jlPassword = new JLabel("Password");
-    static JTextField jtName = new JTextField();
-    static JTextField jtIP = new JTextField();
-    static JTextField jtHostname = new JTextField();
-    static JTextField jtPassword = new JTextField();
+    JLabel jlName = new JLabel("Name");
+    JLabel jlIP = new JLabel("Ip Address");
+    JLabel jlHostname = new JLabel("Hostname");
+    JLabel jlPassword = new JLabel("Password");
+    private JTextField jtfName = new JTextField();
+    private JTextField jtfIP = new JTextField();
+    private JTextField jtfHostname = new JTextField();
+    private JTextField jtfPassword = new JTextField();
+    private boolean isOkPressed = false;
     //ArrayList voor aantal servers
     static ArrayList<Integer> serversArray = new ArrayList<>(4);
     //Counter voor servers
@@ -42,23 +43,23 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         jlHostname.setBounds(25, 135, 100, 30);
         jlPassword.setBounds(25, 200, 100, 30);
         //textfield bounds
-        jtName.setBounds(25, 35, 191, 25);
-        jtIP.setBounds(25, 100, 191, 25);
-        jtHostname.setBounds(25, 165, 191, 25);
-        jtPassword.setBounds(25, 230, 191, 25);
+        jtfName.setBounds(25, 35, 191, 25);
+        jtfIP.setBounds(25, 100, 191, 25);
+        jtfHostname.setBounds(25, 165, 191, 25);
+        jtfPassword.setBounds(25, 230, 191, 25);
 
         //toevoegen aan panel
         add(mainPanel);
         mainPanel.add(jbCancel);
         mainPanel.add(jbSubmit);
         mainPanel.add(jlName);
-        mainPanel.add(jtName);
+        mainPanel.add(jtfName);
         mainPanel.add(jlHostname);
-        mainPanel.add(jtHostname);
+        mainPanel.add(jtfHostname);
         mainPanel.add(jlPassword);
-        mainPanel.add(jtPassword);
+        mainPanel.add(jtfPassword);
         mainPanel.add(jlIP);
-        mainPanel.add(jtIP);
+        mainPanel.add(jtfIP);
 
         //ActionListener
         jbCancel.addActionListener(this);
@@ -71,36 +72,53 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         serverCount++;
         if (serverCount == 1) {
             Screen.Server1.setVisible(true);
-            Screen.Servernaam1.setText(jtName.getText() + "  -  " + jtIP.getText());
+            Screen.Servernaam1.setText(jtfName.getText() + "  -  " + jtfIP.getText());
         } else if (serverCount == 2) {
             Screen.Server2.setVisible(true);
-            Screen.Servernaam2.setText(jtName.getText() + "  -  " + jtIP.getText());
+            Screen.Servernaam2.setText(jtfName.getText() + "  -  " + jtfIP.getText());
         } else if (serverCount == 3) {
             Screen.Server3.setVisible(true);
-            Screen.Servernaam3.setText(jtName.getText() + "  -  " + jtIP.getText());
+            Screen.Servernaam3.setText(jtfName.getText() + "  -  " + jtfIP.getText());
         } else if (serverCount == 4) {
             Screen.Server4.setVisible(true);
-            Screen.Servernaam4.setText(jtName.getText() + "  -  " + jtIP.getText());
+            Screen.Servernaam4.setText(jtfName.getText() + "  -  " + jtfIP.getText());
         }
         Screen.monitorPanel.revalidate();
-        jtName.setText("");
-        jtIP.setText("");
-        jtHostname.setText("");
-        jtPassword.setText("");
+        jtfName.setText(getServerName());
+        jtfIP.setText(getServerIP());
+        jtfHostname.setText(getServerHostname());
+        jtfPassword.setText(getServerPassword());
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == jbCancel) {
             dispose();
-            jtName.setText("");
-            jtIP.setText("");
-            jtHostname.setText("");
-            jtPassword.setText("");
+            jtfName.setText("");
+            jtfIP.setText("");
+            jtfHostname.setText("");
+            jtfPassword.setText("");
         }
         if (e.getSource() == jbSubmit) {
             addServer();
+            isOkPressed = true;
             dispose();
         }
+    }
+
+    public String getServerName() {
+        return jtfName.getText();
+    }
+
+    public String getServerIP() {
+        return jtfIP.getText();
+    }
+
+    public String getServerHostname() {
+        return jtfHostname.getText();
+    }
+
+    public String getServerPassword() {
+        return jtfPassword.getText();
     }
 }
