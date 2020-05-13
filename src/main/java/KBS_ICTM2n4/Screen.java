@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -37,7 +38,6 @@ public class Screen extends JFrame implements ActionListener {
     static JComboBox dropdowndesign;
     // DisplayGraphics graphicsPanel;
     static JComboBox dropdownedit;
-    static JButton jbDeleteServer = new JButton("Delete Server");
     static JButton jbNewServer = new JButton("Add New Server");
     static JPanel monitorPanel = new JPanel();
     static JPanel designPanel = new JPanel();
@@ -74,6 +74,10 @@ public class Screen extends JFrame implements ActionListener {
     static JTextArea Info2 = new JTextArea();
     static JTextArea Info3 = new JTextArea();
     static JTextArea Info4 = new JTextArea();
+    JButton jbKruisje1 = new JButton("X");
+    JButton jbKruisje2 = new JButton("X");
+    JButton jbKruisje3 = new JButton("X");
+    JButton jbKruisje4 = new JButton("X");
     // Buttons
     JButton jbCalculate = new JButton("Calculate");
     JButton jbOptimize = new JButton("Optimize");
@@ -121,13 +125,10 @@ public class Screen extends JFrame implements ActionListener {
         // Monitorpanel
         //button bounds
         jbRefresh.setBounds(330, 5, 80, 25);
-        jbDeleteServer.setBounds(420, 5, 115, 25);
         jbNewServer.setBounds(545, 5, 129, 25);
 
         // ActionListener
         jbNewServer.addActionListener(this);
-        jbRefresh.addActionListener(this);
-        jbDeleteServer.addActionListener(this);
 
         //Monitorpanel instellen
         monitorPanel.setLayout(new BorderLayout());
@@ -137,7 +138,6 @@ public class Screen extends JFrame implements ActionListener {
         monitorPanel.add(Panel1, BorderLayout.LINE_END);
         monitorPanel.add(Panel2, BorderLayout.PAGE_END);
         Panel1.add(jbRefresh);
-        Panel1.add(jbDeleteServer);
         Panel1.add(jbNewServer);
         this.add(monitorPanel);
 
@@ -146,10 +146,10 @@ public class Screen extends JFrame implements ActionListener {
         Server2.setLayout(null);
         Server3.setLayout(null);
         Server4.setLayout(null);
-        Server1.setBorder(BorderFactory.createLineBorder(Color.black));
-        Server2.setBorder(BorderFactory.createLineBorder(Color.black));
-        Server3.setBorder(BorderFactory.createLineBorder(Color.black));
-        Server4.setBorder(BorderFactory.createLineBorder(Color.black));
+        Server1.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        Server2.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        Server3.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        Server4.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
 
         //-------------------------- Server 1 -----------------------------------
         // Panel toevoegen
@@ -159,10 +159,15 @@ public class Screen extends JFrame implements ActionListener {
         Server1.add(Kopje1);
         Kopje1.setLayout(null);
         Kopje1.setBounds(0, 0, 300, 30);
-        Kopje1.setBorder(BorderFactory.createLineBorder(Color.black));
+        Kopje1.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
         Kopje1.add(Servernaam1);
         Servernaam1.setBounds(7, -3, 300, 30);
         Servernaam1.setFont(Servernaam1.getFont().deriveFont(15.0f));
+        //Kruisje
+        Kopje1.add(jbKruisje1);
+        jbKruisje1.setBounds(270, 0, 30, 30);
+        jbKruisje1.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        jbKruisje1.addActionListener(this);
         //StatusPanel
         Server1.add(Statuspanel1);
         Statuspanel1.setBackground(Color.red);
@@ -175,7 +180,7 @@ public class Screen extends JFrame implements ActionListener {
         Server1.add(Info1);
         Info1.setBounds(30, 80, 240, 110);
         Info1.setEditable(false);
-        Info1.setBorder(BorderFactory.createLineBorder(Color.black));
+        Info1.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
         Info1.setFont(new Font("Consolas", Font.ITALIC, 13));
         Info1.setText("Uptime        -\n" +
             "CPU usage     -\n" +
@@ -190,10 +195,15 @@ public class Screen extends JFrame implements ActionListener {
         Server2.add(Kopje2);
         Kopje2.setLayout(null);
         Kopje2.setBounds(0, 0, 300, 30);
-        Kopje2.setBorder(BorderFactory.createLineBorder(Color.black));
+        Kopje2.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
         Kopje2.add(Servernaam2);
         Servernaam2.setBounds(7, -3, 300, 30);
         Servernaam2.setFont(Servernaam1.getFont());
+        //Kruisje
+        Kopje2.add(jbKruisje2);
+        jbKruisje2.setBounds(270, 0, 30, 30);
+        jbKruisje2.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        jbKruisje2.addActionListener(this);
         //StatusPanel
         Server2.add(Statuspanel2);
         Statuspanel2.setBackground(Color.red);
@@ -206,7 +216,7 @@ public class Screen extends JFrame implements ActionListener {
         Server2.add(Info2);
         Info2.setBounds(30, 80, 240, 110);
         Info2.setEditable(false);
-        Info2.setBorder(BorderFactory.createLineBorder(Color.black));
+        Info2.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
         Info2.setFont(Info1.getFont());
         Info2.setText("Uptime        -\n" +
             "CPU usage     -\n" +
@@ -220,10 +230,15 @@ public class Screen extends JFrame implements ActionListener {
         Server3.add(Kopje3);
         Kopje3.setLayout(null);
         Kopje3.setBounds(0, 0, 300, 30);
-        Kopje3.setBorder(BorderFactory.createLineBorder(Color.black));
+        Kopje3.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
         Kopje3.add(Servernaam3);
         Servernaam3.setBounds(7, -3, 300, 30);
         Servernaam3.setFont(Servernaam1.getFont());
+        //Kruisje
+        Kopje3.add(jbKruisje3);
+        jbKruisje3.setBounds(270, 0, 30, 30);
+        jbKruisje3.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        jbKruisje3.addActionListener(this);
         //StatusPanel
         Server3.add(Statuspanel3);
         Statuspanel3.setBackground(Color.red);
@@ -236,7 +251,7 @@ public class Screen extends JFrame implements ActionListener {
         Server3.add(Info3);
         Info3.setBounds(30, 80, 240, 110);
         Info3.setEditable(false);
-        Info3.setBorder(BorderFactory.createLineBorder(Color.black));
+        Info3.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
         Info3.setFont(Info1.getFont());
         Info3.setText("Uptime        -\n" +
             "CPU usage     -\n" +
@@ -250,10 +265,15 @@ public class Screen extends JFrame implements ActionListener {
         Server4.add(Kopje4);
         Kopje4.setLayout(null);
         Kopje4.setBounds(0, 0, 300, 30);
-        Kopje4.setBorder(BorderFactory.createLineBorder(Color.black));
+        Kopje4.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
         Kopje4.add(Servernaam4);
         Servernaam4.setBounds(7, -3, 300, 30);
         Servernaam4.setFont(Servernaam1.getFont());
+        //Kruisje
+        Kopje4.add(jbKruisje4);
+        jbKruisje4.setBounds(270, 0, 30, 30);
+        jbKruisje4.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+        jbKruisje4.addActionListener(this);
         //StatusPanel
         Server4.add(Statuspanel4);
         Statuspanel4.setBackground(Color.red);
@@ -266,7 +286,7 @@ public class Screen extends JFrame implements ActionListener {
         Server4.add(Info4);
         Info4.setBounds(30, 80, 240, 110);
         Info4.setEditable(false);
-        Info4.setBorder(BorderFactory.createLineBorder(Color.black));
+        Info4.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
         Info4.setFont(Info1.getFont());
         Info4.setText("Uptime        -\n" +
             "CPU usage     -\n" +
@@ -521,15 +541,23 @@ public class Screen extends JFrame implements ActionListener {
             JDialog designDialog = new DesignDialog(this);
         }
         if (e.getSource() == jbNewServer) {
-            MonitoringDialog monitoringDialog = new MonitoringDialog(this);
-            monitoringDialog.getServerName();
-
+            JDialog monitoringDialog = new MonitoringDialog(this);
         }
-        if (e.getSource() == jbDeleteServer) {
-            Panel2.removeAll();
-            revalidate();
-            repaint();
-            MonitoringDialog.serverCount = 0;
+        if(e.getSource() == jbKruisje1){
+            DeleteServerDialog.setWelkeServer(1);
+            JDialog deleteDialog = new DeleteServerDialog(this);
+        }
+        if (e.getSource() == jbKruisje2){
+            DeleteServerDialog.setWelkeServer(2);
+            JDialog deleteDialog = new DeleteServerDialog(this);
+        }
+        if (e.getSource() == jbKruisje3){
+            DeleteServerDialog.setWelkeServer(3);
+            JDialog deleteDialog = new DeleteServerDialog(this);
+        }
+        if (e.getSource() == jbKruisje4){
+            DeleteServerDialog.setWelkeServer(4);
+            JDialog deleteDialog = new DeleteServerDialog(this);
         }
         if (e.getSource() == dropdowndesign) {
             try {

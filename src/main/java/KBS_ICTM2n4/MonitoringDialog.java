@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class MonitoringDialog extends JDialog implements ActionListener {
     JLabel jlName = new JLabel("Name");
@@ -16,8 +15,6 @@ public class MonitoringDialog extends JDialog implements ActionListener {
     private JTextField jtfHostname = new JTextField();
     private JTextField jtfPassword = new JTextField();
     private boolean isOkPressed = false;
-    //ArrayList voor aantal servers
-    static ArrayList<Integer> serversArray = new ArrayList<>(4);
     //Counter voor servers
     static int serverCount = 0;
     JButton jbCancel = new JButton("Cancel");
@@ -89,6 +86,8 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         jtfHostname.setText(getServerHostname());
         jtfPassword.setText(getServerPassword());
     }
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
