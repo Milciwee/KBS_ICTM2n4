@@ -40,7 +40,7 @@ public class WriteJson {
       file.write(serverList.toJSONString());
       file.flush();
     } catch (IOException e) {
-      System.out.println("Invalid permissions to write a file or not enough disk space");
+      System.out.println("Invalid permissions or not enough disk space");
     }
 
   }
