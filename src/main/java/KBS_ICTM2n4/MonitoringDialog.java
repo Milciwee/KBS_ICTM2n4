@@ -93,6 +93,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             jpStatuspanel.setBackground(Color.red);
             jtaInfo.setText("Uptime:\n" + "- unavailable\n" + "CPU usage:\n" + "- unavailable\n"
                     + "Available disk space:\n" + "- unavailable\n" + label);
+
         }
         serverCount++;
         WriteJson.saveServer(getServerName(), getServerIP(), getServerHostname(), getServerPassword());
@@ -266,5 +267,21 @@ public class MonitoringDialog extends JDialog implements ActionListener {
 
     public static String getServerPassword() {
         return String.valueOf(jpfPassword.getPassword());
+    }
+
+    public static void setJtfName(String jtfName) {
+        MonitoringDialog.jtfName.setText(jtfName);
+    }
+
+    public static void setJtfIP(String jtfIP) {
+        MonitoringDialog.jtfIP.setText(jtfIP);
+    }
+
+    public static void setJtfHostname(String jtfHostname) {
+        MonitoringDialog.jtfHostname.setText(jtfHostname);
+    }
+
+    public static void setJpfPassword(String jpfPassword) {
+        MonitoringDialog.jpfPassword.setText(jpfPassword);
     }
 }
