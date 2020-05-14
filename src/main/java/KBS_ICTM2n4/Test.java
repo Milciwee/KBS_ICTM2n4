@@ -7,6 +7,7 @@ public class Test extends TimerTask{
   @Override
   public void run() {
     MonitoringDialog.refreshServers();
+    //MonitoringDialog.printConnections();
 
   }
 

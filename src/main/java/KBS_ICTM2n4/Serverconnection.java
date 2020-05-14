@@ -10,7 +10,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Serverconnection {
 
@@ -139,7 +138,7 @@ public class Serverconnection {
     public String serverCpuUsed() {
 
         // Dit SSH-command zal informatie over het CPU-gebruik weergeven.
-        String command = "iostat\nexit";
+        String command = "top\nq\nexit";
 
         try {
 
@@ -170,7 +169,7 @@ public class Serverconnection {
             while (true) {
                 length = inputStream.read(buffer);
                 outputStream.write(buffer, 0, length);
-                if(outputStream.toString().contains("Device")) {
+                if(outputStream.toString().contains("KiB Mem")) {
                     break;
                 }
             }
@@ -183,34 +182,31 @@ public class Serverconnection {
             String[] lines = outputStream.toString().split("\\r?\\n");
 
             // De regel die begint met "%Cpu(s)" bevat de informatie die we nodig hebben.
-            boolean lastLineAvgCpu = false;
             String relevantLine = null;
 
             for (String line : lines) {
-                if (lastLineAvgCpu) {
+                if (line.startsWith("%Cpu(s)")) {
                     relevantLine = line;
-                    lastLineAvgCpu = false;
-                }
-                if (line.startsWith("avg-cpu:")) {
-                    lastLineAvgCpu = true;
                 }
             }
 
-            // Deze regel splitsen we weer op bij elke spatie.
-            String[] splitLine = relevantLine.split(" ");
+            // We splitsen deze regel vervolgens weer op bij elke komma.
+            String[] splitLine = relevantLine.split(",");
 
-            ArrayList<String> lineContent = new ArrayList<>();
+            String idleString = null;
 
-            // Omdat er meerdere spaties na elkaar voorkomen, zitten er nu Strings in de lineContent-array die geen inhoud hebben.
-            // Daarom maken we een ArrayList met alle andere Strings.
-            for (int i = 0; i < splitLine.length; i++) {
-                if(!(splitLine[i].equals(""))) {
-                    lineContent.add(splitLine[i]);
+            // Het stukje dat we willen gebruiken om het percentage van het CPU dat in gebruik is te berekenen, staat in het stukje
+            // met "id". (Dit stukje geeft het percentage aan dat juist niet in gebruik is.)
+            for (String lineContent : splitLine) {
+                if(lineContent.contains("id")) {
+                    idleString = lineContent;
                 }
             }
 
-            // De double met het percentage ongebruikte CPU staat op de zesde positie in de nieuwe array de twee spaties in dit stukje tekst.
-            double idlePercentage = Double.parseDouble(lineContent.get(5));
+            // De double met het percentage ongebruikte CPU staat tussen de twee spaties in dit stukje tekst.
+            idleString = idleString.substring(idleString.indexOf(" ") + 1);
+            idleString = idleString.substring(0, idleString.indexOf(" "));
+            double idlePercentage = Double.parseDouble(idleString);
 
             // Vervolgens achterhalen we hiermee het percentage van het CPU dat wel in gebruik is, en ronden we deze double af op één getal achter de komma.
             double usedPercentage = 100 - idlePercentage;
@@ -327,7 +323,7 @@ public class Serverconnection {
 //        String diskSpace = null;
 //        String cpuUsed = null;
 //
-//        if(makeConnectionWithServer("192.168.1.113", "root", "Teamsvmware01!")) {
+//        if(makeConnectionWithServer("192.168.0.6", "root", "Teamsvmware01!")) {
 //            upTime = serverUpTime();
 //            diskSpace = serverDiskSpaceAvailable();
 //            cpuUsed = serverCpuUsed();

@@ -11,7 +11,6 @@ public class MonitoringDialog extends JDialog implements ActionListener {
     JLabel jlIP = new JLabel("Ip Address");
     JLabel jlHostname = new JLabel("Hostname");
     JLabel jlPassword = new JLabel("Password");
-    JLabel jlError = new JLabel("Can not add more than 4 servers!");
     private static JTextField jtfName = new JTextField();
     private static JTextField jtfIP = new JTextField();
     private static JTextField jtfHostname = new JTextField();
@@ -26,7 +25,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
     public MonitoringDialog(JFrame frame) {
         super(frame, true);
         setTitle("Add New Server");
-        setSize(250, 350);
+        setSize(250, 400);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -42,7 +41,6 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         jlIP.setBounds(25, 70, 100, 30);
         jlHostname.setBounds(25, 135, 100, 30);
         jlPassword.setBounds(25, 200, 100, 30);
-        jlError.setBounds(25, 250, 250, 30);
         // textfield bounds
         jtfName.setBounds(25, 35, 191, 25);
         jtfIP.setBounds(25, 100, 191, 25);
@@ -61,14 +59,10 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         mainPanel.add(jpfPassword);
         mainPanel.add(jlIP);
         mainPanel.add(jtfIP);
-        mainPanel.add(jlError);
 
         // ActionListener
         jbCancel.addActionListener(this);
         jbSubmit.addActionListener(this);
-
-        //Error niet zichtbaar
-        jlError.setVisible(false);
 
         setVisible(true);
     }
@@ -102,7 +96,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
 
         }
         serverCount++;
-        WriteJson.saveServer(getServerName(), getServerIP(), getServerHostname(), getServerPassword());
+        WriteJson.saveServer(getServerName(), getServerIP(), getServerHostname(), getServerPassword(), serverCount);
         jtfName.setText("");
         jtfIP.setText("");
         jtfHostname.setText("");
@@ -189,12 +183,12 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             JLabel jlStatus = Screen.jlSatussen[i];
             JTextArea jtaInfo = Screen.jtaInfos[i];
             jpServer.setVisible(true);
-            jpServer.setName(name);
+            jpServer.setName(name.substring(1));
             jlServernaam.setText(name + "  -  " + ip);
             Serverconnection serverConnectionTemp = new Serverconnection();
             serverConnections[i] = serverConnectionTemp;
             Serverconnection serverConnection = serverConnections[i];
-            serverConnection.makeConnectionWithServer(ip,hostname,password);
+            serverConnection.makeConnectionWithServer(ip, hostname, password);
             System.out.println(serverConnection.session);
             if (serverConnection.serverConnected(i)) {
                 jlStatus.setText("Online");
@@ -211,10 +205,20 @@ public class MonitoringDialog extends JDialog implements ActionListener {
 
         }
 
+    }
+
+    public static void printConnections() {
+        System.out.println("-----");
+        for (int i = 0; i < serverConnections.length; i++) {
+
+            System.out.println(serverConnections[i]);
+
+        }
+        System.out.println("-----");
 
     }
 
-    public static void refreshServers(){
+    public static void refreshServers() {
         File[] files = new File("src/savedServers").listFiles();
         String[] array = new String[files.length];
         for (int i = 0; i < files.length; i++) {
@@ -236,7 +240,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
                 jtaInfo.setText("Uptime:\n" + "- " + serverConnection.serverUpTime() + "\n" + "CPU usage:\n" + "- "
                         + serverConnection.serverCpuUsed() + "\n" + "Available disk space:\n" + "- "
                         + serverConnection.serverDiskSpaceAvailable() + "\n");
-            } else if(serverConnection.makeConnectionWithServer(ip,hostname,password)){
+            } else if (serverConnection.makeConnectionWithServer(ip, hostname, password)) {
                 jlStatus.setText("Online");
                 jpStatuspanel.setBackground(Color.green);
                 jtaInfo.setText("Uptime:\n" + "- " + serverConnection.serverUpTime() + "\n" + "CPU usage:\n" + "- "
@@ -262,37 +266,33 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             jpfPassword.setText("");
         }
         if (e.getSource() == jbSubmit) {
-            if (serverCount < 4){
-            try{
-//                System.out.println(getServerIP());
-//                System.out.println(getServerHostname());
-//                System.out.println(getServerPassword());
+            try {
+                // System.out.println(getServerIP());
+                // System.out.println(getServerHostname());
+                // System.out.println(getServerPassword());
                 String userInputName = getServerName();
-                if (userInputName.equals("")){
+                if (userInputName.equals("")) {
                     JOptionPane.showMessageDialog(this, "Please enter a server name");
-                    int throwsExeption = 0/0;
+                    int throwsExeption = 0 / 0;
                 }
                 String userInputNameJson = getServerName() + ".json";
                 File[] files = new File("src/savedServers").listFiles();
                 for (int i = 0; i < files.length; i++) {
                     String name = files[i].getName();
-                    if(name.equals(userInputNameJson)){
+                    if (name.equals(userInputNameJson)) {
                         JOptionPane.showMessageDialog(this, "This server name already exists");
-                        int throwsExeption = 0/0;
+                        int throwsExeption = 0 / 0;
                     }
                 }
-                if (!validate(getServerIP())){
+                if (!validate(getServerIP())) {
                     JOptionPane.showMessageDialog(this, "Please use a valid ip address");
-                    int throwsExeption = 0/0;
+                    int throwsExeption = 0 / 0;
                 }
 
                 addServer();
                 dispose();
-            }catch (Exception ex4){
+            } catch (Exception ex4) {
                 System.out.println("faulty user input, server was not added");
-            }
-            } else {
-                jlError.setVisible(true);
             }
         }
     }
@@ -313,9 +313,10 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         return String.valueOf(jpfPassword.getPassword());
     }
 
-    public static Serverconnection[] getServerConnections(){
+    public static Serverconnection[] getServerConnections() {
         return serverConnections;
     }
+
     public static void setJtfName(String jtfName) {
         MonitoringDialog.jtfName.setText(jtfName);
     }
@@ -331,6 +332,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
     public static void setJpfPassword(String jpfPassword) {
         MonitoringDialog.jpfPassword.setText(jpfPassword);
     }
+
     public static boolean validate(final String ip) {
         String PATTERN = "^((0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)\\.){3}(0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)$";
         return ip.matches(PATTERN);

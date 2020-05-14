@@ -45,7 +45,7 @@ public class WriteJson {
 
   }
 
-  public static void saveServer(String name, String ip, String hostname, String password){
+  public static void saveServer(String name, String ip, String hostname, String password,int serverCount){
     JSONObject serverData = new JSONObject();
     JSONObject serverObject = new JSONObject();
     serverData.put("name", name);
@@ -54,7 +54,7 @@ public class WriteJson {
     serverData.put("password", password);
     serverObject.put("server", serverData);
 
-    try (FileWriter file = new FileWriter("src/savedServers/" + name + ".json")) {
+    try (FileWriter file = new FileWriter("src/savedServers/" + serverCount + name + ".json")) {
       file.write(serverObject.toJSONString());
       file.flush();
     } catch (IOException e) {
@@ -62,8 +62,6 @@ public class WriteJson {
     }
   }
 
-  public static void main(String[] args) {
-    saveServer("test", "192.168.1.1", "test", "test");
-  }
+
 
 }

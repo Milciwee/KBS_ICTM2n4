@@ -125,6 +125,7 @@ public class Screen extends JFrame implements ActionListener {
         // Monitorpanel
         // button bounds
         jbRefresh.setBounds(330, 5, 80, 25);
+        jbRefresh.addActionListener(this);
         jbNewServer.setBounds(545, 5, 129, 25);
 
         // ActionListener
@@ -651,12 +652,12 @@ public class Screen extends JFrame implements ActionListener {
                 DeleteServerDialog.setWelkeServer(Integer.valueOf(jbTemp.getName()));
                 JDialog deleteDialog = new DeleteServerDialog(this);
                 if(DeleteServerDialog.getOk()){
-                    File temp = new File("src/savedServers/" + jpServers[i].getName() + ".json");
+                   /* File temp = new File("src/savedServers/" + i + jpServers[i].getName() + ".json");
                     if(temp.delete()){
                         System.out.println("Server " + jpServers[i].getName() + " deleted");
                     } else {
                         System.out.println("Something went wrong");
-                    }
+                    }*/
                     MonitoringDialog.addServerFromJson();
                 }
 

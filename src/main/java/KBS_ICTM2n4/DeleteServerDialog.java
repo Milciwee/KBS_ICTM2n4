@@ -1,9 +1,15 @@
 package KBS_ICTM2n4;
 
 import javax.swing.*;
+
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.Arrays;
+import java.lang.Object;
 
 public class DeleteServerDialog extends JDialog implements ActionListener {
     JLabel jllabel = new JLabel("Do you want to delete this server?");
@@ -46,6 +52,7 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == jbCancel){
+            ok = false;
             dispose();
         }
         if (e.getSource() == jbConfirm){
@@ -66,7 +73,18 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
         JPanel[] jpStatuspanel = Screen.jpSatuspanen;
         JLabel[] jlStatus = Screen.jlSatussen;
         JTextArea[] jtaInfo = Screen.jtaInfos;
-
+        Serverconnection[] serverConnections = MonitoringDialog.getServerConnections();
+        //Serverconnection[] serverConnectionsTemp = ArrayUtils.remove(serverConnections, 0);
+        //serverConnections = serverConnectionsTemp;
+        serverConnections[welkeServer].closeConnectionWithServer();
+        serverConnections[welkeServer] = null;
+        File temp = new File("src/savedServers/" + (welkeServer + 1) + Screen.jpServers[welkeServer].getName() + ".json");
+        System.out.println((welkeServer + 1) + Screen.jpServers[welkeServer].getName());
+        if(temp.delete()){
+            System.out.println("Server " + Screen.jpServers[welkeServer].getName() + " deleted");
+        } else {
+            System.out.println("Something went wrong");
+        }
         if (MonitoringDialog.serverCount == 1){
             jpServer[0].setVisible(false);
         }else if (MonitoringDialog.serverCount == 2){
