@@ -18,7 +18,7 @@ public final class Main {
 
         Screen test = new Screen();
         Timer timer = new Timer();
-        timer.schedule(new Test(), 0, 3000);
+        timer.schedule(new RefreshLoop(), 0, 3000);
 
         
 
