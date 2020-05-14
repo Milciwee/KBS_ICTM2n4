@@ -17,6 +17,7 @@ public class Serverconnection {
     // sessie die daarin tot stand komt in dit Session-object opgeslagen
     // Dit object wordt weer op null gezet in de closeConnectionWithServer-functie.
     public Session session;
+
     private Serverconnection[] serverConnections = MonitoringDialog.getServerConnections();
 
     // Deze functie poogt een session met het opgegeven IP-adres op te slaan in het
@@ -203,14 +204,25 @@ public class Serverconnection {
                 }
             }
 
-            // De double met het percentage ongebruikte CPU staat tussen de twee spaties in dit stukje tekst.
-            idleString = idleString.substring(idleString.indexOf(" ") + 1);
-            idleString = idleString.substring(0, idleString.indexOf(" "));
+            // De double met het percentage ongebruikte CPU staat tussen de twee spaties in dit stukje tekst als het percentage XX.X is, maar
+            // als het XXX.X is (100.0) dan heeft het de eerste spatie niet. (En misschien bij X.X juist twee spaties ervoor.)
+            // In plaats van de String op basis van spaties bij te snijden, kunnen we ook alle karakters die geen getal zijn weghalen.
+            // Er wordt dan een 1 aan de String toegevoegd om een of andere reden. Die verwijderen we, en we voegen de punt weer toe op de voorlaatste positie.
+            // (Misschien levert deze methode problemen op als het percentage X.X is, dit is niet getest. Het werkt wel met XXX.X en XX.X.)
+
+            idleString = idleString.replaceAll("[^0-9]", "");
+            idleString = idleString.substring(1);
+            idleString = idleString.substring(0, idleString.length()-1) + "." + idleString.substring(idleString.length()-1);
+
             double idlePercentage = Double.parseDouble(idleString);
 
             // Vervolgens achterhalen we hiermee het percentage van het CPU dat wel in gebruik is, en ronden we deze double af op één getal achter de komma.
-            double usedPercentage = 100 - idlePercentage;
-            usedPercentage = Math.round(usedPercentage * 10) / 10.0;
+
+            double usedPercentage = (100 - idlePercentage);
+
+            if (!(usedPercentage == 0)) {
+                usedPercentage = Math.round(usedPercentage * 10) / 10.0;
+            }
 
             // Hier plakken we nog een procentteken aan vast
             String output = usedPercentage + "%";
@@ -317,13 +329,13 @@ public class Serverconnection {
         session = null;
     }
 
-//    public static void main(String[] args) {
+//    public void main(String[] args) {
 //
 //        String upTime = null;
 //        String diskSpace = null;
 //        String cpuUsed = null;
 //
-//        if(makeConnectionWithServer("192.168.0.6", "root", "Teamsvmware01!")) {
+//        if(makeConnectionWithServer("192.168.0.5", "root", "Teamsvmware01!")) {
 //            upTime = serverUpTime();
 //            diskSpace = serverDiskSpaceAvailable();
 //            cpuUsed = serverCpuUsed();
