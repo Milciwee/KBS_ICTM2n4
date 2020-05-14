@@ -88,11 +88,10 @@ public class MonitoringDialog extends JDialog implements ActionListener {
                     + serverConnection.serverCpuUsed() + "\n" + "Available disk space:\n" + "- "
                     + serverConnection.serverDiskSpaceAvailable() + "\n");
         } else {
-            String label = jbKruis.getName();
             jlStatus.setText("Offline");
             jpStatuspanel.setBackground(Color.red);
             jtaInfo.setText("Uptime:\n" + "- unavailable\n" + "CPU usage:\n" + "- unavailable\n"
-                    + "Available disk space:\n" + "- unavailable\n" + label);
+                    + "Available disk space:\n" + "- unavailable\n" );
 
         }
         serverCount++;
@@ -183,7 +182,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             JLabel jlStatus = Screen.jlSatussen[i];
             JTextArea jtaInfo = Screen.jtaInfos[i];
             jpServer.setVisible(true);
-            jpServer.setName(name.substring(1));
+            jpServer.setName(name);
             jlServernaam.setText(name + "  -  " + ip);
             Serverconnection serverConnectionTemp = new Serverconnection();
             serverConnections[i] = serverConnectionTemp;
