@@ -186,9 +186,11 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             jpServer.setName(name);
             jlServernaam.setText(name + "  -  " + ip);
             Serverconnection serverConnectionTemp = new Serverconnection();
-            serverConnections[serverCount] = serverConnectionTemp;
-            Serverconnection serverConnection = serverConnections[serverCount];
-            if (serverConnection.makeConnectionWithServer(ip, hostname, password)) {
+            serverConnections[i] = serverConnectionTemp;
+            Serverconnection serverConnection = serverConnections[i];
+            serverConnection.makeConnectionWithServer(ip,hostname,password);
+            System.out.println(serverConnection.session);
+            if (serverConnection.serverConnected(i)) {
                 jlStatus.setText("Online");
                 jpStatuspanel.setBackground(Color.green);
                 jtaInfo.setText("Uptime:\n" + "- " + serverConnection.serverUpTime() + "\n" + "CPU usage:\n" + "- "
@@ -222,12 +224,19 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             JLabel jlStatus = Screen.jlSatussen[i];
             JTextArea jtaInfo = Screen.jtaInfos[i];
             Serverconnection serverConnection = serverConnections[i];
-            if (serverConnection.makeConnectionWithServer(ip, hostname, password)) {
+            if (serverConnection.serverConnected(i)) {
                 jlStatus.setText("Online");
                 jpStatuspanel.setBackground(Color.green);
                 jtaInfo.setText("Uptime:\n" + "- " + serverConnection.serverUpTime() + "\n" + "CPU usage:\n" + "- "
                         + serverConnection.serverCpuUsed() + "\n" + "Available disk space:\n" + "- "
                         + serverConnection.serverDiskSpaceAvailable() + "\n");
+            } else if(serverConnection.makeConnectionWithServer(ip,hostname,password)){
+                jlStatus.setText("Online");
+                jpStatuspanel.setBackground(Color.green);
+                jtaInfo.setText("Uptime:\n" + "- " + serverConnection.serverUpTime() + "\n" + "CPU usage:\n" + "- "
+                        + serverConnection.serverCpuUsed() + "\n" + "Available disk space:\n" + "- "
+                        + serverConnection.serverDiskSpaceAvailable() + "\n");
+
             } else {
                 jlStatus.setText("Offline");
                 jpStatuspanel.setBackground(Color.red);
@@ -294,6 +303,9 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         return String.valueOf(jpfPassword.getPassword());
     }
 
+    public static Serverconnection[] getServerConnections(){
+        return serverConnections;
+    }
     public static void setJtfName(String jtfName) {
         MonitoringDialog.jtfName.setText(jtfName);
     }
