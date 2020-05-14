@@ -93,6 +93,10 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         }
         serverCount++;
         WriteJson.saveServer(getServerName(), getServerIP(), getServerHostname(), getServerPassword());
+        jtfName.setText("");
+        jtfIP.setText("");
+        jtfHostname.setText("");
+        jpfPassword.setText("");
         /*
          * 
          * if (serverCount == 1) { Screen.jpServer1.setVisible(true);
@@ -192,6 +196,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             }
 
         }
+        
 
     }
 
