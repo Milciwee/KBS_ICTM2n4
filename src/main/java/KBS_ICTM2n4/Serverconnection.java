@@ -3,6 +3,7 @@ package KBS_ICTM2n4;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 import java.io.ByteArrayInputStream;
@@ -12,11 +13,14 @@ import java.util.ArrayList;
 
 public class Serverconnection {
 
-    // Wanneer de makeConnectionWithServer-functie wordt aangeroepen, wordt de sessie die daarin tot stand komt in dit Session-object opgeslagen
+    // Wanneer de makeConnectionWithServer-functie wordt aangeroepen, wordt de
+    // sessie die daarin tot stand komt in dit Session-object opgeslagen
     // Dit object wordt weer op null gezet in de closeConnectionWithServer-functie.
     public Session session;
+    private Serverconnection[] serverConnections = MonitoringDialog.getServerConnections();
 
-    // Deze functie poogt een session met het opgegeven IP-adres op te slaan in het bovenstaande static Session-object "session",
+    // Deze functie poogt een session met het opgegeven IP-adres op te slaan in het
+    // bovenstaande static Session-object "session",
     // en geeft true terug als dit lukt, en false als dit niet lukt.
     public boolean makeConnectionWithServer(String destinationIP, String username, String password) {
 
@@ -29,6 +33,12 @@ public class Serverconnection {
             JSch jsch = new JSch();
             session = jsch.getSession(username, destinationIP, port);
             session.setPassword(password);
+            try {
+                session.setTimeout(1000);
+            } catch (JSchException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
             // (Momenteel controleren we de sleutel van de host niet. Als we een veiligere verbinding willen maken, kunnen StrictHostKeyChecking
             // wel activeren, maar dan moeten we de host en sleutel eerst bekendmaken aan het systeem.)
             session.setConfig("StrictHostKeyChecking", "no");
@@ -51,8 +61,10 @@ public class Serverconnection {
     }
 
     // Deze functie controleert of de sessie een verbinding met de server heeft.
-    public boolean serverConnected() {
-        if(session.isConnected()) {
+    public boolean serverConnected(int i) {
+        Serverconnection[] serverConnections =  MonitoringDialog.getServerConnections();
+        Serverconnection serverConnection = serverConnections[i];
+        if(serverConnection.session.isConnected()) {
             return true;
         } else {
             return false;
@@ -95,7 +107,7 @@ public class Serverconnection {
             }
 
             // Het kanaal wordt weer gesloten.
-            //channel.disconnect();
+            channel.disconnect();
 
             // De inhoudt van outputStream wordt in losse strings geknipt,
             // waarbij elke nieuwe regel (na een enter: regex "\\r?\\n") een nieuwe string is in de array genaamd lines.
@@ -163,7 +175,7 @@ public class Serverconnection {
             }
 
             // Het kanaal wordt weer gesloten.
-           // channel.disconnect();
+            channel.disconnect();
 
             // De inhoudt van outputStream wordt in losse strings geknipt,
             // waarbij elke nieuwe regel (na een enter: regex "\\r?\\n") een nieuwe string is in de array genaamd lines.
@@ -247,7 +259,7 @@ public class Serverconnection {
             }
 
             // Het kanaal wordt weer gesloten.
-            //channel.disconnect();
+            channel.disconnect();
 
             // De inhoudt van outputStream wordt in losse strings geknipt,
             // waarbij elke nieuwe regel (na een enter: regex "\\r?\\n") een nieuwe string is in de array genaamd lines.
