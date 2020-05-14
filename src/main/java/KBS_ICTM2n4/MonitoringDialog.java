@@ -101,7 +101,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         jtfHostname.setText("");
         jpfPassword.setText("");
         /*
-         * 
+         *
          * if (serverCount == 1) { Screen.jpServer1.setVisible(true);
          * Screen.jlServernaam1.setText(jtfName.getText() + "  -  " + jtfIP.getText());
          * Serverconnection server1 = new Serverconnection();
@@ -201,7 +201,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             }
 
         }
-        
+
 
     }
 
