@@ -218,41 +218,46 @@ public class MonitoringDialog extends JDialog implements ActionListener {
     }
 
     public static void refreshServers() {
-        File[] files = new File("src/savedServers").listFiles();
-        String[] array = new String[files.length];
-        for (int i = 0; i < files.length; i++) {
-            String name = files[i].getName();
-            array[i] = (name.replace(".json", ""));
-        }
-        for (int i = 0; i < array.length; i++) {
-
-            String ip = ReadJson.readServer(array[i], "ip");
-            String hostname = ReadJson.readServer(array[i], "hostname");
-            String password = ReadJson.readServer(array[i], "password");
-            JPanel jpStatuspanel = Screen.jpSatuspanen[i];
-            JLabel jlStatus = Screen.jlSatussen[i];
-            JTextArea jtaInfo = Screen.jtaInfos[i];
-            Serverconnection serverConnection = serverConnections[i];
-            if (serverConnection.serverConnected(i)) {
-                jlStatus.setText("Online");
-                jpStatuspanel.setBackground(Color.green);
-                jtaInfo.setText("Uptime:\n" + "- " + serverConnection.serverUpTime() + "\n" + "CPU usage:\n" + "- "
-                        + serverConnection.serverCpuUsed() + "\n" + "Available disk space:\n" + "- "
-                        + serverConnection.serverDiskSpaceAvailable() + "\n");
-            } else if (serverConnection.makeConnectionWithServer(ip, hostname, password)) {
-                jlStatus.setText("Online");
-                jpStatuspanel.setBackground(Color.green);
-                jtaInfo.setText("Uptime:\n" + "- " + serverConnection.serverUpTime() + "\n" + "CPU usage:\n" + "- "
-                        + serverConnection.serverCpuUsed() + "\n" + "Available disk space:\n" + "- "
-                        + serverConnection.serverDiskSpaceAvailable() + "\n");
-
-            } else {
-                jlStatus.setText("Offline");
-                jpStatuspanel.setBackground(Color.red);
-                jtaInfo.setText("Uptime:\n" + "- unavailable\n" + "CPU usage:\n" + "- unavailable\n"
-                        + "Available disk space:\n" + "- unavailable\n");
+        try {
+            File[] files = new File("src/savedServers").listFiles();
+            String[] array = new String[files.length];
+            for (int i = 0; i < files.length; i++) {
+                String name = files[i].getName();
+                array[i] = (name.replace(".json", ""));
             }
+            for (int i = 0; i < array.length; i++) {
+    
+                String ip = ReadJson.readServer(array[i], "ip");
+                String hostname = ReadJson.readServer(array[i], "hostname");
+                String password = ReadJson.readServer(array[i], "password");
+                JPanel jpStatuspanel = Screen.jpSatuspanen[i];
+                JLabel jlStatus = Screen.jlSatussen[i];
+                JTextArea jtaInfo = Screen.jtaInfos[i];
+                Serverconnection serverConnection = serverConnections[i];
+                if (serverConnection.serverConnected(i)) {
+                    jlStatus.setText("Online");
+                    jpStatuspanel.setBackground(Color.green);
+                    jtaInfo.setText("Uptime:\n" + "- " + serverConnection.serverUpTime() + "\n" + "CPU usage:\n" + "- "
+                            + serverConnection.serverCpuUsed() + "\n" + "Available disk space:\n" + "- "
+                            + serverConnection.serverDiskSpaceAvailable() + "\n");
+                } else if (serverConnection.makeConnectionWithServer(ip, hostname, password)) {
+                    jlStatus.setText("Online");
+                    jpStatuspanel.setBackground(Color.green);
+                    jtaInfo.setText("Uptime:\n" + "- " + serverConnection.serverUpTime() + "\n" + "CPU usage:\n" + "- "
+                            + serverConnection.serverCpuUsed() + "\n" + "Available disk space:\n" + "- "
+                            + serverConnection.serverDiskSpaceAvailable() + "\n");
+    
+                } else {
+                    jlStatus.setText("Offline");
+                    jpStatuspanel.setBackground(Color.red);
+                    jtaInfo.setText("Uptime:\n" + "- unavailable\n" + "CPU usage:\n" + "- unavailable\n"
+                            + "Available disk space:\n" + "- unavailable\n");
+                }
+            }
+        } catch (Exception e) {
+            
         }
+       
     }
 
     @Override
