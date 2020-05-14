@@ -351,6 +351,16 @@ public class Screen extends JFrame implements ActionListener {
         showConfigDesign();
         showConfigEdit();
         MonitoringDialog.addServerFromJson();
+        //styling
+        Color backgroundColor = new Color(199, 234, 249);
+        designPanel.setBackground(backgroundColor);
+        editPanel.setBackground(backgroundColor);
+        monitorPanel.setBackground(backgroundColor);
+        jpPanel1.setBackground(backgroundColor);
+        jpPanel2.setBackground(backgroundColor);
+        tabbedPane.setBackground(new Color(100, 190, 223));
+
+
         // zichtbaarheid aanzetten
         setVisible(true);
     }
