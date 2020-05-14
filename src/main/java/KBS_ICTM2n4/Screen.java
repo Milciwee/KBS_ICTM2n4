@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -229,7 +231,7 @@ public class Screen extends JFrame implements ActionListener {
 
         //JLabel test = (JLabel) jpServers[1].getComponent(0);
         //System.out.println(test.getText());
-        
+
 
         /*
          //-------------------------- Server 1 -----------------------------------
@@ -633,10 +635,18 @@ public class Screen extends JFrame implements ActionListener {
         }
         if (e.getSource() == jbNewServer) {
             JDialog monitoringDialog = new MonitoringDialog(this);
-            
+            monitoringDialog.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    MonitoringDialog.setJtfName("");
+                    MonitoringDialog.setJtfHostname("");
+                    MonitoringDialog.setJtfIP("");
+                    MonitoringDialog.setJpfPassword("");
+                }
+            });
         }
         for (int i = 0; i < jbKruisen.length; i++) {
-            JButton jbTemp = jbKruisen[i]; 
+            JButton jbTemp = jbKruisen[i];
             if (e.getSource() == jbTemp) {
                 DeleteServerDialog.setWelkeServer(Integer.valueOf(jbTemp.getName()));
                 JDialog deleteDialog = new DeleteServerDialog(this);
@@ -650,9 +660,11 @@ public class Screen extends JFrame implements ActionListener {
                     MonitoringDialog.addServerFromJson();
                 }
 
-                
-    
+
+
             }
+        }if (e.getSource() == jbRefresh){
+            MonitoringDialog.refreshServers();
         }
 
 
