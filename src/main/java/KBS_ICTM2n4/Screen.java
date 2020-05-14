@@ -647,6 +647,7 @@ public class Screen extends JFrame implements ActionListener {
                     } else {
                         System.out.println("Something went wrong");
                     }
+                    MonitoringDialog.addServerFromJson();
                 }
 
                 
