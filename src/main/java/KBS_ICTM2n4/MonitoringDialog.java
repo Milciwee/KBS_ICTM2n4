@@ -174,24 +174,21 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             JPanel jpStatuspanel = Screen.jpSatuspanen[i];
             JLabel jlStatus = Screen.jlSatussen[i];
             JTextArea jtaInfo = Screen.jtaInfos[i];
-            JButton jbKruis = Screen.jbKruisen[i];
             jpServer.setVisible(true);
             jpServer.setName(name);
             jlServernaam.setText(name + "  -  " + ip);
             Serverconnection serverConnection = new Serverconnection();
             if (serverConnection.makeConnectionWithServer(ip, hostname, password)) {
-                String label = jbKruis.getName();
                 jlStatus.setText("Online");
                 jpStatuspanel.setBackground(Color.green);
                 jtaInfo.setText("Uptime:\n" + "- " + serverConnection.serverUpTime() + "\n" + "CPU usage:\n" + "- "
                         + serverConnection.serverCpuUsed() + "\n" + "Available disk space:\n" + "- "
-                        + serverConnection.serverDiskSpaceAvailable() + "\n" + label);
+                        + serverConnection.serverDiskSpaceAvailable() + "\n");
             } else {
-                String label = jbKruis.getName();
                 jlStatus.setText("Offline");
                 jpStatuspanel.setBackground(Color.red);
                 jtaInfo.setText("Uptime:\n" + "- unavailable\n" + "CPU usage:\n" + "- unavailable\n"
-                        + "Available disk space:\n" + "- unavailable\n" + label);
+                        + "Available disk space:\n" + "- unavailable\n");
             }
 
         }
@@ -213,21 +210,18 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             JPanel jpStatuspanel = Screen.jpSatuspanen[i];
             JLabel jlStatus = Screen.jlSatussen[i];
             JTextArea jtaInfo = Screen.jtaInfos[i];
-            JButton jbKruis = Screen.jbKruisen[i];
             Serverconnection serverConnection = new Serverconnection();
             if (serverConnection.makeConnectionWithServer(ip, hostname, password)) {
-                String label = jbKruis.getName();
                 jlStatus.setText("Online");
                 jpStatuspanel.setBackground(Color.green);
                 jtaInfo.setText("Uptime:\n" + "- " + serverConnection.serverUpTime() + "\n" + "CPU usage:\n" + "- "
                         + serverConnection.serverCpuUsed() + "\n" + "Available disk space:\n" + "- "
-                        + serverConnection.serverDiskSpaceAvailable() + "\n" + label);
+                        + serverConnection.serverDiskSpaceAvailable() + "\n");
             } else {
-                String label = jbKruis.getName();
                 jlStatus.setText("Offline");
                 jpStatuspanel.setBackground(Color.red);
                 jtaInfo.setText("Uptime:\n" + "- unavailable\n" + "CPU usage:\n" + "- unavailable\n"
-                        + "Available disk space:\n" + "- unavailable\n" + label);
+                        + "Available disk space:\n" + "- unavailable\n");
             }
         }
     }

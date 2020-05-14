@@ -154,10 +154,4 @@ public class ReadJson {
 
   }
 
-  public static void main(String[] args) {
-    String array = readServer("test", "name");
-    System.out.println(array);
-
-
-  }
 }
