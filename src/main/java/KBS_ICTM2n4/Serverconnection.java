@@ -8,7 +8,6 @@ import com.jcraft.jsch.Session;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.net.DatagramSocket;
 import java.util.ArrayList;
 
 public class Serverconnection {
@@ -47,6 +46,15 @@ public class Serverconnection {
         } catch(Exception e) {
             System.out.println("Er is iets misgegaan bij verbinden met de server.");
             System.out.println(e);
+            return false;
+        }
+    }
+
+    // Deze functie controleert of de sessie een verbinding met de server heeft.
+    public boolean serverConnected() {
+        if(session.isConnected()) {
+            return true;
+        } else {
             return false;
         }
     }
