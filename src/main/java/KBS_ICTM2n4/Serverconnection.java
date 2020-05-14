@@ -14,7 +14,7 @@ public class Serverconnection {
 
     // Wanneer de makeConnectionWithServer-functie wordt aangeroepen, wordt de sessie die daarin tot stand komt in dit Session-object opgeslagen
     // Dit object wordt weer op null gezet in de closeConnectionWithServer-functie.
-    public static Session session;
+    public Session session;
 
     // Deze functie poogt een session met het opgegeven IP-adres op te slaan in het bovenstaande static Session-object "session",
     // en geeft true terug als dit lukt, en false als dit niet lukt.
@@ -136,7 +136,8 @@ public class Serverconnection {
             // Met de volgende code wordt de inhoud van de inputStream overgeschreven naar een outputStream.
 
             // Aangezien het "top"-command blijft updaten, kunnen we niet bytes blijven lezen tot het einde.
-            // Na acht cycli geeft het (in ieder geval) de relevante gegevens weer (vijf is voldoende voor databaservers).
+            // Na een bepaald aantal cycli geeft het (in ieder geval) de relevante gegevens weer (vijf lijkt voldoende voor databaservers,
+            // maar webservers hebben een groter aantal nodig).
             // (Kan waarschijnlijk efficiënter en netter).
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -144,7 +145,7 @@ public class Serverconnection {
             int length;
             int i = 0;
 
-            while (i < 8) {
+            while (i < 12) {
                 length = inputStream.read(buffer);
                 outputStream.write(buffer, 0, length);
                 i++;
