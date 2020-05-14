@@ -87,7 +87,7 @@ public class Serverconnection {
             }
 
             // Het kanaal wordt weer gesloten.
-            channel.disconnect();
+            //channel.disconnect();
 
             // De inhoudt van outputStream wordt in losse strings geknipt,
             // waarbij elke nieuwe regel (na een enter: regex "\\r?\\n") een nieuwe string is in de array genaamd lines.
@@ -155,7 +155,7 @@ public class Serverconnection {
             }
 
             // Het kanaal wordt weer gesloten.
-            channel.disconnect();
+           // channel.disconnect();
 
             // De inhoudt van outputStream wordt in losse strings geknipt,
             // waarbij elke nieuwe regel (na een enter: regex "\\r?\\n") een nieuwe string is in de array genaamd lines.
@@ -239,7 +239,7 @@ public class Serverconnection {
             }
 
             // Het kanaal wordt weer gesloten.
-            channel.disconnect();
+            //channel.disconnect();
 
             // De inhoudt van outputStream wordt in losse strings geknipt,
             // waarbij elke nieuwe regel (na een enter: regex "\\r?\\n") een nieuwe string is in de array genaamd lines.

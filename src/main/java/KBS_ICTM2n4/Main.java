@@ -16,7 +16,7 @@ public final class Main {
 
         Screen test = new Screen();
         Timer timer = new Timer();
-        timer.schedule(new Test(),0,1000);
+        timer.schedule(new Test(),0,2000);
 
     }
 

@@ -185,8 +185,9 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             jpServer.setName(name);
             jlServernaam.setText(name + "  -  " + ip);
             Serverconnection serverConnectionTemp = new Serverconnection();
-            serverConnections[serverCount] = serverConnectionTemp;
-            Serverconnection serverConnection = serverConnections[serverCount];
+            serverConnections[i] = serverConnectionTemp;
+            Serverconnection serverConnection = serverConnections[i];
+            System.out.println(serverConnection);
             if (serverConnection.makeConnectionWithServer(ip, hostname, password)) {
                 jlStatus.setText("Online");
                 jpStatuspanel.setBackground(Color.green);
