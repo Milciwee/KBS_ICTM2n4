@@ -67,7 +67,17 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
         JLabel[] jlStatus = Screen.jlSatussen;
         JTextArea[] jtaInfo = Screen.jtaInfos;
 
+        if (MonitoringDialog.serverCount == 1){
+            jpServer[0].setVisible(false);
+        }else if (MonitoringDialog.serverCount == 2){
+            jpServer[1].setVisible(false);
+        } else if (MonitoringDialog.serverCount == 3){
+            jpServer[2].setVisible(false);
+        } else if (MonitoringDialog.serverCount == 4){
+            jpServer[3].setVisible(false);
+        }
 
+        /*
         if (welkeServer == 0){
             //Schuif alles door
             //Server 2 naar 1

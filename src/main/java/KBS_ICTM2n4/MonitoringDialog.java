@@ -15,6 +15,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
     private static JTextField jtfIP = new JTextField();
     private static JTextField jtfHostname = new JTextField();
     private static JPasswordField jpfPassword = new JPasswordField();
+    private static Serverconnection[] serverConnections = new Serverconnection[4];
     private boolean isOkPressed = false;
     // Counter voor servers
     static int serverCount = 0;
@@ -77,7 +78,9 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         jpServer.setVisible(true);
         jpServer.setName(jtfName.getText());
         jlServernaam.setText(jtfName.getText() + "  -  " + jtfIP.getText());
-        Serverconnection serverConnection = new Serverconnection();
+        Serverconnection serverConnectionTemp = new Serverconnection();
+        serverConnections[serverCount] = serverConnectionTemp;
+        Serverconnection serverConnection = serverConnections[serverCount];
         if (serverConnection.makeConnectionWithServer(getServerIP(), getServerHostname(), getServerPassword())) {
             jlStatus.setText("Online");
             jpStatuspanel.setBackground(Color.green);
@@ -181,7 +184,9 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             jpServer.setVisible(true);
             jpServer.setName(name);
             jlServernaam.setText(name + "  -  " + ip);
-            Serverconnection serverConnection = new Serverconnection();
+            Serverconnection serverConnectionTemp = new Serverconnection();
+            serverConnections[serverCount] = serverConnectionTemp;
+            Serverconnection serverConnection = serverConnections[serverCount];
             if (serverConnection.makeConnectionWithServer(ip, hostname, password)) {
                 jlStatus.setText("Online");
                 jpStatuspanel.setBackground(Color.green);
@@ -215,7 +220,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             JPanel jpStatuspanel = Screen.jpSatuspanen[i];
             JLabel jlStatus = Screen.jlSatussen[i];
             JTextArea jtaInfo = Screen.jtaInfos[i];
-            Serverconnection serverConnection = new Serverconnection();
+            Serverconnection serverConnection = serverConnections[i];
             if (serverConnection.makeConnectionWithServer(ip, hostname, password)) {
                 jlStatus.setText("Online");
                 jpStatuspanel.setBackground(Color.green);

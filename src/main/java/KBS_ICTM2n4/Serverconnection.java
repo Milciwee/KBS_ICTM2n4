@@ -50,6 +50,15 @@ public class Serverconnection {
         }
     }
 
+    // Deze functie controleert of de sessie een verbinding met de server heeft.
+    public boolean serverConnected() {
+        if(session.isConnected()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // Deze functie geeft een String terug waarin de uptime wordt weergegeven van de server waarmee.
     // een SSH-connectie is gemaakt in het static Session-object "session" (in het format "X week(s), X day(s), X hour(s), X minute(s)").
     // Als de session niet verbonden is geeft het een lege String terug.
@@ -136,19 +145,21 @@ public class Serverconnection {
             // Met de volgende code wordt de inhoud van de inputStream overgeschreven naar een outputStream.
 
             // Aangezien het "top"-command blijft updaten, kunnen we niet bytes blijven lezen tot het einde.
-            // Na een bepaald aantal cycli geeft het (in ieder geval) de relevante gegevens weer (vijf lijkt voldoende voor databaservers,
-            // maar webservers hebben een groter aantal nodig).
+            // Als we de String "KiB Mem" lezen, hebben we de informatie die we nodig hebben.
+            // (Voor het geval dat kunnen we ook stoppen als de totale output een bepaalde lengte heeft bereikt, maar die controle
+            // levert misschien vertraging op.)
             // (Kan waarschijnlijk efficiënter en netter).
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
             int length;
-            int i = 0;
 
-            while (i < 12) {
+            while (true) {
                 length = inputStream.read(buffer);
                 outputStream.write(buffer, 0, length);
-                i++;
+                if(outputStream.toString().contains("KiB Mem")) {
+                    break;
+                }
             }
 
             // Het kanaal wordt weer gesloten.
@@ -294,13 +305,13 @@ public class Serverconnection {
         session = null;
     }
 
-//    public void main(String[] args) {
+//    public static void main(String[] args) {
 //
 //        String upTime = null;
 //        String diskSpace = null;
 //        String cpuUsed = null;
 //
-//        if(makeConnectionWithServer("192.168.0.5")) {
+//        if(makeConnectionWithServer("192.168.0.6", "root", "Teamsvmware01!")) {
 //            upTime = serverUpTime();
 //            diskSpace = serverDiskSpaceAvailable();
 //            cpuUsed = serverCpuUsed();
