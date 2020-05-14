@@ -663,6 +663,8 @@ public class Screen extends JFrame implements ActionListener {
 
 
             }
+        }if (e.getSource() == jbRefresh){
+            MonitoringDialog.refreshServers();
         }
 
 

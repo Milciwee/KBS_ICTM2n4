@@ -16,7 +16,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
     private static JTextField jtfHostname = new JTextField();
     private static JPasswordField jpfPassword = new JPasswordField();
     private static Serverconnection[] serverConnections = new Serverconnection[4];
-    private boolean isOkPressed = false;
+
     // Counter voor servers
     static int serverCount = 0;
     JButton jbCancel = new JButton("Cancel");
@@ -247,9 +247,34 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             jpfPassword.setText("");
         }
         if (e.getSource() == jbSubmit) {
-            addServer();
-            isOkPressed = true;
-            dispose();
+            try{
+//                System.out.println(getServerIP());
+//                System.out.println(getServerHostname());
+//                System.out.println(getServerPassword());
+                String userInputName = getServerName();
+                if (userInputName.equals("")){
+                    JOptionPane.showMessageDialog(this, "Please enter a server name");
+                    int throwsExeption = 0/0;
+                }
+                String userInputNameJson = getServerName() + ".json";
+                File[] files = new File("src/savedServers").listFiles();
+                for (int i = 0; i < files.length; i++) {
+                    String name = files[i].getName();
+                    if(name.equals(userInputNameJson)){
+                        JOptionPane.showMessageDialog(this, "This server name already exists");
+                        int throwsExeption = 0/0;
+                    }
+                }
+                if (!validate(getServerIP())){
+                    JOptionPane.showMessageDialog(this, "Please use a valid ip address");
+                    int throwsExeption = 0/0;
+                }
+
+                addServer();
+                dispose();
+            }catch (Exception ex4){
+                System.out.println("faulty user input, server was not added");
+            }
         }
     }
 
@@ -283,5 +308,9 @@ public class MonitoringDialog extends JDialog implements ActionListener {
 
     public static void setJpfPassword(String jpfPassword) {
         MonitoringDialog.jpfPassword.setText(jpfPassword);
+    }
+    public static boolean validate(final String ip) {
+        String PATTERN = "^((0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)\\.){3}(0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)$";
+        return ip.matches(PATTERN);
     }
 }
