@@ -91,11 +91,12 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             jlStatus.setText("Offline");
             jpStatuspanel.setBackground(Color.red);
             jtaInfo.setText("Uptime:\n" + "- unavailable\n" + "CPU usage:\n" + "- unavailable\n"
-                    + "Available disk space:\n" + "- unavailable\n" );
+                    + "Available disk space:\n" + "- unavailable\n");
 
         }
         serverCount++;
-        WriteJson.saveServer(getServerName(), getServerIP(), getServerHostname(), getServerPassword(), serverCount);
+        int i = Integer.parseInt(jbKruis.getName());
+        WriteJson.saveServer(getServerName(), getServerIP(), getServerHostname(), getServerPassword(), i);
         jtfName.setText("");
         jtfIP.setText("");
         jtfHostname.setText("");
@@ -147,16 +148,6 @@ public class MonitoringDialog extends JDialog implements ActionListener {
 
     }
 
-    public static void printConnections() {
-        System.out.println("-----");
-        for (int i = 0; i < serverConnections.length; i++) {
-
-            System.out.println(serverConnections[i]);
-
-        }
-        System.out.println("-----");
-
-    }
 
     public static void refreshServers() {
         try {
@@ -167,7 +158,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
                 array[i] = (name.replace(".json", ""));
             }
             for (int i = 0; i < array.length; i++) {
-    
+
                 String ip = ReadJson.readServer(array[i], "ip");
                 String hostname = ReadJson.readServer(array[i], "hostname");
                 String password = ReadJson.readServer(array[i], "password");
@@ -187,7 +178,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
                     jtaInfo.setText("Uptime:\n" + "- " + serverConnection.serverUpTime() + "\n" + "CPU usage:\n" + "- "
                             + serverConnection.serverCpuUsed() + "\n" + "Available disk space:\n" + "- "
                             + serverConnection.serverDiskSpaceAvailable() + "\n");
-    
+
                 } else {
                     jlStatus.setText("Offline");
                     jpStatuspanel.setBackground(Color.red);
@@ -196,9 +187,9 @@ public class MonitoringDialog extends JDialog implements ActionListener {
                 }
             }
         } catch (Exception e) {
-            
+
         }
-       
+
     }
 
     @Override

@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -45,7 +47,7 @@ public class WriteJson {
 
   }
 
-  public static void saveServer(String name, String ip, String hostname, String password,int serverCount){
+  public static void saveServer(String name, String ip, String hostname, String password,int i){
     JSONObject serverData = new JSONObject();
     JSONObject serverObject = new JSONObject();
     serverData.put("name", name);
@@ -54,7 +56,7 @@ public class WriteJson {
     serverData.put("password", password);
     serverObject.put("server", serverData);
 
-    try (FileWriter file = new FileWriter("src/savedServers/" + serverCount + name + ".json")) {
+    try (FileWriter file = new FileWriter("src/savedServers/" + (i + 1) + name + ".json")) {
       file.write(serverObject.toJSONString());
       file.flush();
     } catch (IOException e) {

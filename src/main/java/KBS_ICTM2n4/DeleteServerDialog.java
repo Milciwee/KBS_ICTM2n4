@@ -73,18 +73,26 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
         JPanel[] jpStatuspanel = Screen.jpSatuspanen;
         JLabel[] jlStatus = Screen.jlSatussen;
         JTextArea[] jtaInfo = Screen.jtaInfos;
+        
         Serverconnection[] serverConnections = MonitoringDialog.getServerConnections();
         //Serverconnection[] serverConnectionsTemp = ArrayUtils.remove(serverConnections, 0);
         //serverConnections = serverConnectionsTemp;
         serverConnections[welkeServer].closeConnectionWithServer();
         serverConnections[welkeServer] = null;
-        File temp = new File("src/savedServers/" + (welkeServer + 1) + Screen.jpServers[welkeServer].getName() + ".json");
-        System.out.println((welkeServer + 1) + Screen.jpServers[welkeServer].getName());
-        if(temp.delete()){
-            System.out.println("Server " + Screen.jpServers[welkeServer].getName() + " deleted");
-        } else {
-            System.out.println("Something went wrong");
-        }
+        String name = jpServer[welkeServer].getName();
+        File[] files = new File("src/savedServers").listFiles();
+            for (File file : files) {
+                String nameFile = file.getName();
+                nameFile = nameFile.replace(".json", "");
+                if(nameFile.indexOf(name) != -1){
+                    if(file.delete()){
+                        System.out.println("Server " + nameFile + " deleted");
+                    } else {
+                        System.out.println("Something went wrong");
+                    }
+                }
+
+            }
         if (MonitoringDialog.serverCount == 1){
             jpServer[0].setVisible(false);
         }else if (MonitoringDialog.serverCount == 2){

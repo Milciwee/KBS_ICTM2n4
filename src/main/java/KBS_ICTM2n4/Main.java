@@ -17,12 +17,8 @@ public final class Main {
     public static void main(String[] args) {
 
         Screen test = new Screen();
-        Timer timer = new Timer();
-        timer.schedule(new RefreshLoop(), 0, 3000);
-
-        
-
-
+        //Timer timer = new Timer();
+        //timer.schedule(new RefreshLoop(), 0, 3000);
 
     }
 
