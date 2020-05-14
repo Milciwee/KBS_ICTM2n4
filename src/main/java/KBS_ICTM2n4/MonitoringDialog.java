@@ -11,6 +11,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
     JLabel jlIP = new JLabel("Ip Address");
     JLabel jlHostname = new JLabel("Hostname");
     JLabel jlPassword = new JLabel("Password");
+    JLabel jlError = new JLabel("Can not add more than 4 servers!");
     private static JTextField jtfName = new JTextField();
     private static JTextField jtfIP = new JTextField();
     private static JTextField jtfHostname = new JTextField();
@@ -25,7 +26,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
     public MonitoringDialog(JFrame frame) {
         super(frame, true);
         setTitle("Add New Server");
-        setSize(250, 400);
+        setSize(250, 350);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -41,6 +42,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         jlIP.setBounds(25, 70, 100, 30);
         jlHostname.setBounds(25, 135, 100, 30);
         jlPassword.setBounds(25, 200, 100, 30);
+        jlError.setBounds(25, 250, 250, 30);
         // textfield bounds
         jtfName.setBounds(25, 35, 191, 25);
         jtfIP.setBounds(25, 100, 191, 25);
@@ -59,10 +61,14 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         mainPanel.add(jpfPassword);
         mainPanel.add(jlIP);
         mainPanel.add(jtfIP);
+        mainPanel.add(jlError);
 
         // ActionListener
         jbCancel.addActionListener(this);
         jbSubmit.addActionListener(this);
+
+        //Error niet zichtbaar
+        jlError.setVisible(false);
 
         setVisible(true);
     }
@@ -256,6 +262,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             jpfPassword.setText("");
         }
         if (e.getSource() == jbSubmit) {
+            if (serverCount < 4){
             try{
 //                System.out.println(getServerIP());
 //                System.out.println(getServerHostname());
@@ -283,6 +290,9 @@ public class MonitoringDialog extends JDialog implements ActionListener {
                 dispose();
             }catch (Exception ex4){
                 System.out.println("faulty user input, server was not added");
+            }
+            } else {
+                jlError.setVisible(true);
             }
         }
     }
