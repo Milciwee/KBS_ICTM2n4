@@ -9,7 +9,8 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
     JLabel jllabel = new JLabel("Do you want to delete this server?");
     JButton jbCancel = new JButton("Cancel");
     JButton jbConfirm = new JButton("Confirm");
-    public static int welkeServer = 1;
+    public static int welkeServer = 0;
+    private static boolean ok = false;
 
     public DeleteServerDialog(JFrame frame){
         super(frame, true);
@@ -48,13 +49,96 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
             dispose();
         }
         if (e.getSource() == jbConfirm){
+            ok = true;
             DeleteServer();
             dispose();
         }
     }
+
+    public static boolean getOk(){
+        return ok;
+    }
     
 
     public void DeleteServer(){
+        JPanel[] jpServer = Screen.jpServers;
+        JLabel[] jlServernaam = Screen.jlServernamen;
+        JPanel[] jpStatuspanel = Screen.jpSatuspanen;
+        JLabel[] jlStatus = Screen.jlSatussen;
+        JTextArea[] jtaInfo = Screen.jtaInfos;
+
+
+        if (welkeServer == 0){
+            //Schuif alles door
+            //Server 2 naar 1
+            jlServernaam[0].setText(jlServernaam[1].getText());
+            jlStatus[0].setText(jlStatus[1].getText());
+            jpStatuspanel[0].setBackground(jpStatuspanel[1].getBackground());
+            jtaInfo[0].setText(jtaInfo[1].getText());
+            //Server 3 naar 2
+            jlServernaam[1].setText(jlServernaam[2].getText());
+            jlStatus[1].setText(jlStatus[2].getText());
+            jpStatuspanel[1].setBackground(jpStatuspanel[2].getBackground());
+            jtaInfo[1].setText(jtaInfo[2].getText());
+            //Server 4 naar 3
+            jlServernaam[2].setText(jlServernaam[3].getText());
+            jlStatus[2].setText(jlStatus[3].getText());
+            jpStatuspanel[2].setBackground(jpStatuspanel[3].getBackground());
+            jtaInfo[2].setText(jtaInfo[3].getText());
+            //setVisible(false) welke server
+            if (MonitoringDialog.serverCount == 1){
+                jpServer[0].setVisible(false);
+            }else if (MonitoringDialog.serverCount == 2){
+                jpServer[1].setVisible(false);
+            } else if (MonitoringDialog.serverCount == 3){
+                jpServer[2].setVisible(false);
+            } else if (MonitoringDialog.serverCount == 4){
+                jpServer[3].setVisible(false);
+            }
+            MonitoringDialog.serverCount--;
+        } else if (welkeServer == 1){
+            //Schuif alles door
+            //Server 3 naar 2
+            jlServernaam[1].setText(jlServernaam[2].getText());
+            jlStatus[1].setText(jlStatus[2].getText());
+            jpStatuspanel[1].setBackground(jpStatuspanel[2].getBackground());
+            jtaInfo[1].setText(jtaInfo[2].getText());
+            //Server 4 naar 3
+            jlServernaam[2].setText(jlServernaam[3].getText());
+            jlStatus[2].setText(jlStatus[3].getText());
+            jpStatuspanel[2].setBackground(jpStatuspanel[3].getBackground());
+            jtaInfo[2].setText(jtaInfo[3].getText());
+            //setVisible(false) welke server
+            if (MonitoringDialog.serverCount == 2){
+                jpServer[1].setVisible(false);
+            } else if (MonitoringDialog.serverCount == 3){
+                jpServer[2].setVisible(false);
+            } else if (MonitoringDialog.serverCount == 4){
+                jpServer[3].setVisible(false);
+            }
+            MonitoringDialog.serverCount--;
+        } else if (welkeServer == 2){
+            //Schuif alles door
+            //Server 4 naar 3
+            jlServernaam[2].setText(jlServernaam[3].getText());
+            jlStatus[2].setText(jlStatus[3].getText());
+            jpStatuspanel[2].setBackground(jpStatuspanel[3].getBackground());
+            jtaInfo[2].setText(jtaInfo[3].getText());
+            //setVisible(false) welke server
+            if (MonitoringDialog.serverCount == 3){
+                jpServer[2].setVisible(false);
+            } else if (MonitoringDialog.serverCount == 4){
+                jpServer[3].setVisible(false);
+            }
+            MonitoringDialog.serverCount--;
+        } else if (welkeServer == 3){
+            jpServer[3].setVisible(false);
+            MonitoringDialog.serverCount--;
+        }
+
+
+
+        /*
         if (welkeServer == 1){
             //Schuif alles door
             //Server 2 naar 1
@@ -121,6 +205,6 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
         } else if (welkeServer == 4){
             Screen.jpServer4.setVisible(false);
             MonitoringDialog.serverCount--;
-        }
+        }*/
     }
 }

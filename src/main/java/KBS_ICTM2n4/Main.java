@@ -1,6 +1,8 @@
 package KBS_ICTM2n4;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.logging.Handler;
 
 //nog niks mee doen
 public final class Main {
@@ -13,7 +15,11 @@ public final class Main {
     public static void main(String[] args) {
 
         Screen test = new Screen();
+        //Timer timer = new Timer();
+        //timer.schedule(new Test(),0,15000);
 
     }
+
+
 
 }

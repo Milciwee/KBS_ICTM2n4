@@ -78,28 +78,24 @@ public class ReadJson {
 
   }
 
-  public static String[] readServer(String servername) {
-    String[] returnArray = new String[4];
+  public static String readServer(String servername, String data) {
     JSONParser jsonParser = new JSONParser();
 
     try (FileReader reader = new FileReader("src/savedServers/" + servername + ".json")) {
-
       Object obj = jsonParser.parse(reader);
-      int counter = 0;
-      String name = parseServerName((JSONObject) obj);
-      returnArray[counter] = name;
-      counter++;
-      String ip = parseServerIp((JSONObject) obj);
-      returnArray[counter] = ip;
-      counter++;
-      String password = parseServerPassword((JSONObject) obj);
-      returnArray[counter] = password;
-      counter++;
-      String hostname = parseServerHostname((JSONObject) obj);
-      returnArray[counter] = hostname;
-      counter++;
-
-      return returnArray;
+      if(data.equals("name")){
+        String name = parseServerName((JSONObject) obj);
+        return name;
+      } else if(data.equals("ip")){
+        String ip = parseServerIp((JSONObject) obj);
+        return ip;
+      } else if(data.equals("password")){
+        String password = parseServerPassword((JSONObject) obj);
+        return password;
+      } else if(data.equals("hostname")){
+        String hostname = parseServerHostname((JSONObject) obj);
+        return hostname;
+      }
     } catch (FileNotFoundException e) {
       System.out.println("File not found");
     } catch (IOException e) {
@@ -158,11 +154,4 @@ public class ReadJson {
 
   }
 
-  public static void main(String[] args) {
-    String[] array = readServer("test");
-    for (int i = 0; i < array.length; i++) {
-      System.out.println(array[i]);
-    }
-
-  }
 }
