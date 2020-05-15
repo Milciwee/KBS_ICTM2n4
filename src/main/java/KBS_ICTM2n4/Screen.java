@@ -628,6 +628,24 @@ public class Screen extends JFrame implements ActionListener {
                 for (String string : listString) {
                     serverAmount.add(Integer.parseInt(string));
                 }
+                if(!dropdownedit.getSelectedItem().equals(name)) {
+                    int locatie = dropdownedit.getSelectedIndex();
+                    boolean found = false;
+                    int length = dropdownedit.getItemCount() - 1;
+                    while (length >= 0) {
+                        dropdownedit.setSelectedIndex(length);
+                        if (dropdownedit.getSelectedItem().equals(name)) {
+                            found = true;
+                        }
+                        length--;
+                    }
+                    if (found) {
+                        dropdownedit.setSelectedIndex(locatie);
+                        JOptionPane.showMessageDialog(this, "This design name already exists");
+                        int x = 0 / 0;
+                    }
+                    dropdownedit.setSelectedIndex(locatie);
+                }
                 // roep de write functie aan
                 int locatie1 = dropdownedit.getSelectedIndex();
                 File temp = new File("src/savedDesigns/" + dropdownedit.getSelectedItem() + ".json");
