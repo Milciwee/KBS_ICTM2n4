@@ -23,7 +23,8 @@ public class DesignDialog extends JDialog implements ActionListener {
         jbReturn.setBounds(420,720,100,25);
         graphicspanel.setBounds(10,10,960,700);
         jbReturn.addActionListener(this);
-
+        Color backgroundColor = new Color(199, 234, 249);
+        mainPanel.setBackground(backgroundColor);
 
         add(mainPanel);
         mainPanel.add(graphicspanel);
