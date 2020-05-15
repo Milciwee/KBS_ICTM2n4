@@ -4,10 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.awt.BorderLayout;
+import java.awt.Font;
 
 //gui, hier komen alle knoppen en weergaves van het progamma, het liefst geen functies
 public class Screen extends JFrame implements ActionListener {
@@ -15,8 +19,9 @@ public class Screen extends JFrame implements ActionListener {
     // static String[] dropdownitemsdesign = new String[50];
     // //beschikbare ontwerpen
     // static String[] dropdownitemsedit = new String[50];
-    static ArrayList<String> dropdownitemsedit = new ArrayList<>();
-    static ArrayList<String> dropdownitemsdesign = new ArrayList<>();
+    // static ArrayList<String> dropdownitemsedit = new ArrayList<>();
+    // static ArrayList<String> dropdownitemsdesign = new ArrayList<>();
+    private static int maxServersMonitoring = 4;
     static JTextField jtfDesnameEdit = new JTextField(); // designnaam
     static JTextField jtfWs1 = new JTextField();
     static JTextField jtfWs2 = new JTextField();
@@ -32,33 +37,49 @@ public class Screen extends JFrame implements ActionListener {
     static JComboBox dropdowndesign;
     // DisplayGraphics graphicsPanel;
     static JComboBox dropdownedit;
-    JButton jbCalculate = new JButton("Calculate");
-    JButton jbOptimize = new JButton("Optimize");
-    JButton jbDelete = new JButton("Delete");
-    JButton jbSave = new JButton("Save");
-    JButton jbSaveAs = new JButton("Save as new Design");
-    JButton jbOpenDesign = new JButton("Show visual design");
-    JTabbedPane tabbedPane = new JTabbedPane();
-    JPanel monitorPanel = new JPanel();
+    static JButton jbNewServer = new JButton("Add New Server");
+    static JPanel monitorPanel = new JPanel();
     static JPanel designPanel = new JPanel();
-    JPanel editPanel = new JPanel();
-    // Labels voor de configuration op de designtab
-    JLabel jlCostAvailability;
     static JLabel jlWb1 = new JLabel();
     static JLabel jlWb2 = new JLabel();
     static JLabel jlWb3 = new JLabel();
     static JLabel jlDb1 = new JLabel();
     static JLabel jlDb2 = new JLabel();
     static JLabel jlDb3 = new JLabel();
+    // Dingen voor Monitoring
+    static JPanel jpPanel1 = new JPanel();
+    static JPanel jpPanel2 = new JPanel();
+    static JPanel[] jpServers = new JPanel[maxServersMonitoring];
+    static JLabel[] jlServernamen = new JLabel[maxServersMonitoring];
+    static JPanel[] jpKoppen = new JPanel[maxServersMonitoring];
+    static JPanel[] jpSatuspanen = new JPanel[maxServersMonitoring];
+    static JLabel[] jlSatussen = new JLabel[maxServersMonitoring];
+    static JTextArea[] jtaInfos = new JTextArea[maxServersMonitoring];
+    static JButton[] jbKruisen = new JButton[maxServersMonitoring];
+    // Buttons
+    JButton jbCalculate = new JButton("Calculate");
+    JButton jbOptimize = new JButton("Optimize");
+    JButton jbDelete = new JButton("Delete");
+    JButton jbSave = new JButton("Save");
+    JButton jbSaveAs = new JButton("Save as new Design");
+    JButton jbOpenDesign = new JButton("Show visual design");
+    JButton jbRefresh = new JButton("Refresh");
+    JTabbedPane tabbedPane = new JTabbedPane();
+    JPanel editPanel = new JPanel();
+    // Labels voor de configuration op de designtab
+    JLabel jlCostAvailability;
     ArrayList<Server> totalServers = Server.getServerList();
 
     public Screen() {
 
         // titel van de window
         setTitle("Facility Monitoring Application");
+        // logo van de window
+        ImageIcon img = new ImageIcon("src/Images/NerdyGadgets.png");
+        setIconImage(img.getImage());
         // grootte van de window
         setSize(700, 600);
-        // gebruiker kan groote van window niet aanpassen
+        // gebruiker kan grootte van window niet aanpassen
         setResizable(false);
         // bij klikken op kruisje sluit het proces af
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -67,7 +88,6 @@ public class Screen extends JFrame implements ActionListener {
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
         // componenten initialiseren
-
         monitorPanel.setLayout(null);
         editPanel.setLayout(null);
         designPanel.setLayout(null);
@@ -75,6 +95,103 @@ public class Screen extends JFrame implements ActionListener {
         // hieronder kunnen onderdelen per panel met behulp van coordinaten worden
         // geplaatst
         // Monitorpanel
+        // button bounds
+        jbRefresh.setBounds(330, 5, 80, 25);
+        jbRefresh.addActionListener(this);
+        jbNewServer.setBounds(545, 5, 129, 25);
+
+        // ActionListener
+        jbNewServer.addActionListener(this);
+
+        // Monitorpanel instellen
+        monitorPanel.setLayout(new BorderLayout());
+        monitorPanel.setPreferredSize(new Dimension(100, 50));
+        jpPanel2.setLayout(null);
+        jpPanel2.setPreferredSize(new Dimension(100, 500));
+        monitorPanel.add(jpPanel1, BorderLayout.LINE_END);
+        monitorPanel.add(jpPanel2, BorderLayout.PAGE_END);
+        jpPanel1.add(jbRefresh);
+        jpPanel1.add(jbNewServer);
+        this.add(monitorPanel);
+
+        int x = 20;
+        int y = 20;
+        int counter = 0;
+        for (int i = 0; i < maxServersMonitoring; i++) {
+            if (counter == 2) {
+                x = 20;
+                y += 220;
+                counter = 0;
+            }
+
+            // alle components aanmaken en in arrays doen
+            JPanel jpServert = new JPanel();
+            jpServers[i] = jpServert;
+            JLabel jlServernaam = new JLabel("Server 4 - Ip address");
+            jlServernamen[i] = jlServernaam;
+            JPanel jpKopje = new JPanel();
+            jpKoppen[i] = jpKopje;
+            JPanel jpStatuspanel = new JPanel();
+            jpSatuspanen[i] = jpStatuspanel;
+            JLabel jlStatust = new JLabel();
+            jlSatussen[i] = jlStatust;
+            JTextArea jtaInfot = new JTextArea();
+            jtaInfos[i] = jtaInfot;
+            JButton jbKruisje = new JButton("X");
+            jbKruisen[i] = jbKruisje;
+
+            JPanel jpServer = jpServers[i];
+            JLabel jlNaam = jlServernamen[i];
+            JPanel jpKop = jpKoppen[i];
+            JPanel jpStatusPanel = jpSatuspanen[i];
+            JLabel jlStatus = jlSatussen[i];
+            JTextArea jtaInfo = jtaInfos[i];
+            JButton jbKruis = jbKruisen[i];
+
+            String label = String.valueOf(i);
+            jpServer.setName(label);
+            jbKruis.setName(label);
+            jpServer.setLayout(null);
+            jpServer.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+            // panel
+            jpPanel2.add(jpServer);
+            jpServer.setBounds(x, y, 300, 200);
+
+            // Kopje met naam
+            jpServer.add(jpKop);
+            jpKop.setLayout(null);
+            jpKop.setBounds(0, 0, 300, 30);
+            jpKop.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+            jpKop.add(jlNaam);
+            jlNaam.setBounds(7, -3, 300, 30);
+            jlNaam.setFont(jlServernaam.getFont().deriveFont(15.0f));
+            // kruis
+            jpKop.add(jbKruis);
+            jbKruis.setBounds(270, 0, 30, 30);
+            jbKruis.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+            jbKruis.addActionListener(this);
+            // StatusPanel
+            jpServer.add(jpStatusPanel);
+            jpStatuspanel.setBackground(Color.red);
+            jpStatuspanel.setBounds(50, 40, 200, 30);
+            jpStatuspanel.add(jlStatus);
+            jlStatus.setText("Offline");
+            jlStatus.setFont(jlStatus.getFont().deriveFont(16.0f));
+            jlStatus.setForeground(Color.white);
+            // TextArea
+            jpServer.add(jtaInfo);
+            jtaInfo.setBounds(30, 80, 240, 110);
+            jtaInfo.setEditable(false);
+            jtaInfo.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(1.5f)));
+            jtaInfo.setFont(new Font("Consolas", Font.ITALIC, 13));
+            jtaInfo.setText("Uptime          - unavailable\n" + "CPU usage       - unavailable\n"
+                    + "Free Disk space - unavailable" );
+            counter++;
+            x += 320;
+            jpServer.setVisible(false);
+
+        }
+
 
         // editpanel
         dropdownedit = new JComboBox();
@@ -84,17 +201,23 @@ public class Screen extends JFrame implements ActionListener {
         // labels
         JLabel jlSpecs = new JLabel("Name:               Availability:       Price per server:");
         JLabel jlDbs1 = new JLabel("Database server 1");
-        JLabel jlDbs1i = new JLabel(totalServers.get(0).getName() + "          " + (totalServers.get(0).getavailability() *100) + "%             €" + totalServers.get(0).getPrice());
+        JLabel jlDbs1i = new JLabel(totalServers.get(0).getName() + "          "
+                + (totalServers.get(0).getavailability() * 100) + "%             €" + totalServers.get(0).getPrice());
         JLabel jlDbs2 = new JLabel("Database server 2");
-        JLabel jlDbs2i = new JLabel(totalServers.get(1).getName() + "          " + (totalServers.get(1).getavailability() *100) + "%             €" + totalServers.get(1).getPrice());
+        JLabel jlDbs2i = new JLabel(totalServers.get(1).getName() + "          "
+                + (totalServers.get(1).getavailability() * 100) + "%             €" + totalServers.get(1).getPrice());
         JLabel jlDbs3 = new JLabel("Database server 3");
-        JLabel jlDbs3i = new JLabel(totalServers.get(2).getName() + "          " + (totalServers.get(2).getavailability() *100) + "%             €" + totalServers.get(2).getPrice());
+        JLabel jlDbs3i = new JLabel(totalServers.get(2).getName() + "          "
+                + (totalServers.get(2).getavailability() * 100) + "%             €" + totalServers.get(2).getPrice());
         JLabel jlWs1 = new JLabel("Webserver 1");
-        JLabel jlWs1i = new JLabel(totalServers.get(3).getName() + "           " + (totalServers.get(3).getavailability() *100) + "%             €" + totalServers.get(3).getPrice());
+        JLabel jlWs1i = new JLabel(totalServers.get(3).getName() + "           "
+                + (totalServers.get(3).getavailability() * 100) + "%             €" + totalServers.get(3).getPrice());
         JLabel jlWs2 = new JLabel("Webserver 2");
-        JLabel jlWs2i = new JLabel(totalServers.get(4).getName() + "           " + (totalServers.get(4).getavailability() *100) + "%             €" + totalServers.get(4).getPrice());
+        JLabel jlWs2i = new JLabel(totalServers.get(4).getName() + "           "
+                + (totalServers.get(4).getavailability() * 100) + "%             €" + totalServers.get(4).getPrice());
         JLabel jlWs3 = new JLabel("Webserver 3");
-        JLabel jlWs3i = new JLabel(totalServers.get(5).getName() + "           " + (totalServers.get(5).getavailability() *100) + "%             €" + totalServers.get(5).getPrice());
+        JLabel jlWs3i = new JLabel(totalServers.get(5).getName() + "           "
+                + (totalServers.get(5).getavailability() * 100) + "%             €" + totalServers.get(5).getPrice());
         JLabel jlFw = new JLabel("Pfsense");
         JLabel jlFwi = new JLabel("pfSense              99.998%          €4000");
         JLabel jlFwAmount = new JLabel("1");
@@ -219,7 +342,6 @@ public class Screen extends JFrame implements ActionListener {
         designPanel.add(jlFirewall);
         designPanel.add(dropdowndesign);
 
-
         // voegt de panes toe aan tabbedpane met een name
         tabbedPane.addTab("Monitor", monitorPanel);
         tabbedPane.addTab("Edit", editPanel);
@@ -228,19 +350,148 @@ public class Screen extends JFrame implements ActionListener {
         readDesignsList(this);
         showConfigDesign();
         showConfigEdit();
+        MonitoringDialog.addServerFromJson();
+        //styling
+        Color backgroundColor = new Color(199, 234, 249);
+        designPanel.setBackground(backgroundColor);
+        editPanel.setBackground(backgroundColor);
+        monitorPanel.setBackground(backgroundColor);
+        jpPanel1.setBackground(backgroundColor);
+        jpPanel2.setBackground(backgroundColor);
+        tabbedPane.setBackground(new Color(100, 190, 223));
+
+
         // zichtbaarheid aanzetten
         setVisible(true);
+    }
+
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0)
+            throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
+    private static void showConfigDesign() {
+        try {
+            JLabel[] labels = new JLabel[] { jlDb1, jlDb2, jlDb3, jlWb1, jlWb2, jlWb3 };
+            int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
+            String[] serverNames = ReadJson.readDesignNames((String) dropdowndesign.getSelectedItem());
+            int counter = 0;
+            int y = 60;
+            for (int i : serverAmount) {
+                if (i != 0) {
+                    String temp = String.valueOf(i);
+                    JLabel jlTemp = labels[counter];
+                    jlTemp.setText(serverNames[counter] + ":     " + temp);
+                    jlTemp.setBounds(10, 50 + y, 200, 25);
+                    designPanel.add(jlTemp);
+                    y += 30;
+
+                } else {
+                    JLabel jlTemp = labels[counter];
+                    jlTemp.setText("");
+                }
+                counter++;
+            }
+        } catch (Exception exRead) {
+            System.out.println("error whilst reading Designs");
+        }
+    }
+
+    private static void showConfigEdit() {
+        try {
+            String DesignName = (String) dropdownedit.getSelectedItem();
+            int[] serverAmount = ReadJson.readDesign((String) dropdownedit.getSelectedItem());
+            String[] serverNames = ReadJson.readDesignNames((String) dropdownedit.getSelectedItem());
+            JTextField[] labelsEdit = new JTextField[] { jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3, };
+            int counter = 0;
+            jtfDesnameEdit.setText(DesignName);
+            for (int i : serverAmount) {
+                JTextField jtfTemp = labelsEdit[counter];
+                jtfTemp.setText("");
+                if (i != 0) {
+                    jtfTemp.setText(String.valueOf(serverAmount[counter]));
+                }
+                counter++;
+
+            }
+        } catch (Exception exRead2) {
+            System.out.println("error whilst reading Designs");
+        }
+
+    }
+
+    private static void readDesignsList(Screen screen) {
+        try {
+            dropdownedit.removeAllItems();
+            dropdowndesign.removeAllItems();
+            File[] files = new File("src/savedDesigns").listFiles();
+            for (File file : files) {
+                String name = file.getName();
+                /* dropdownitemsedit.add(name.replace(".json", "")); */
+                dropdownedit.addItem(name.replace(".json", ""));
+                dropdowndesign.addItem(name.replace(".json", ""));
+            }
+            dropdowndesign.addItem("Add new Design");
+        } catch (Exception ex2) {
+            System.out.println("error whilst reading Designs");
+            dropdowndesign.addItem("Add new Design");
+        }
+
     }
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == jbOpenDesign) {
             JDialog designDialog = new DesignDialog(this);
         }
+        if (e.getSource() == jbNewServer) {
+            JDialog monitoringDialog = new MonitoringDialog(this);
+            monitoringDialog.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    MonitoringDialog.setJtfName("");
+                    MonitoringDialog.setJtfHostname("");
+                    MonitoringDialog.setJtfIP("");
+                    MonitoringDialog.setJpfPassword("");
+                }
+            });
+        }
+        for (int i = 0; i < jbKruisen.length; i++) {
+            JButton jbTemp = jbKruisen[i];
+            if (e.getSource() == jbTemp) {
+                DeleteServerDialog.setWelkeServer(Integer.valueOf(jbTemp.getName()));
+                JDialog deleteDialog = new DeleteServerDialog(this);
+                if(DeleteServerDialog.getOk()){
+                    MonitoringDialog.addServerFromJson();
+                }
+
+
+
+            }
+        }if (e.getSource() == jbRefresh){
+            MonitoringDialog.refreshServers();
+        }
+
         if (e.getSource() == dropdowndesign) {
             try {
                 if (dropdowndesign.getSelectedItem().equals("Add new Design")) {
                     // clear de textfields in edit tab
-                    JTextField[] labelsEdit = new JTextField[]{jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3,};
+                    JTextField[] labelsEdit = new JTextField[] { jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3, };
                     jtfDesnameEdit.setText("");
                     for (JTextField jTextField : labelsEdit) {
                         jTextField.setText("");
@@ -314,7 +565,7 @@ public class Screen extends JFrame implements ActionListener {
                 String availabilityTotal = (jtfAvailabilitypart1.getText() + jtfAvailabilitypart2.getText());
                 double availabilityDouble = Double.parseDouble(availabilityTotal);
                 if (availabilityDouble >= 10000 || availabilityDouble < 0.00) {
-                    int throwsError = 0 / 0; //geeft een error zodat de code verdergaat in de catch
+                    int throwsError = 0 / 0; // geeft een error zodat de code verdergaat in de catch
                 }
                 availabilityDouble = availabilityDouble / 100;
                 Backtracking backtracking = new Backtracking();
@@ -332,13 +583,13 @@ public class Screen extends JFrame implements ActionListener {
         if (e.getSource() == jbCalculate) {
             jtfCalculateAnswer.setText(prijsbeschikbaarheidberekenen(jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3));
         }
-        if (e.getSource() == jbSave) {//hierin worden bestaande designs ge edit
+        if (e.getSource() == jbSave) {// hierin worden bestaande designs ge edit
             try {
                 ArrayList<Server> servers = Server.getServerList();
                 // haal ingevulde naam op voor design
-                if(jtfDesnameEdit.getText().equals("")){
+                if (jtfDesnameEdit.getText().equals("")) {
                     JOptionPane.showMessageDialog(this, "Please enter a valid design name");
-                    int x = 0/0;
+                    int x = 0 / 0;
                 }
                 String name = jtfDesnameEdit.getText();
                 // haal alle aantalen op van ingevulde waardes
@@ -366,113 +617,124 @@ public class Screen extends JFrame implements ActionListener {
                 if (isNumeric(jtfWs3.getText()) && Integer.parseInt(jtfWs3.getText()) >= 0) {
                     wb3 = jtfWs3.getText();
                 }
-                if (db1.equals("0")&&db2.equals("0")&&db3.equals("0")||wb1.equals("0")&&wb2.equals("0")&&wb3.equals("0")){
+                if (db1.equals("0") && db2.equals("0") && db3.equals("0")
+                        || wb1.equals("0") && wb2.equals("0") && wb3.equals("0")) {
                     JOptionPane.showMessageDialog(this, "Please choose at least 1 webserver and 1 databaseserver");
-                    int x = 0/0;
+                    int x = 0 / 0;
                 }
                 // doe deze waardes in een array en daarna is een arraylist
                 ArrayList<Integer> serverAmount = new ArrayList<>();
-                String[] listString = new String[]{db1, db2, db3, wb1, wb2, wb3};
-                // Checken of er niks is ingevuld, als dit is verander dan het naar 0
+                String[] listString = new String[] { db1, db2, db3, wb1, wb2, wb3 };
                 for (String string : listString) {
-                    if (string.equals("")) {
-                        string = "0";
-                    }
                     serverAmount.add(Integer.parseInt(string));
-
                 }
                 // roep de write functie aan
-                WriteJson.saveDesign(servers, name, serverAmount);
-                readDesignsList(this);
-                System.out.println("design saved");
-            }catch (Exception eSave){
-                System.out.println("invalid user input, design was not saved");
-            }
-        }
-        if (e.getSource() == jbSaveAs){//hierbij mag de naam van het design niet bestaan in de lijst
-            try {
-                ArrayList<Server> servers = Server.getServerList();
-                // haal ingevulde naam op voor design
-                if(jtfDesnameEdit.getText().equals("")){
-                    JOptionPane.showMessageDialog(this, "Please enter a valid design name");
-                    int x = 0/0;
-                }
-                String name = jtfDesnameEdit.getText();
-                // haal alle aantalen op van ingevulde waardes
-                String db1 = "0";
-                String db2 = "0";
-                String db3 = "0";
-                String wb1 = "0";
-                String wb2 = "0";
-                String wb3 = "0";
-                if (isNumeric(jtfDb1.getText()) && Integer.parseInt(jtfDb1.getText()) >= 0) {
-                    db1 = jtfDb1.getText();
-                }
-                if (isNumeric(jtfDb2.getText()) && Integer.parseInt(jtfDb2.getText()) >= 0) {
-                    db2 = jtfDb2.getText();
-                }
-                if (isNumeric(jtfDb3.getText()) && Integer.parseInt(jtfDb3.getText()) >= 0) {
-                    db3 = jtfDb3.getText();
-                }
-                if (isNumeric(jtfWs1.getText()) && Integer.parseInt(jtfWs1.getText()) >= 0) {
-                    wb1 = jtfWs1.getText();
-                }
-                if (isNumeric(jtfWs2.getText()) && Integer.parseInt(jtfWs2.getText()) >= 0) {
-                    wb2 = jtfWs2.getText();
-                }
-                if (isNumeric(jtfWs3.getText()) && Integer.parseInt(jtfWs3.getText()) >= 0) {
-                    wb3 = jtfWs3.getText();
-                }
-                if (db1.equals("0")&&db2.equals("0")&&db3.equals("0")||wb1.equals("0")&&wb2.equals("0")&&wb3.equals("0")){
-                    JOptionPane.showMessageDialog(this, "Please choose at least 1 webserver and 1 databaseserver");
-                    int x = 0/0;
-                }
-                // doe deze waardes in een array en daarna is een arraylist
-                ArrayList<Integer> serverAmount = new ArrayList<>();
-                String[] listString = new String[]{db1, db2, db3, wb1, wb2, wb3};
-                // Checken of er niks is ingevuld, als dit is verander dan het naar 0
-                for (String string : listString) {
-                    if (string.equals("")) {
-                        string = "0";
-                    }
-                    serverAmount.add(Integer.parseInt(string));
-
-                }
-                // roep de write functie aan
-                WriteJson.saveDesign(servers, name, serverAmount);
-                readDesignsList(this);
-                System.out.println("design saved");
-            }catch (Exception eSave){
-                System.out.println("invalid user input, design was not saved");
-            }
-        }
-        if (e.getSource() == jbDelete) {
-            int dialogButton = 0;
-            int dialogResult = JOptionPane.showConfirmDialog (this, "are you sure you want to delete design " + dropdownedit.getSelectedItem() + "?","Delete design",dialogButton);
-            if(dialogResult == JOptionPane.YES_OPTION){
+                int locatie1 = dropdownedit.getSelectedIndex();
                 File temp = new File("src/savedDesigns/" + dropdownedit.getSelectedItem() + ".json");
                 if (temp.delete()) {
                     System.out.println(dropdownedit.getSelectedItem() + " deleted");
                 }
+                WriteJson.saveDesign(servers, name, serverAmount);
+                readDesignsList(this);
+                dropdownedit.setSelectedIndex(locatie1);
+                System.out.println("design saved");
+            } catch (Exception eSave) {
+                System.out.println("invalid user input, design was not saved");
             }
-            readDesignsList(this);
         }
-    }
+        if (e.getSource() == jbSaveAs) {// hierbij mag de naam van het design niet bestaan in de lijst
+            try {
+                ArrayList<Server> servers = Server.getServerList();
+                // haal ingevulde naam op voor design
+                if (jtfDesnameEdit.getText().equals("")) {
+                    JOptionPane.showMessageDialog(this, "Please enter a valid design name");
+                    int x = 0 / 0;
+                }
+                String name = jtfDesnameEdit.getText();
+                // haal alle aantalen op van ingevulde waardes
+                String db1 = "0";
+                String db2 = "0";
+                String db3 = "0";
+                String wb1 = "0";
+                String wb2 = "0";
+                String wb3 = "0";
+                if (isNumeric(jtfDb1.getText()) && Integer.parseInt(jtfDb1.getText()) >= 0) {
+                    db1 = jtfDb1.getText();
+                }
+                if (isNumeric(jtfDb2.getText()) && Integer.parseInt(jtfDb2.getText()) >= 0) {
+                    db2 = jtfDb2.getText();
+                }
+                if (isNumeric(jtfDb3.getText()) && Integer.parseInt(jtfDb3.getText()) >= 0) {
+                    db3 = jtfDb3.getText();
+                }
+                if (isNumeric(jtfWs1.getText()) && Integer.parseInt(jtfWs1.getText()) >= 0) {
+                    wb1 = jtfWs1.getText();
+                }
+                if (isNumeric(jtfWs2.getText()) && Integer.parseInt(jtfWs2.getText()) >= 0) {
+                    wb2 = jtfWs2.getText();
+                }
+                if (isNumeric(jtfWs3.getText()) && Integer.parseInt(jtfWs3.getText()) >= 0) {
+                    wb3 = jtfWs3.getText();
+                }
+                if (db1.equals("0") && db2.equals("0") && db3.equals("0")
+                        || wb1.equals("0") && wb2.equals("0") && wb3.equals("0")) {
+                    JOptionPane.showMessageDialog(this, "Please choose at least 1 webserver and 1 databaseserver");
+                    int x = 0 / 0;
+                }
+                boolean found = false;
+                int length = dropdownedit.getItemCount() - 1;
+                while (length >= 0) {
+                    dropdownedit.setSelectedIndex(length);
+                    if (dropdownedit.getSelectedItem().equals(name)) {
+                        found = true;
+                    }
+                    length--;
+                }
+                if (found) {
+                    JOptionPane.showMessageDialog(this, "This design name already exists");
+                    int x = 0 / 0;
+                }
+                // doe deze waardes in een array en daarna is een arraylist
+                ArrayList<Integer> serverAmount = new ArrayList<>();
+                String[] listString = new String[] { db1, db2, db3, wb1, wb2, wb3 };
+                // Checken of er niks is ingevuld, als dit is verander dan het naar 0
+                for (String string : listString) {
+                    if (string.equals("")) {
+                        string = "0";
+                    }
+                    serverAmount.add(Integer.parseInt(string));
 
-    public static boolean isNumeric(String strNum) {
-        if (strNum == null) {
-            return false;
+                }
+                // roep de write functie aan
+                WriteJson.saveDesign(servers, name, serverAmount);
+                readDesignsList(this);
+                dropdownedit.setSelectedItem(name);
+                System.out.println("design saved");
+            } catch (Exception eSave) {
+                System.out.println("invalid user input, design was not saved");
+            }
         }
-        try {
-            double d = Double.parseDouble(strNum);
-        } catch (NumberFormatException nfe) {
-            return false;
+        if (e.getSource() == jbDelete) {
+            if (dropdownedit.getItemCount() > 1) {
+                int dialogButton = 0;
+                int dialogResult = JOptionPane.showConfirmDialog(this,
+                        "are you sure you want to delete design " + dropdownedit.getSelectedItem() + "?",
+                        "Delete design", dialogButton);
+                if (dialogResult == JOptionPane.YES_OPTION) {
+                    File temp = new File("src/savedDesigns/" + dropdownedit.getSelectedItem() + ".json");
+                    if (temp.delete()) {
+                        System.out.println(dropdownedit.getSelectedItem() + " deleted");
+                    }
+                }
+                readDesignsList(this);
+            } else {
+                JOptionPane.showMessageDialog(this, "this application requires at least 1 design");
+            }
         }
-        return true;
     }
 
     public String prijsbeschikbaarheidberekenen(JTextField Db1, JTextField Db2, JTextField Db3, JTextField Ws1,
-                                                JTextField Ws2, JTextField Ws3) {
+            JTextField Ws2, JTextField Ws3) {
         ArrayList<Server> serverList = new ArrayList<>();
         ArrayList<Server> totalServers = Server.getServerList();
         if (isNumeric(Db1.getText()) && Integer.parseInt(Db1.getText()) >= 0) {
@@ -530,71 +792,6 @@ public class Screen extends JFrame implements ActionListener {
             double b = Calculatepriceavailability.calculateTotalPrice(serverList);
             return "Price : €" + b;
         }
-    }
-
-    public static double round(double value, int places) {
-        if (places < 0)
-            throw new IllegalArgumentException();
-
-        BigDecimal bd = BigDecimal.valueOf(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
-    }
-
-    private static void showConfigDesign() {
-        JLabel[] labels = new JLabel[]{jlDb1, jlDb2, jlDb3, jlWb1, jlWb2, jlWb3};
-        int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
-        String[] serverNames = ReadJson.readDesignNames((String) dropdowndesign.getSelectedItem());
-        int counter = 0;
-        int y = 60;
-        for (int i : serverAmount) {
-            if (i != 0) {
-                String temp = String.valueOf(i);
-                JLabel jlTemp = labels[counter];
-                jlTemp.setText(serverNames[counter] + ":     " + temp);
-                jlTemp.setBounds(10, 50 + y, 200, 25);
-                designPanel.add(jlTemp);
-                y += 30;
-
-            } else {
-                JLabel jlTemp = labels[counter];
-                jlTemp.setText("");
-            }
-            counter++;
-        }
-    }
-
-    private static void showConfigEdit() {
-        String DesignName = (String) dropdownedit.getSelectedItem();
-        int[] serverAmount = ReadJson.readDesign((String) dropdownedit.getSelectedItem());
-        String[] serverNames = ReadJson.readDesignNames((String) dropdownedit.getSelectedItem());
-        JTextField[] labelsEdit = new JTextField[]{jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3,};
-        int counter = 0;
-        jtfDesnameEdit.setText(DesignName);
-        for (int i : serverAmount) {
-            JTextField jtfTemp = labelsEdit[counter];
-            jtfTemp.setText("");
-            if (i != 0) {
-                jtfTemp.setText(String.valueOf(serverAmount[counter]));
-            }
-            counter++;
-
-        }
-
-    }
-
-    private static void readDesignsList(Screen screen) {
-        dropdownedit.removeAllItems();
-        dropdowndesign.removeAllItems();
-        File[] files = new File("src/savedDesigns").listFiles();
-        for (File file : files) {
-            String name = file.getName();
-            dropdownitemsedit.add(name.replace(".json", ""));
-            dropdownedit.addItem(name.replace(".json", ""));
-            dropdowndesign.addItem(name.replace(".json", ""));
-        }
-        dropdowndesign.addItem("Add new Design");
-
     }
 
     public void inputServersInEdit(ArrayList<Server> servers) {

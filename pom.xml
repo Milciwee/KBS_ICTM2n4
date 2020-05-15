@@ -26,6 +26,12 @@
             <artifactId>jsch</artifactId>
             <version>0.1.55</version>
         </dependency>
+    
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.9</version>
+      </dependency>
     </dependencies>
     <build>
         <pluginManagement>
@@ -72,6 +78,17 @@
     </build>
     <reporting>
         <plugins>
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-assembly-plugin</artifactId>
+  <configuration>
+    <archive>
+      <manifest>
+        <mainClass>KBS_ICTM2n4.Main</mainClass>
+      </manifest>
+    </archive>
+  </configuration>
+</plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>

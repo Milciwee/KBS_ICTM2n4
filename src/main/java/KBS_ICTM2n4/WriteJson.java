@@ -6,54 +6,64 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+// Structure van de JSON file is als volgt: 1 Array, met daarin 6 Objects (voor elke server 1 object).
+// In elke serverObject zitten twee waardes, 'Amount' en 'Name'. Amount is aantal van die server,
+// name is de naam van die server. De volgorde van de servers is altijd gelijk DB1-DB2-DB3-WB1-WB2-WB3.
+
 public class WriteJson {
 
+  // method om ingevulde waardes in een JSON file op te slaan
   public static void saveDesign(ArrayList<Server> servers, String designName, ArrayList<Integer> serverAmounts) {
     int counter = 0;
+    // De array aanmaken
     JSONArray serverList = new JSONArray();
-    try {
-      for (Server server : servers) {
-        JSONObject serverData = new JSONObject();
-        JSONObject serverObject = new JSONObject();
-        serverData.put("name", server.getName());
-        serverData.put("amount", serverAmounts.get(counter));
-        serverObject.put("server", serverData);
-        serverList.add(serverObject);
-        counter++;
+    for (Server server : servers) {
+      // JSONObject voor de data in de Server Object, dus de naam en aantal
+      JSONObject serverData = new JSONObject();
+      // JSONObject voor de 6 server objects in de array
+      JSONObject serverObject = new JSONObject();
+      serverData.put("name", server.getName());
+      serverData.put("amount", serverAmounts.get(counter));
+      serverObject.put("server", serverData);
+      // Voegt data aan de Array toe
+      serverList.add(serverObject);
+      counter++;
 
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
     }
 
+    // Maak een file aan met de designName en write de Array van hiervoor in de file
     try (FileWriter file = new FileWriter("src/savedDesigns/" + designName + ".json")) {
       file.write(serverList.toJSONString());
       file.flush();
     } catch (IOException e) {
-      e.printStackTrace();
+      System.out.println("Invalid permissions or not enough disk space");
     }
 
   }
 
-  public static void main(String[] args) {
-    ArrayList<Server> array = Server.getServerList();
+  public static void saveServer(String name, String ip, String hostname, String password,int i){
+    JSONObject serverData = new JSONObject();
+    JSONObject serverObject = new JSONObject();
+    serverData.put("name", name);
+    serverData.put("ip", ip);
+    serverData.put("hostname", hostname);
+    serverData.put("password", password);
+    serverObject.put("server", serverData);
 
-    ArrayList<Integer> array2 = new ArrayList<>();
-    int test = 1;
-    int test2 = 2;
-    array2.add(test);
-    array2.add(test2);
-    array2.add(test);
-    array2.add(test2);
-    array2.add(test);
-    array2.add(test2);
-
-    WriteJson.saveDesign(array, "Design1", array2);
-
+    try (FileWriter file = new FileWriter("src/savedServers/" + (i + 1) + name + ".json")) {
+      file.write(serverObject.toJSONString());
+      file.flush();
+    } catch (IOException e) {
+      System.out.println("Invalid permissions or not enough disk space");
+    }
   }
+
+
 
 }
