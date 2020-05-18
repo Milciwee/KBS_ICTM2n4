@@ -94,8 +94,12 @@ public class Serverconnection {
 
             // Met de volgende code wordt de inhoud van de inputStream overgeschreven naar een outputStream.
 
-            // Een gedeelte van de inputstream wordt overgezet naar de buffer, en de lengte van deze overschrijving
-            // wordt vastgesteld als "length". Zolang length groter dan 0 is wordt de buffer overgeschreven naar de outputstream.
+            // Eerst maken we een outputStream waarin we de gegevens zullen schrijven,
+            // en een buffer waarmee we de gegevens van de inputStream overzetten naar de outputStream.
+
+            // De read-methode schrijft een deel van de inputStream over naar de buffer, met de lengte van de buffer.
+            // De lengte hiervan wordt vastgesteld als "length". Zolang length groter dan 0 is wordt de buffer overgeschreven
+            // naar de outputstream met de write-methode - anders hebben we het einde van de inputStream bereikt, en kunnen we stoppen.
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
@@ -108,7 +112,7 @@ public class Serverconnection {
             // Het kanaal wordt weer gesloten.
             channel.disconnect();
 
-            // De inhoudt van outputStream wordt in losse strings geknipt,
+            // De inhoud van outputStream wordt in losse strings geknipt,
             // waarbij elke nieuwe regel (na een enter: regex "\\r?\\n") een nieuwe string is in de array genaamd lines.
             String[] lines = outputStream.toString("UTF-8").split("\\r?\\n");
 
@@ -167,8 +171,14 @@ public class Serverconnection {
 
             // Met de volgende code wordt de inhoud van de inputStream overgeschreven naar een outputStream.
 
-            // Aangezien het "top"-command blijft updaten, kunnen we niet bytes blijven lezen tot het einde.
-            // Als we de String "KiB Mem" lezen, hebben we de informatie die we nodig hebben.
+            // Eerst maken we een outputStream waarin we de gegevens zullen schrijven,
+            // en een buffer waarmee we de gegevens van de inputStream overzetten naar de outputStream.
+
+            // De read-methode schrijft een deel van de inputStream over naar de buffer, met de lengte van de buffer.
+            // De lengte hiervan wordt vastgesteld als "length". Elke loop schrijven we deze lengte aan buffer over in de outputStream.
+            // Aangezien het "top"-command blijft updaten, wordt de inputstream steeds langer, en kunnen we niet bytes blijven bijschrijven tot het einde.
+            // Als we de outputStream de String "KiB Mem" bevat, hebben we de informatie die we nodig hebben,
+            // en gebruiken we "break" om de while-loop te stoppen.
             // (Voor het geval dat kunnen we ook stoppen als de totale output een bepaalde lengte heeft bereikt, maar die controle
             // levert misschien vertraging op.)
             // (Kan waarschijnlijk efficiënter en netter).
@@ -188,7 +198,7 @@ public class Serverconnection {
             // Het kanaal wordt weer gesloten.
             channel.disconnect();
 
-            // De inhoudt van outputStream wordt in losse strings geknipt,
+            // De inhoud van outputStream wordt in losse strings geknipt,
             // waarbij elke nieuwe regel (na een enter: regex "\\r?\\n") een nieuwe string is in de array genaamd lines.
             String[] lines = outputStream.toString().split("\\r?\\n");
 
@@ -269,8 +279,12 @@ public class Serverconnection {
 
             // Met de volgende code wordt de inhoud van de inputStream overgeschreven naar een outputStream.
 
-            // Een gedeelte van de inputstream wordt overgezet naar de buffer, en de lengte van deze overschrijving
-            // wordt vastgesteld als "length". Zolang length groter dan 0 is wordt de buffer overgeschreven naar de outputstream.
+            // Eerst maken we een outputStream waarin we de gegevens zullen schrijven,
+            // en een buffer waarmee we de gegevens van de inputStream overzetten naar de outputStream.
+
+            // De read-methode schrijft een deel van de inputStream over naar de buffer, met de lengte van de buffer.
+            // De lengte hiervan wordt vastgesteld als "length". Zolang length groter dan 0 is wordt de buffer overgeschreven
+            // naar de outputstream met de write-methode - anders hebben we het einde van de inputStream bereikt, en kunnen we stoppen.
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
@@ -283,7 +297,7 @@ public class Serverconnection {
             // Het kanaal wordt weer gesloten.
             channel.disconnect();
 
-            // De inhoudt van outputStream wordt in losse strings geknipt,
+            // De inhoud van outputStream wordt in losse strings geknipt,
             // waarbij elke nieuwe regel (na een enter: regex "\\r?\\n") een nieuwe string is in de array genaamd lines.
             String[] lines = outputStream.toString("UTF-8").split("\\r?\\n");
 
