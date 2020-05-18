@@ -15,6 +15,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
     private static JTextField jtfIP = new JTextField();
     private static JTextField jtfHostname = new JTextField();
     private static JPasswordField jpfPassword = new JPasswordField();
+    // TODO 4 veranderen naar Screen.maxServerMonitoring
     private static Serverconnection[] serverConnections = new Serverconnection[4];
 
     public static String getServerName() {
@@ -53,7 +54,6 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         MonitoringDialog.jpfPassword.setText(jpfPassword);
     }
 
-    // Counter voor servers
     static int serverCount = 0;
     JButton jbCancel = new JButton("Cancel");
     JButton jbSubmit = new JButton("Submit");
@@ -103,7 +103,9 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         setVisible(true);
     }
 
+    // Method voor het toevoegen van een server aan de monitoring tab
     public void addServer() {
+        // Alle fileNamess met JPanel componenten ophalen uit Screen class
         JPanel jpServer = Screen.jpServers[serverCount];
         JLabel jlServernaam = Screen.jlServernamen[serverCount];
         JPanel jpStatuspanel = Screen.jpSatuspanen[serverCount];
@@ -114,6 +116,10 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         jpServer.setVisible(true);
         jpServer.setName(jtfName.getText());
         jlServernaam.setText(jtfName.getText() + "  -  " + jtfIP.getText());
+
+        // een verbinding maken met de server doormiddel van SSH
+        // Deze verbinding word opgeslagen in een fileNames, zodat deze later weer gebruikt kan worden
+        // en het verkomen van steeds weer nieuwe hoeven connections maken
         Serverconnection serverConnectionTemp = new Serverconnection();
         serverConnections[serverCount] = serverConnectionTemp;
         Serverconnection serverConnection = serverConnections[serverCount];
@@ -131,7 +137,10 @@ public class MonitoringDialog extends JDialog implements ActionListener {
 
         }
         serverCount++;
+        // De JBkruis component krijgt bij het aanmaken een Name mee, deze bevat een uniek ID (0-3 in onze POC)
+        // Dit ID kan gebruikt worden om elke server te kunnen identificeren
         int i = Integer.parseInt(jbKruis.getName());
+        // De server word opgeslagen in een JSON file, de name van de file gebruikt het ID van JBKruis
         WriteJson.saveServer(getServerName(), getServerIP(), getServerHostname(), getServerPassword(), i);
         jtfName.setText("");
         jtfIP.setText("");
@@ -140,20 +149,23 @@ public class MonitoringDialog extends JDialog implements ActionListener {
 
     }
 
+    // Method voor het ophalen van opgeslagen servers 
     public static void addServerFromJson() {
+        // Alle files worden opgehaald en de name ervan word gepakt
         File[] files = new File("src/savedServers").listFiles();
-        String[] array = new String[files.length];
+        String[] fileNames = new String[files.length];
         for (int i = 0; i < files.length; i++) {
             String name = files[i].getName();
-            array[i] = (name.replace(".json", ""));
+            fileNames[i] = (name.replace(".json", ""));
         }
         serverCount = files.length;
-        for (int i = 0; i < array.length; i++) {
+        for (int i = 0; i < fileNames.length; i++) {
 
-            String name = ReadJson.readServer(array[i], "name");
-            String ip = ReadJson.readServer(array[i], "ip");
-            String hostname = ReadJson.readServer(array[i], "hostname");
-            String password = ReadJson.readServer(array[i], "password");
+            // Hetzelfde als de addServer() method alleen wordt hier de data vanuit de JSON file gehaald.
+            String name = ReadJson.readServer(fileNames[i], "name");
+            String ip = ReadJson.readServer(fileNames[i], "ip");
+            String hostname = ReadJson.readServer(fileNames[i], "hostname");
+            String password = ReadJson.readServer(fileNames[i], "password");
             JPanel jpServer = Screen.jpServers[i];
             JLabel jlServernaam = Screen.jlServernamen[i];
             JPanel jpStatuspanel = Screen.jpSatuspanen[i];
@@ -184,27 +196,30 @@ public class MonitoringDialog extends JDialog implements ActionListener {
 
     }
 
-
+    // Method voor het refreshen van de servers
     public static void refreshServers() {
         try {
+            // Deze werkt hetzelfde als 
             File[] files = new File("src/savedServers").listFiles();
-            String[] array = new String[files.length];
+            String[] fileNames = new String[files.length];
             for (int i = 0; i < files.length; i++) {
                 String name = files[i].getName();
-                array[i] = (name.replace(".json", ""));
+                fileNames[i] = (name.replace(".json", ""));
             }
-            for (int i = 0; i < array.length; i++) {
+            for (int i = 0; i < fileNames.length; i++) {
 
-                String ip = ReadJson.readServer(array[i], "ip");
-                String hostname = ReadJson.readServer(array[i], "hostname");
-                String password = ReadJson.readServer(array[i], "password");
+                String ip = ReadJson.readServer(fileNames[i], "ip");
+                String hostname = ReadJson.readServer(fileNames[i], "hostname");
+                String password = ReadJson.readServer(fileNames[i], "password");
                 JPanel jpStatuspanel = Screen.jpSatuspanen[i];
                 JLabel jlStatus = Screen.jlSatussen[i];
                 JTextArea jtaInfo = Screen.jtaInfos[i];
                 Serverconnection serverConnection = serverConnections[i];
+                // Checked of er al een bestaande connection aanwezig is met de server
+                // is dit zo dan word het geupdate, is er geen bestaande dan word er geprobeerd
+                // om een verbinding te maken, lukt dit dan word het geupdate.
+                // Lukt ook dit niet dan wor de server op Offline gezit in het monitoring tab
                 if (serverConnection.serverConnected(i)) {
-                    jlStatus.setText("Online");
-                    jpStatuspanel.setBackground(Color.green);
                     jtaInfo.setText("Uptime:\n" + "- " + serverConnection.serverUpTime() + "\n" + "CPU usage:\n" + "- "
                             + serverConnection.serverCpuUsed() + "\n" + "Available disk space:\n" + "- "
                             + serverConnection.serverDiskSpaceAvailable() + "\n");
@@ -237,11 +252,11 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             jtfHostname.setText("");
             jpfPassword.setText("");
         }
+        // Checks of er een name, en geldig ip is ingevuld.
+        // Is dit niet gedaan dan worden er messages getoond. 
+        // Ook word er gechecked of de name al bestaat
         if (e.getSource() == jbSubmit) {
             try {
-                // System.out.println(getServerIP());
-                // System.out.println(getServerHostname());
-                // System.out.println(getServerPassword());
                 String userInputName = getServerName();
                 if (userInputName.equals("")) {
                     JOptionPane.showMessageDialog(this, "Please enter a server name");
@@ -252,7 +267,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
                 for (int i = 0; i < files.length; i++) {
                     String name = files[i].getName();
                     name = name.replace(".json", "");
-                    String serverName = ReadJson.readServer(name,"name");
+                    String serverName = ReadJson.readServer(name, "name");
                     if (serverName.equals(userInputNameJson)) {
                         JOptionPane.showMessageDialog(this, "This server name already exists");
                         int throwsExeption = 0 / 0;
@@ -271,8 +286,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         }
     }
 
-
-
+    // Een method om te valideren dat er een geldig ip address is ingevuld
     public static boolean validate(final String ip) {
         String PATTERN = "^((0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)\\.){3}(0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)$";
         return ip.matches(PATTERN);
