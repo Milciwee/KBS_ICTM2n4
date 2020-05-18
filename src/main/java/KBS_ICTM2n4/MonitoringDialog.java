@@ -2,10 +2,10 @@ package KBS_ICTM2n4;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.File;
 
+// Dialoog voor de monitoringtab om een nieuwe server toe te voegen voor monitoring.
 public class MonitoringDialog extends JDialog implements ActionListener {
     JLabel jlName = new JLabel("Name");
     JLabel jlIP = new JLabel("Ip Address");
@@ -16,6 +16,42 @@ public class MonitoringDialog extends JDialog implements ActionListener {
     private static JTextField jtfHostname = new JTextField();
     private static JPasswordField jpfPassword = new JPasswordField();
     private static Serverconnection[] serverConnections = new Serverconnection[4];
+
+    public static String getServerName() {
+        return jtfName.getText();
+    }
+
+    public static String getServerIP() {
+        return jtfIP.getText();
+    }
+
+    public static String getServerHostname() {
+        return jtfHostname.getText();
+    }
+
+    public static String getServerPassword() {
+        return String.valueOf(jpfPassword.getPassword());
+    }
+
+    public static Serverconnection[] getServerConnections() {
+        return serverConnections;
+    }
+
+    public static void setJtfName(String jtfName) {
+        MonitoringDialog.jtfName.setText(jtfName);
+    }
+
+    public static void setJtfIP(String jtfIP) {
+        MonitoringDialog.jtfIP.setText(jtfIP);
+    }
+
+    public static void setJtfHostname(String jtfHostname) {
+        MonitoringDialog.jtfHostname.setText(jtfHostname);
+    }
+
+    public static void setJpfPassword(String jpfPassword) {
+        MonitoringDialog.jpfPassword.setText(jpfPassword);
+    }
 
     // Counter voor servers
     static int serverCount = 0;
@@ -235,41 +271,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         }
     }
 
-    public static String getServerName() {
-        return jtfName.getText();
-    }
 
-    public static String getServerIP() {
-        return jtfIP.getText();
-    }
-
-    public static String getServerHostname() {
-        return jtfHostname.getText();
-    }
-
-    public static String getServerPassword() {
-        return String.valueOf(jpfPassword.getPassword());
-    }
-
-    public static Serverconnection[] getServerConnections() {
-        return serverConnections;
-    }
-
-    public static void setJtfName(String jtfName) {
-        MonitoringDialog.jtfName.setText(jtfName);
-    }
-
-    public static void setJtfIP(String jtfIP) {
-        MonitoringDialog.jtfIP.setText(jtfIP);
-    }
-
-    public static void setJtfHostname(String jtfHostname) {
-        MonitoringDialog.jtfHostname.setText(jtfHostname);
-    }
-
-    public static void setJpfPassword(String jpfPassword) {
-        MonitoringDialog.jpfPassword.setText(jpfPassword);
-    }
 
     public static boolean validate(final String ip) {
         String PATTERN = "^((0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)\\.){3}(0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)$";
