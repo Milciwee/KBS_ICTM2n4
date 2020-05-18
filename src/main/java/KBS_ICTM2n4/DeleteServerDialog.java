@@ -1,22 +1,18 @@
 package KBS_ICTM2n4;
 
 import javax.swing.*;
-
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.Arrays;
-import java.lang.Object;
 
+//deze klasse sluit de verbinding van een infrastructuurcomponent en verwijdert de gegevens uit de json bestanden
 public class DeleteServerDialog extends JDialog implements ActionListener {
-    JLabel jllabel = new JLabel("Do you want to delete this server?");
-    JButton jbCancel = new JButton("Cancel");
-    JButton jbConfirm = new JButton("Confirm");
-    public static int welkeServer = 0;
+
+    private JButton jbCancel = new JButton("Cancel");
+    private JButton jbConfirm = new JButton("Confirm");
     private static boolean ok = false;
+    public static int welkeServer = 0;
 
     public DeleteServerDialog(JFrame frame){
         super(frame, true);
@@ -24,11 +20,14 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
         setSize(245, 105);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
+        //zet de locatie van Dialog in het midden van het scherm
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(null);
         add(mainPanel);
+        //Jlabel initialiseren
+        JLabel jllabel = new JLabel("Do you want to delete this server?");
         //Componenten toevoegen
         mainPanel.add(jllabel);
         mainPanel.add(jbCancel);
@@ -40,9 +39,8 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
         //Actionlistener
         jbCancel.addActionListener(this);
         jbConfirm.addActionListener(this);
-
         setVisible(true);
-        
+
     }
 
     public static void setWelkeServer(int welkeServer) {
@@ -65,21 +63,16 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
     public static boolean getOk(){
         return ok;
     }
-    
+
 
     public void DeleteServer(){
+        //functie die de server verwijderd waarvan het kruisje is geklikt, de connectie met de server wordt gesloten, en het bijbehorende  json bestand wordt verwijderd.
         JPanel[] jpServer = Screen.jpServers;
-        JLabel[] jlServernaam = Screen.jlServernamen;
-        JPanel[] jpStatuspanel = Screen.jpSatuspanen;
-        JLabel[] jlStatus = Screen.jlSatussen;
-        JTextArea[] jtaInfo = Screen.jtaInfos;
-        
         Serverconnection[] serverConnections = MonitoringDialog.getServerConnections();
-        //Serverconnection[] serverConnectionsTemp = ArrayUtils.remove(serverConnections, 0);
-        //serverConnections = serverConnectionsTemp;
         serverConnections[welkeServer].closeConnectionWithServer();
         serverConnections[welkeServer] = null;
         String name = jpServer[welkeServer].getName();
+        //zoekt het json bestand in de folder en verwijdert hem
         File[] files = new File("src/savedServers").listFiles();
             for (File file : files) {
                 String nameFile = file.getName();
@@ -93,6 +86,7 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
                 }
 
             }
+            //verplaatst de positie van de servers binnen de applicatie zodat alles doorschuift.
         if (MonitoringDialog.serverCount == 1){
             jpServer[0].setVisible(false);
         }else if (MonitoringDialog.serverCount == 2){
@@ -102,7 +96,5 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
         } else if (MonitoringDialog.serverCount == 4){
             jpServer[3].setVisible(false);
         }
-
-       
     }
 }

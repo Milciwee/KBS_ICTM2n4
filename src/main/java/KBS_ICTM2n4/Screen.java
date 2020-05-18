@@ -72,17 +72,14 @@ public class Screen extends JFrame implements ActionListener {
     JButton jbSaveAs = new JButton("Save as new Design");
     JButton jbOpenDesign = new JButton("Show visual design");
     JButton jbRefresh = new JButton("Refresh");
+    JButton jbStartStop = new JButton("Start");
     JTabbedPane tabbedPane = new JTabbedPane();
     JPanel editPanel = new JPanel();
     // Labels voor de configuration op de designtab
     JLabel jlCostAvailability;
-    /*static JLabel jlWb1 = new JLabel();
-    static JLabel jlWb2 = new JLabel();
-    static JLabel jlWb3 = new JLabel();
-    static JLabel jlDb1 = new JLabel();
-    static JLabel jlDb2 = new JLabel();
-    static JLabel jlDb3 = new JLabel();*/
     ArrayList<Server> totalServers = Server.getServerList();
+    static boolean isClickedStartStop = false;
+    //Timer StartStop = new Timer("");
 
     public Screen() {
 
@@ -111,6 +108,9 @@ public class Screen extends JFrame implements ActionListener {
         // Monitorpanel
         // button bounds
         jbRefresh.setBounds(330, 5, 80, 25);
+        jbRefresh.addActionListener(this);
+        //kevin
+        jbStartStop.addActionListener(this);
         jbNewServer.setBounds(545, 5, 129, 25);
 
         // ActionListener
@@ -125,6 +125,7 @@ public class Screen extends JFrame implements ActionListener {
         monitorPanel.add(jpPanel2, BorderLayout.PAGE_END);
         jpPanel1.add(jbRefresh);
         jpPanel1.add(jbNewServer);
+        jpPanel1.add(jbStartStop);
         this.add(monitorPanel);
 
         int x = 20;
@@ -480,6 +481,19 @@ public class Screen extends JFrame implements ActionListener {
         if (e.getSource() == jbOpenDesign) {
             JDialog designDialog = new DesignDialog(this);
         }
+        if (e.getSource() == jbStartStop){
+            if(isClickedStartStop == true){
+                Main.stopTimer();
+                jbStartStop.setText("Start");//knop weergeeft nu "Start"
+                isClickedStartStop = false;
+            }else if(isClickedStartStop == false){
+                Main.startTimer();
+                jbStartStop.setText("Stop");//knop weergeeft nu "Stop"
+                isClickedStartStop = true;
+            }
+
+        }
+
         if (e.getSource() == jbNewServer) {
             JDialog monitoringDialog = new MonitoringDialog(this);
             monitoringDialog.addWindowListener(new WindowAdapter() {
