@@ -121,8 +121,8 @@ public class Serverconnection {
                 }
             }
 
-            // Als de uptime kleiner dan een minuut is, geeft de uptime -p command geen relevante gegevens (en misschien slechts "up" ipv "up ").
-            // In dat geval stellen we de output handmatig in.
+            // Als de uptime kleiner dan een minuut is, geeft de uptime -p command geen relevante gegevens.
+            // Voor het geval dat er "up" zonder spatie staat (en vervolgens niets) stellen we de output handmatig in.
 
             if(output == null) {
                 output = "<1 minute";
@@ -130,6 +130,11 @@ public class Serverconnection {
 
             // We willen slechts de uptime in woorden teruggeven.
             output = output.replace("up ", "");
+
+            // Als er toch "up " en vervolgens niets staat, is de output nu gelijk aan "". Ook hier stellen we de output handmatig in.
+            if(output.equals("")) {
+                output = "<1 minute";
+            }
 
             return output;
 
