@@ -18,8 +18,6 @@ public class Serverconnection {
     // Dit object wordt weer op null gezet in de closeConnectionWithServer-functie.
     public Session session;
 
-    private Serverconnection[] serverConnections = MonitoringDialog.getServerConnections();
-
     // Deze functie poogt een session met het opgegeven IP-adres op te slaan in het
     // bovenstaande static Session-object "session",
     // en geeft true terug als dit lukt, en false als dit niet lukt.
@@ -123,8 +121,20 @@ public class Serverconnection {
                 }
             }
 
+            // Als de uptime kleiner dan een minuut is, geeft de uptime -p command geen relevante gegevens.
+            // Voor het geval dat er "up" zonder spatie staat (en vervolgens niets) stellen we de output handmatig in.
+
+            if(output == null) {
+                output = "<1 minute";
+            }
+
             // We willen slechts de uptime in woorden teruggeven.
             output = output.replace("up ", "");
+
+            // Als er toch "up " en vervolgens niets staat, is de output nu gelijk aan "". Ook hier stellen we de output handmatig in.
+            if(output.equals("")) {
+                output = "<1 minute";
+            }
 
             return output;
 
@@ -310,7 +320,7 @@ public class Serverconnection {
             int percentageAvailable = 100 - percentageUsed;
 
             // In de vierde String staat het aantal bytes dat beschikbaar is,
-            // en in de vierde String staat het totale aantal bytes aan diskruimte in /dev/mapper/cl-root.
+            // en in de tweede String staat het totale aantal bytes aan diskruimte in /dev/mapper/cl-root.
             // We reigen deze gegevens aan elkaar in de vorm die willen teruggeven.
             String output = lineContent.get(3) + " (" + percentageAvailable + "% of " + lineContent.get(1) + ")";
 

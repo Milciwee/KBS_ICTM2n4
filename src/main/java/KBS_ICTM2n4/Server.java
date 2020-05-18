@@ -2,6 +2,7 @@ package KBS_ICTM2n4;
 
 import java.util.ArrayList;
 
+// Deze class is voor het aanmaken van een server, met alle attributen.
 public class Server {
 
   private int id;
@@ -61,6 +62,7 @@ public class Server {
     this.price = price;
   }
 
+  // een getter voor de serverlijst die word gebruikt voor de POC met alle attributen
   public static ArrayList<Server> getServerList() {
     ArrayList<Server> servers = new ArrayList<>();
     Server db1 = new Server(0, "database", "HAL9001DB", 0.90, 5100);
