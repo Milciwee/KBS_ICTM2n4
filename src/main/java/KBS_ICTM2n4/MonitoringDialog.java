@@ -211,11 +211,13 @@ public class MonitoringDialog extends JDialog implements ActionListener {
                     JOptionPane.showMessageDialog(this, "Please enter a server name");
                     int throwsExeption = 0 / 0;
                 }
-                String userInputNameJson = getServerName() + ".json";
+                String userInputNameJson = getServerName();
                 File[] files = new File("src/savedServers").listFiles();
                 for (int i = 0; i < files.length; i++) {
                     String name = files[i].getName();
-                    if (name.equals(userInputNameJson)) {
+                    name = name.replace(".json", "");
+                    String serverName = ReadJson.readServer(name,"name");
+                    if (serverName.equals(userInputNameJson)) {
                         JOptionPane.showMessageDialog(this, "This server name already exists");
                         int throwsExeption = 0 / 0;
                     }
