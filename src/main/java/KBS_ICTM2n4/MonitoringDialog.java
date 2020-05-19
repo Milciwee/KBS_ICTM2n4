@@ -108,8 +108,8 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         // Alle fileNamess met JPanel componenten ophalen uit Screen class
         JPanel jpServer = Screen.jpServers[serverCount];
         JLabel jlServernaam = Screen.jlServernamen[serverCount];
-        JPanel jpStatuspanel = Screen.jpSatuspanen[serverCount];
-        JLabel jlStatus = Screen.jlSatussen[serverCount];
+        JPanel jpStatuspanel = Screen.jpStatuspanel[serverCount];
+        JLabel jlStatus = Screen.jlStatussen[serverCount];
         JTextArea jtaInfo = Screen.jtaInfos[serverCount];
         JButton jbKruis = Screen.jbKruisen[serverCount];
 
@@ -149,7 +149,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
 
     }
 
-    // Method voor het ophalen van opgeslagen servers 
+    // Method voor het ophalen van opgeslagen servers
     public static void addServerFromJson() {
         // Alle files worden opgehaald en de name ervan word gepakt
         File[] files = new File("src/savedServers").listFiles();
@@ -168,8 +168,8 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             String password = ReadJson.readServer(fileNames[i], "password");
             JPanel jpServer = Screen.jpServers[i];
             JLabel jlServernaam = Screen.jlServernamen[i];
-            JPanel jpStatuspanel = Screen.jpSatuspanen[i];
-            JLabel jlStatus = Screen.jlSatussen[i];
+            JPanel jpStatuspanel = Screen.jpStatuspanel[i];
+            JLabel jlStatus = Screen.jlStatussen[i];
             JTextArea jtaInfo = Screen.jtaInfos[i];
             jpServer.setVisible(true);
             jpServer.setName(name);
@@ -199,7 +199,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
     // Method voor het refreshen van de servers
     public static void refreshServers() {
         try {
-            // Deze werkt hetzelfde als 
+            // Deze werkt hetzelfde als
             File[] files = new File("src/savedServers").listFiles();
             String[] fileNames = new String[files.length];
             for (int i = 0; i < files.length; i++) {
@@ -211,8 +211,8 @@ public class MonitoringDialog extends JDialog implements ActionListener {
                 String ip = ReadJson.readServer(fileNames[i], "ip");
                 String hostname = ReadJson.readServer(fileNames[i], "hostname");
                 String password = ReadJson.readServer(fileNames[i], "password");
-                JPanel jpStatuspanel = Screen.jpSatuspanen[i];
-                JLabel jlStatus = Screen.jlSatussen[i];
+                JPanel jpStatuspanel = Screen.jpStatuspanel[i];
+                JLabel jlStatus = Screen.jlStatussen[i];
                 JTextArea jtaInfo = Screen.jtaInfos[i];
                 Serverconnection serverConnection = serverConnections[i];
                 // Checked of er al een bestaande connection aanwezig is met de server
@@ -253,7 +253,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             jpfPassword.setText("");
         }
         // Checks of er een name, en geldig ip is ingevuld.
-        // Is dit niet gedaan dan worden er messages getoond. 
+        // Is dit niet gedaan dan worden er messages getoond.
         // Ook word er gechecked of de name al bestaat
         if (e.getSource() == jbSubmit) {
             try {
