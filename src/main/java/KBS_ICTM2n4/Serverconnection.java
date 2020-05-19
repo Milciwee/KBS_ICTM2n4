@@ -97,9 +97,12 @@ public class Serverconnection {
             // Eerst maken we een outputStream waarin we de gegevens zullen schrijven,
             // en een buffer waarmee we de gegevens van de inputStream overzetten naar de outputStream.
 
-            // De read-methode schrijft een deel van de inputStream over naar de buffer, met de lengte van de buffer.
-            // De lengte hiervan wordt vastgesteld als "length". Zolang length groter dan 0 is wordt de buffer overgeschreven
-            // naar de outputstream met de write-methode - anders hebben we het einde van de inputStream bereikt, en kunnen we stoppen.
+            // De read-methode schrijft een deel van de inputStream over naar de buffer (met de lengte van de buffer).
+            // De lengte van deze overschrijving (een int) wordt vastgesteld als "length". Zolang length groter dan 0 is wordt de buffer overgeschreven
+            // naar de outputstream met de write-methode (de 0 in deze methode is het begin van het gedeelte in de buffer dat wordt overgeschreven,
+            // en de hoeveelheid bytes van dit gedeelte is de reeds vastgestelde length).
+            // Als read niet slaagt geeft deze methode -1 terug. In dat geval, of als het resterende gedeelte 0 is,
+            // hebben we het einde van de inputStream bereikt, en kunnen we stoppen.
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
@@ -174,8 +177,8 @@ public class Serverconnection {
             // Eerst maken we een outputStream waarin we de gegevens zullen schrijven,
             // en een buffer waarmee we de gegevens van de inputStream overzetten naar de outputStream.
 
-            // De read-methode schrijft een deel van de inputStream over naar de buffer, met de lengte van de buffer.
-            // De lengte hiervan wordt vastgesteld als "length". Elke loop schrijven we deze lengte aan buffer over in de outputStream.
+            // De read-methode schrijft een deel van de inputStream over naar de buffer (met de lengte van de buffer).
+            // De lengte van deze overschrijving (een int) wordt vastgesteld als "length". Elke loop schrijven we deze lengte aan buffer over in de outputStream.
             // Aangezien het "top"-command blijft updaten, wordt de inputstream steeds langer, en kunnen we niet bytes blijven bijschrijven tot het einde.
             // Als we de outputStream de String "KiB Mem" bevat, hebben we de informatie die we nodig hebben,
             // en gebruiken we "break" om de while-loop te stoppen.
@@ -282,9 +285,12 @@ public class Serverconnection {
             // Eerst maken we een outputStream waarin we de gegevens zullen schrijven,
             // en een buffer waarmee we de gegevens van de inputStream overzetten naar de outputStream.
 
-            // De read-methode schrijft een deel van de inputStream over naar de buffer, met de lengte van de buffer.
-            // De lengte hiervan wordt vastgesteld als "length". Zolang length groter dan 0 is wordt de buffer overgeschreven
-            // naar de outputstream met de write-methode - anders hebben we het einde van de inputStream bereikt, en kunnen we stoppen.
+            // De read-methode schrijft een deel van de inputStream over naar de buffer (met de lengte van de buffer).
+            // De lengte van deze overschrijving (een int) wordt vastgesteld als "length". Zolang length groter dan 0 is wordt de buffer overgeschreven
+            // naar de outputstream met de write-methode (de 0 in deze methode is het begin van het gedeelte in de buffer dat wordt overgeschreven,
+            // en de hoeveelheid bytes van dit gedeelte is de reeds vastgestelde length).
+            // Als read niet slaagt geeft deze methode -1 terug. In dat geval, of als het resterende gedeelte 0 is,
+            // hebben we het einde van de inputStream bereikt, en kunnen we stoppen.
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
