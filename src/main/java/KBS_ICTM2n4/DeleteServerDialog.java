@@ -84,7 +84,6 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
                         System.out.println("Something went wrong");
                     }
                 }
-
             }
             //verplaatst de positie van de servers binnen de applicatie zodat alles doorschuift.
         if (MonitoringDialog.serverCount == 1){

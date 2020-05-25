@@ -54,6 +54,7 @@ public class Screen extends JFrame implements ActionListener {
     static JLabel jlDb1 = new JLabel();
     static JLabel jlDb2 = new JLabel();
     static JLabel jlDb3 = new JLabel();
+    static JLabel jlIsCorrupt = new JLabel();
     //2 main panels op de monitor tab
     JPanel jpPanel1 = new JPanel();
     JPanel jpPanel2 = new JPanel();
@@ -193,6 +194,7 @@ public class Screen extends JFrame implements ActionListener {
             jpServer.setVisible(false);
         }
         // editpanel
+        jlIsCorrupt.setForeground(Color.red);
         //initialiseren van dropdown op edit tab
         dropdownedit = new JComboBox();
         dropdownedit.setBounds(525, 0, 150, 25);
@@ -225,6 +227,7 @@ public class Screen extends JFrame implements ActionListener {
         JLabel jlAvailabilityDot = new JLabel(",");
         JLabel jlAvailabilityPercent = new JLabel("%");
         // label bounds
+        jlIsCorrupt.setBounds(230,10,200,25);
         jlSpecs.setBounds(220, 35, 350, 25);
         jlDbs1.setBounds(10, 60, 120, 25);
         jlDbs1i.setBounds(220, 60, 350, 25);
@@ -275,6 +278,7 @@ public class Screen extends JFrame implements ActionListener {
         jbSaveAs.addActionListener(this);
         dropdownedit.addActionListener(this);
         // toevoegen aan editpanel
+        editPanel.add(jlIsCorrupt);
         editPanel.add(dropdownedit);
         editPanel.add(jlDesnameEdit);
         editPanel.add(jtfDesnameEdit);
@@ -341,14 +345,20 @@ public class Screen extends JFrame implements ActionListener {
         tabbedPane.addTab("Edit", editPanel);
         tabbedPane.addTab("Design", designPanel);
         add(tabbedPane);
+        //functie om de opgeslagen infrastructuur componenten op te halen uit de json bestanden en te plaatsen in de monitor panel
+        MonitoringDialog.addServerFromJson();
         //functie om de designs uit json bestanden te halen
         readDesignsList(this);
         //functie om de gegevens uit het json bestand in design te zetten
         showConfigDesign();
         //functie om de gegevens uit het json bestand in edit te zetten
         showConfigEdit();
-        //functie om de opgeslagen infrastructuur componenten op te halen uit de json bestanden en te plaatsen in de monitor panel
-        MonitoringDialog.addServerFromJson();
+        //als het json bestand corrupt is, wordt de jlabel rood
+        if (totalAvailability().equals("Design is corrupt")){
+            jlTotalAvailability.setForeground(Color.red);
+        }else{
+            jlTotalAvailability.setForeground(Color.black);
+        }
         //invullen van availability en cost op designtab
         jlTotalAvailability.setText(totalAvailability());
         //algemene styling
@@ -409,6 +419,7 @@ public class Screen extends JFrame implements ActionListener {
         }
         if (e.getSource() == dropdowndesign) {
             try {
+                jlTotalAvailability.setText(totalAvailability());
                 if (dropdowndesign.getSelectedItem().equals("Add new Design")) {
                     // clear de textfields in edit tab
                     JTextField[] labelsEdit = new JTextField[]{jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3,};
@@ -421,6 +432,13 @@ public class Screen extends JFrame implements ActionListener {
                     tabbedPane.setSelectedComponent(editPanel);
                 }
                 if (!dropdowndesign.getSelectedItem().equals("Add new Design")) {
+                    if (totalAvailability().equals("Design is corrupt")){
+                        jlTotalAvailability.setForeground(Color.red);
+                        jbOpenDesign.setVisible(false);
+                    }else{
+                        jlTotalAvailability.setForeground(Color.black);
+                        jbOpenDesign.setVisible(true);
+                    }
                     //haalt de design naam uit de dropdown
                     jlDesignName.setText("Design name: " + dropdowndesign.getSelectedItem());
                     //functie om de configuratie van het design te laten zien
@@ -508,6 +526,7 @@ public class Screen extends JFrame implements ActionListener {
             }
         }
         if (e.getSource() == jbCalculate) {
+            //berekent de prijsbeschikbaarheid van een ontwerp als de gebruiker op de calculate knop drukt
             jtfCalculateAnswer.setText(prijsbeschikbaarheidberekenen(jtfDb1, jtfDb2, jtfDb3, jtfWs1, jtfWs2, jtfWs3));
         }
         if (e.getSource() == jbSave) {// hierin worden bestaande designs ge edit
@@ -515,11 +534,14 @@ public class Screen extends JFrame implements ActionListener {
                 ArrayList<Server> servers = Server.getServerList();
                 // haal ingevulde naam op voor design
                 if (jtfDesnameEdit.getText().equals("")) {
+                    //checkt of de gebruiker een naam heeft ingevuld voor het design
                     JOptionPane.showMessageDialog(this, "Please enter a valid design name");
+                    //geeft een error, waardoor de code in de catch beland
                     int x = 0 / 0;
                 }
                 String name = jtfDesnameEdit.getText();
                 // haal alle aantalen op van ingevulde waardes
+                //als het vakje leeg is of een ongeldige waarde bevat, dan wordt de eerst ingestelde 0 niet aangepast
                 String db1 = "0";
                 String db2 = "0";
                 String db3 = "0";
@@ -546,16 +568,19 @@ public class Screen extends JFrame implements ActionListener {
                 }
                 if (db1.equals("0") && db2.equals("0") && db3.equals("0")
                     || wb1.equals("0") && wb2.equals("0") && wb3.equals("0")) {
+                    //als gebruiker moet je minimaal 1 webserver en 1 databaseserver in een ontwerp hebben, anders krijg je een foutmelding
                     JOptionPane.showMessageDialog(this, "Please choose at least 1 webserver and 1 databaseserver");
+                    //door de exeption belandt de code in dde catch
                     int x = 0 / 0;
                 }
-                // doe deze waardes in een array en daarna is een arraylist
+                // doet deze waardes in een array en daarna is een arraylist
                 ArrayList<Integer> serverAmount = new ArrayList<>();
                 String[] listString = new String[]{db1, db2, db3, wb1, wb2, wb3};
                 for (String string : listString) {
                     serverAmount.add(Integer.parseInt(string));
                 }
                 if (!dropdownedit.getSelectedItem().equals(name)) {
+                    //als de gebruiker de naam van het design heeft gewijzigd, dan checkt het progamma of deze naam al eerder is gebruikt
                     int locatie = dropdownedit.getSelectedIndex();
                     boolean found = false;
                     int length = dropdownedit.getItemCount() - 1;
@@ -567,36 +592,48 @@ public class Screen extends JFrame implements ActionListener {
                         length--;
                     }
                     if (found) {
+                        //past de positie van de dropdown aan zodat ie klopt
                         dropdownedit.setSelectedIndex(locatie);
+                        //geeft aan dat deze naam al bestaat en dus niet gebruikt mag worden
                         JOptionPane.showMessageDialog(this, "This design name already exists");
+                        //code gaat verder in de catch
                         int x = 0 / 0;
                     }
+                    //past de positie van de dropdown aan zodat ie klopt
                     dropdownedit.setSelectedIndex(locatie);
                 }
-                // roep de write functie aan
+                //pakt de locatie van het ontwerp
                 int locatie1 = dropdownedit.getSelectedIndex();
+                //verwijdert het oude ontwerp
                 File temp = new File("src/savedDesigns/" + dropdownedit.getSelectedItem() + ".json");
                 if (temp.delete()) {
                     System.out.println(dropdownedit.getSelectedItem() + " deleted");
                 }
+                //slaat een nieuwe versie van dit ontwerp op
                 WriteJson.saveDesign(servers, name, serverAmount);
+                //ververst de dropdown
                 readDesignsList(this);
+                //zet de originele locatie terug
                 dropdownedit.setSelectedIndex(locatie1);
                 System.out.println("design saved");
             } catch (Exception eSave) {
+                //de gebruiker heeft iets fout ingegeven, dus het bestand slaat niet op
                 System.out.println("invalid user input, design was not saved");
             }
         }
-        if (e.getSource() == jbSaveAs) {// hierbij mag de naam van het design niet bestaan in de lijst
+        if (e.getSource() == jbSaveAs) {
+            //functie om het ontwerp op te slaan als nieuw ontwerp
             try {
                 ArrayList<Server> servers = Server.getServerList();
-                // haal ingevulde naam op voor design
+                // haalt ingevulde naam op voor design
                 if (jtfDesnameEdit.getText().equals("")) {
+                    //als de naam nit ingevuld is, geeft hij een foutmelding en slaat hij het bestand niet op
                     JOptionPane.showMessageDialog(this, "Please enter a valid design name");
                     int x = 0 / 0;
                 }
                 String name = jtfDesnameEdit.getText();
-                // haal alle aantalen op van ingevulde waardes
+                // haal alle aantalen op van ingevulde waardes, checkt op gebruikersinput
+                //als de gebruiker een ongeldige waarde heeft ingevuld, dan blijft het aantal 0
                 String db1 = "0";
                 String db2 = "0";
                 String db3 = "0";
@@ -623,9 +660,11 @@ public class Screen extends JFrame implements ActionListener {
                 }
                 if (db1.equals("0") && db2.equals("0") && db3.equals("0")
                     || wb1.equals("0") && wb2.equals("0") && wb3.equals("0")) {
+                    //checkt of de gebruiker tenminste 1 webserver en 1 databaseserver heeft ingevuld
                     JOptionPane.showMessageDialog(this, "Please choose at least 1 webserver and 1 databaseserver");
                     int x = 0 / 0;
                 }
+                //loop om te checken of de naam die is ingevuld al bestaat
                 boolean found = false;
                 int length = dropdownedit.getItemCount() - 1;
                 while (length >= 0) {
@@ -636,50 +675,61 @@ public class Screen extends JFrame implements ActionListener {
                     length--;
                 }
                 if (found) {
+                    //als de naam bestaat, dan geeft de applicatie een foutmelding
                     JOptionPane.showMessageDialog(this, "This design name already exists");
                     int x = 0 / 0;
                 }
-                // doe deze waardes in een array en daarna is een arraylist
+                // doet deze waardes in een array en daarna is een arraylist
                 ArrayList<Integer> serverAmount = new ArrayList<>();
                 String[] listString = new String[]{db1, db2, db3, wb1, wb2, wb3};
-                // Checken of er niks is ingevuld, als dit is verander dan het naar 0
+                // Checken of er niks is ingevuld, als dit wel het geval is verandert het dan naar 0
                 for (String string : listString) {
                     if (string.equals("")) {
                         string = "0";
                     }
                     serverAmount.add(Integer.parseInt(string));
-
                 }
                 // roep de write functie aan
                 WriteJson.saveDesign(servers, name, serverAmount);
+                //ververst de dropdown
                 readDesignsList(this);
+                //geeft het nieuwe design weer in de dropdown
                 dropdownedit.setSelectedItem(name);
                 System.out.println("design saved");
             } catch (Exception eSave) {
+                //de gebruiker heeft iets ongeldigs opgegeven, en het bestand wordt niet opgeslagen
                 System.out.println("invalid user input, design was not saved");
             }
         }
         if (e.getSource() == jbDelete) {
+            //functie om ontwerpen te verwijderen
             if (dropdownedit.getItemCount() > 1) {
+                //checkt of er meer dan 1 designs zijn, zodat niet alle designs verwijdert kunnen worden
+                //vraagt aan de gebruiker of die het zeker weet
                 int dialogButton = 0;
                 int dialogResult = JOptionPane.showConfirmDialog(this,
                     "are you sure you want to delete design " + dropdownedit.getSelectedItem() + "?",
                     "Delete design", dialogButton);
                 if (dialogResult == JOptionPane.YES_OPTION) {
                     File temp = new File("src/savedDesigns/" + dropdownedit.getSelectedItem() + ".json");
+                    //verwijdert het ontwerp
                     if (temp.delete()) {
                         System.out.println(dropdownedit.getSelectedItem() + " deleted");
                     }
                 }
+                //ververst de dropdown
                 readDesignsList(this);
             } else {
+                //geeft de melding dat er ten minste 1 design aanwezig moet zijn
                 JOptionPane.showMessageDialog(this, "this application requires at least 1 design");
             }
         }
+        //dit zorgt ervoor dat elke keer als er op een knop wordt gedrukt, de panels gerepaint worden
         repaint();
     }
 
     public static boolean isNumeric(String strNum) {
+        //functie om te checken of een String een volledig numeric waarde bevat
         if (strNum == null) {
             return false;
         }
@@ -692,6 +742,7 @@ public class Screen extends JFrame implements ActionListener {
     }
 
     public static double round(double value, int places) {
+        //functie om getallen af te ronden
         if (places < 0)
             throw new IllegalArgumentException();
 
@@ -701,6 +752,7 @@ public class Screen extends JFrame implements ActionListener {
     }
 
     private static void showConfigDesign() {
+        //laat de inhoud van een ontwerp zien op de designpagina
         try {
             JLabel[] labels = new JLabel[]{jlDb1, jlDb2, jlDb3, jlWb1, jlWb2, jlWb3};
             int[] serverAmount = ReadJson.readDesign((String) dropdowndesign.getSelectedItem());
@@ -728,6 +780,7 @@ public class Screen extends JFrame implements ActionListener {
     }
 
     private static void showConfigEdit() {
+        //laat de configuratie van het ontwerp dat geselecteerd is in de dropdown zien op de edit tab
         try {
             String DesignName = (String) dropdownedit.getSelectedItem();
             int[] serverAmount = ReadJson.readDesign((String) dropdownedit.getSelectedItem());
@@ -742,16 +795,18 @@ public class Screen extends JFrame implements ActionListener {
                     jtfTemp.setText(String.valueOf(serverAmount[counter]));
                 }
                 counter++;
-
             }
+            jlIsCorrupt.setText("");
         } catch (Exception exRead2) {
+            //als er iets foutgaat bij het lezen, dan neemt de applicatie aan dat het bestand corrupt is
             System.out.println("error whilst reading Designs");
+            jlIsCorrupt.setText("Design is corrupt");
         }
-
     }
 
     private static void readDesignsList(Screen screen) {
         try {
+            //vult de dropdowns met de beschikbare ontwerpen
             dropdownedit.removeAllItems();
             dropdowndesign.removeAllItems();
             File[] files = new File("src/savedDesigns").listFiles();
@@ -766,12 +821,10 @@ public class Screen extends JFrame implements ActionListener {
             System.out.println("error whilst reading Designs");
             dropdowndesign.addItem("Add new Design");
         }
-
     }
-
-
     public String prijsbeschikbaarheidberekenen(JTextField Db1, JTextField Db2, JTextField Db3, JTextField Ws1,
                                                 JTextField Ws2, JTextField Ws3) {
+        //berekent de prijs en beschikbaarheid van de componenten die worden meegegeven in de jTaxtfields
         ArrayList<Server> serverList = new ArrayList<>();
         ArrayList<Server> totalServers = Server.getServerList();
         if (isNumeric(Db1.getText()) && Integer.parseInt(Db1.getText()) >= 0) {
@@ -832,6 +885,7 @@ public class Screen extends JFrame implements ActionListener {
     }
 
     public void inputServersInEdit(ArrayList<Server> servers) {
+        //vult de waarden van edit met het geselecteerde design
         int amountDb1 = 0;
         int amountDb2 = 0;
         int amountDb3 = 0;
@@ -839,7 +893,7 @@ public class Screen extends JFrame implements ActionListener {
         int amountWs2 = 0;
         int amountWs3 = 0;
         for (Server server : servers) {
-            System.out.println(server.getName());
+            //System.out.println(server.getName());
             if (server.getId() == 0) {
                 amountDb1++;
             }
@@ -869,10 +923,11 @@ public class Screen extends JFrame implements ActionListener {
     }
 
     public String totalAvailability() {
+        //geeft de availibility van het geselecteerde ontwerp aan op de design tab
         try {
             ArrayList<Integer> availability = new ArrayList<Integer>();
             String a = String.valueOf(dropdowndesign.getSelectedItem());
-            System.out.println(a);
+            //System.out.println(a);
             ReadJson.readDesign(a);
             if (dropdowndesign.getSelectedItem() == null) {
                 dropdowndesign.setSelectedIndex(0);
@@ -880,32 +935,27 @@ public class Screen extends JFrame implements ActionListener {
             for (int i = 0; i < ReadJson.readDesign(a).length; i++) {
                 availability.add(ReadJson.readDesign(a)[i]);
             }
-
+            //maakt nieuwe textfields aan
             JTextField _db1 = new JTextField();
             JTextField _db2 = new JTextField();
             JTextField _db3 = new JTextField();
             JTextField _ws1 = new JTextField();
             JTextField _ws2 = new JTextField();
             JTextField _ws3 = new JTextField();
-
-            int db1 = availability.get(0);
-            int db2 = availability.get(1);
-            int db3 = availability.get(2);
-            int ws1 = availability.get(3);
-            int ws2 = availability.get(4);
-            int ws3 = availability.get(5);
-
-            _db1.setText(String.valueOf(db1));
-            _db2.setText(String.valueOf(db2));
-            _db3.setText(String.valueOf(db3));
-            _ws1.setText(String.valueOf(ws1));
-            _ws2.setText(String.valueOf(ws2));
-            _ws3.setText(String.valueOf(ws3));
-
+            //haalt de waarden uit het ontwerp en zet de gevonden waardes in de textfields
+            _db1.setText(String.valueOf(availability.get(0)));
+            _db2.setText(String.valueOf(availability.get(1)));
+            _db3.setText(String.valueOf(availability.get(2)));
+            _ws1.setText(String.valueOf(availability.get(3)));
+            _ws2.setText(String.valueOf(availability.get(4)));
+            _ws3.setText(String.valueOf(availability.get(5)));
+            //roept de prijsbeschikbaarheidsberekenen funcite aan met de aangemaakte textfields
             return prijsbeschikbaarheidberekenen(_db1, _db2, _db3, _ws1, _ws2, _ws3);
         }catch (Exception ex5){
-            return "corrupt design";
+            //als er iets fout gaat, gaat de applicatie ervan uit dat het bestand corrupt is
+            return "Design is corrupt";
         }
     }
 }
+
 

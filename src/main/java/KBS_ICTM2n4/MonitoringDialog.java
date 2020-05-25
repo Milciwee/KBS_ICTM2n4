@@ -1,9 +1,12 @@
 package KBS_ICTM2n4;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.util.concurrent.ExecutionException;
 
 // Dialoog voor de monitoringtab om een nieuwe server toe te voegen voor monitoring.
 public class MonitoringDialog extends JDialog implements ActionListener {
@@ -160,7 +163,6 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         }
         serverCount = files.length;
         for (int i = 0; i < fileNames.length; i++) {
-
             // Hetzelfde als de addServer() method alleen wordt hier de data vanuit de JSON file gehaald.
             String name = ReadJson.readServer(fileNames[i], "name");
             String ip = ReadJson.readServer(fileNames[i], "ip");
@@ -179,17 +181,40 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             Serverconnection serverConnection = serverConnections[i];
             serverConnection.makeConnectionWithServer(ip, hostname, password);
             System.out.println(serverConnection.session);
-            if (serverConnection.serverConnected(i)) {
-                jlStatus.setText("Online");
-                jpStatuspanel.setBackground(Color.green);
-                jtaInfo.setText("Uptime:\n" + "- " + serverConnection.serverUpTime() + "\n" + "CPU usage:\n" + "- "
+            try {
+                //als de applicatie een verbinding tot stand kan brengen, dan vraagt hij eenmalig gegevens op
+                if (serverConnection.serverConnected(i)) {
+                    jlStatus.setText("Online");
+                    jpStatuspanel.setBackground(Color.green);
+                    jtaInfo.setText("Uptime:\n" + "- " + serverConnection.serverUpTime() + "\n" + "CPU usage:\n" + "- "
                         + serverConnection.serverCpuUsed() + "\n" + "Available disk space:\n" + "- "
                         + serverConnection.serverDiskSpaceAvailable() + "\n");
-            } else {
-                jlStatus.setText("Offline");
-                jpStatuspanel.setBackground(Color.red);
-                jtaInfo.setText("Uptime:\n" + "- unavailable\n" + "CPU usage:\n" + "- unavailable\n"
+                } else {
+                    //als de verbinding mislukt, dan zal de applicatie laten zien dat de server offline is en dat de data "unavailable" is.
+                    jlStatus.setText("Offline");
+                    jpStatuspanel.setBackground(Color.red);
+                    jtaInfo.setText("Uptime:\n" + "- unavailable\n" + "CPU usage:\n" + "- unavailable\n"
                         + "Available disk space:\n" + "- unavailable\n");
+                }
+            }catch (Exception exServer){
+                //als er iets misgaat bij het lezen van bestanden, dan gaat het progamma ervan uit dat het json bestand corrupt is, en verwijdert dit. daana sluit de applicatie af
+                String fileName = fileNames[i].substring(1);
+                System.out.println("file " + ReadJson.readServer(fileNames[i], "name") + " is corrupt");
+                JOptionPane.showMessageDialog(null, "Server configuration file \"" + fileName + "\" is corrupt.\n This file will now be deleted, please restart the application");
+                String name2 = fileNames[i];
+                File[] files2 = new File("src/savedServers").listFiles();
+                for (File file : files2) {
+                    String nameFile = file.getName();
+                    nameFile = nameFile.replace(".json", "");
+                    if(nameFile.indexOf(name2) != -1){
+                        if(file.delete()){
+                            System.out.println("Server " + nameFile + " deleted");
+                        } else {
+                            System.out.println("Something went wrong");
+                        }
+                    }
+                }
+            System.exit(0);
             }
 
         }
@@ -238,7 +263,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
                 }
             }
         } catch (Exception e) {
-
+            //zorgt ervoor dat de applicatie door kan gaan als het refreshen mislukt
         }
 
     }
@@ -286,7 +311,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         }
     }
 
-    // Een method om te valideren dat er een geldig ip address is ingevuld
+    // Een method om te valideren dat er een geldig ip address is ingevuld door middel van regex
     public static boolean validate(final String ip) {
         String PATTERN = "^((0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)\\.){3}(0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)$";
         return ip.matches(PATTERN);
