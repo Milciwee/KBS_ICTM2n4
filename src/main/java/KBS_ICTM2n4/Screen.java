@@ -18,7 +18,7 @@ import java.awt.Font;
 public class Screen extends JFrame implements ActionListener {
 
     //maximaal aantal infrastructuur componenten op monitoring
-    private static int maxServersMonitoring = 4;
+    static int maxServersMonitoring = 4;
     //inputs van gebruiker op edit tab
     static JTextField jtfDesnameEdit = new JTextField();
     static JTextField jtfWs1 = new JTextField();
@@ -919,7 +919,6 @@ public class Screen extends JFrame implements ActionListener {
         jtfWs1.setText(String.valueOf(amountWs1));
         jtfWs2.setText(String.valueOf(amountWs2));
         jtfWs3.setText(String.valueOf(amountWs3));
-
     }
 
     public String totalAvailability() {

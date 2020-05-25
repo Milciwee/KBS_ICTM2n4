@@ -1,16 +1,10 @@
 package KBS_ICTM2n4;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.swing.JPanel;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 // Structure van de JSON file is als volgt: 1 Array, met daarin 6 Objects (voor elke server 1 object).
 // In elke serverObject zitten twee waardes, 'Amount' en 'Name'. Amount is aantal van die server,
@@ -34,9 +28,7 @@ public class WriteJson {
       // Voegt data aan de Array toe
       serverList.add(serverObject);
       counter++;
-
     }
-
     // Maak een file aan met de designName en write de Array van hiervoor in de file
     try (FileWriter file = new FileWriter("src/savedDesigns/" + designName + ".json")) {
       file.write(serverList.toJSONString());
@@ -44,7 +36,6 @@ public class WriteJson {
     } catch (IOException e) {
       System.out.println("Invalid permissions or not enough disk space");
     }
-
   }
 
   public static void saveServer(String name, String ip, String hostname, String password,int i){
@@ -55,7 +46,6 @@ public class WriteJson {
     serverData.put("hostname", hostname);
     serverData.put("password", password);
     serverObject.put("server", serverData);
-
     try (FileWriter file = new FileWriter("src/savedServers/" + (i + 1) + name + ".json")) {
       file.write(serverObject.toJSONString());
       file.flush();
@@ -63,7 +53,4 @@ public class WriteJson {
       System.out.println("Invalid permissions or not enough disk space");
     }
   }
-
-
-
 }

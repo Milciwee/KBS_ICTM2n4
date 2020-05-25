@@ -1,12 +1,9 @@
 package KBS_ICTM2n4;
 
-import org.apache.commons.lang3.StringUtils;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.util.concurrent.ExecutionException;
 
 // Dialoog voor de monitoringtab om een nieuwe server toe te voegen voor monitoring.
 public class MonitoringDialog extends JDialog implements ActionListener {
@@ -18,8 +15,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
     private static JTextField jtfIP = new JTextField();
     private static JTextField jtfHostname = new JTextField();
     private static JPasswordField jpfPassword = new JPasswordField();
-    // TODO 4 veranderen naar Screen.maxServerMonitoring
-    private static Serverconnection[] serverConnections = new Serverconnection[4];
+    private static Serverconnection[] serverConnections = new Serverconnection[Screen.maxServersMonitoring];
 
     public static String getServerName() {
         return jtfName.getText();
@@ -149,7 +145,6 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         jtfIP.setText("");
         jtfHostname.setText("");
         jpfPassword.setText("");
-
     }
 
     // Method voor het ophalen van opgeslagen servers
@@ -180,7 +175,6 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             serverConnections[i] = serverConnectionTemp;
             Serverconnection serverConnection = serverConnections[i];
             serverConnection.makeConnectionWithServer(ip, hostname, password);
-            System.out.println(serverConnection.session);
             try {
                 //als de applicatie een verbinding tot stand kan brengen, dan vraagt hij eenmalig gegevens op
                 if (serverConnection.serverConnected(i)) {
@@ -199,7 +193,6 @@ public class MonitoringDialog extends JDialog implements ActionListener {
             }catch (Exception exServer){
                 //als er iets misgaat bij het lezen van bestanden, dan gaat het progamma ervan uit dat het json bestand corrupt is, en verwijdert dit. daana sluit de applicatie af
                 String fileName = fileNames[i].substring(1);
-                System.out.println("file " + ReadJson.readServer(fileNames[i], "name") + " is corrupt");
                 JOptionPane.showMessageDialog(null, "Server configuration file \"" + fileName + "\" is corrupt.\n This file will now be deleted, please restart the application");
                 String name2 = fileNames[i];
                 File[] files2 = new File("src/savedServers").listFiles();
@@ -216,9 +209,7 @@ public class MonitoringDialog extends JDialog implements ActionListener {
                 }
             System.exit(0);
             }
-
         }
-
     }
 
     // Method voor het refreshen van de servers
@@ -265,7 +256,6 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         } catch (Exception e) {
             //zorgt ervoor dat de applicatie door kan gaan als het refreshen mislukt
         }
-
     }
 
     @Override
@@ -282,12 +272,11 @@ public class MonitoringDialog extends JDialog implements ActionListener {
         // Ook word er gechecked of de name al bestaat
         if (e.getSource() == jbSubmit) {
             try {
-                String userInputName = getServerName();
-                if (userInputName.equals("")) {
+                String userInputNameJson = getServerName();
+                if (userInputNameJson.equals("")) {
                     JOptionPane.showMessageDialog(this, "Please enter a server name");
                     int throwsExeption = 0 / 0;
                 }
-                String userInputNameJson = getServerName();
                 File[] files = new File("src/savedServers").listFiles();
                 for (int i = 0; i < files.length; i++) {
                     String name = files[i].getName();
@@ -302,7 +291,6 @@ public class MonitoringDialog extends JDialog implements ActionListener {
                     JOptionPane.showMessageDialog(this, "Please use a valid ip address");
                     int throwsExeption = 0 / 0;
                 }
-
                 addServer();
                 dispose();
             } catch (Exception ex4) {

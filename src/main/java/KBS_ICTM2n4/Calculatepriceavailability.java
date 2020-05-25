@@ -26,14 +26,14 @@ public class Calculatepriceavailability {
     } catch (NullPointerException e) {
       System.out.println("No webserver found");
       return 0;
-    }      
+    }
 
   }
 
   // Method voor beschikbaarheidspercentage voor de databaseservers
   public static double calculateAvailabilityDatabaseservers(ArrayList<Server> servers) {
     ArrayList<Double> a = new ArrayList<>();
-    
+
     for (Server server : servers) {
       if (server.getType().equals("database")) {
         a.add((1 - (server.getavailability())));
@@ -48,7 +48,7 @@ public class Calculatepriceavailability {
     } catch (NullPointerException e) {
       System.out.println("No databaseserver found");
       return 0;
-    }      
+    }
   }
 
   // uiteindelijke method om de volledige beschikbaarheidspercentage te berekenen
@@ -60,29 +60,6 @@ public class Calculatepriceavailability {
     return availability;
 
   }
-
-  //Method voor prijs berekening voor webservers
-  public static double calculatePriceWebservers(ArrayList<Server> servers) {
-    double price = 0;
-    for (Server server : servers) {
-      if (server.getType().equals("webserver")) {
-        price += server.getPrice();
-      }
-    }
-    return price;
-  }
-
-  //Method voor prijs berekening voor databaseservers
-  public static double calculatePriceDatabaseservers(ArrayList<Server> servers) {
-    double price = 0;
-    for (Server server : servers) {
-      if (server.getType().equals("database")) {
-        price += server.getPrice();
-      }
-    }
-    return price;
-  }
-
   //Method voor totale prijs
   public static double calculateTotalPrice(ArrayList<Server> servers) {
     double price = 0;

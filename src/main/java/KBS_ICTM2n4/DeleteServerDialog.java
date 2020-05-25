@@ -85,7 +85,7 @@ public class DeleteServerDialog extends JDialog implements ActionListener {
                     }
                 }
             }
-            //verplaatst de positie van de servers binnen de applicatie zodat alles doorschuift.
+            //zorgt ervoor dat de laatste serverpanel onzichtbaar wordt, zodat alles kan opschuiven
         if (MonitoringDialog.serverCount == 1){
             jpServer[0].setVisible(false);
         }else if (MonitoringDialog.serverCount == 2){

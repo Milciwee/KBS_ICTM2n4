@@ -7,8 +7,5 @@ public class RefreshLoop extends TimerTask{
   @Override
   public void run() {
     MonitoringDialog.refreshServers();
-
   }
-
-
 }

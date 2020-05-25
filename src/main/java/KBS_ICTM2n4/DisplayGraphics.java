@@ -1,7 +1,5 @@
 package KBS_ICTM2n4;
 
-import org.json.simple.JSONObject;
-
 import java.awt.*;
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -32,17 +30,13 @@ public class DisplayGraphics extends Canvas {
 
     public void paint(Graphics g) {
         try {
-
-           // image = ImageIO.read(new File("src/Images/"+Screen.dropdowndesign.getSelectedItem()+".jpg"));\
               WServerImage = ImageIO.read(new File("src/Images/WebServer1.png"));
               DServerImage = ImageIO.read(new File("src/Images/DatabaseServer1.png"));
               FirewallImage = ImageIO.read(new File("src/Images/Firewall.png"));
               RouterImage = ImageIO.read(new File("src/Images/Router.png"));
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //////
         serverAmount = new int[6];  //initialiseren van de serverAmount array
         serverAmount = ReadJson.readDesign(Screen.dropdowndesign.getSelectedItem().toString());//Array van json krijgen
         aDatabaseServers1 = serverAmount[0];    //0tm2 zijn de database-servers  /   3tm5 zijn de web-servers
@@ -56,15 +50,12 @@ public class DisplayGraphics extends Canvas {
         WServerY = 0;
         wserverIp = 2;
         dserverIp = 7;
-        //
         x=0;
         g.drawImage(FirewallImage,x,0,66,120,this);
-
         g.drawString("Firewall",x,110);
         g.drawString("192.168.1.1",x,20);
         g.drawRect(x,0,66,120+1);
-
-        x+=0;
+        x =0;
         //While loops die de Database- en WebServers op het scherm tekent
         i=0;     //initializer voor While-loop
         databaseGroupBegin = x;
@@ -109,7 +100,6 @@ public class DisplayGraphics extends Canvas {
         g.drawString("192.168.1.-",(66+14+66)/2-30,240-((120/2)/2)+20);
         g.drawString(".2",0,240-((120/2)/2)+60);
         g.drawString(".3",0+80,240-((120/2)/2)+60);
-
         g.drawRect(0,240-((120/2)/2),66+14+66,120/2+1);
 
         while(i < aWServers1){
@@ -149,15 +139,5 @@ public class DisplayGraphics extends Canvas {
            // g.drawString("192.168.1.-",webserverGroupBegin-webserverGroupEnd+webserverGroupEnd + webserverGroupBegin,WServerY+20);
             g.drawString("192.168.0.-",webserverGroupBegin+((webserverGroupEnd-webserverGroupBegin)/2)-30,WServerY+20);
         }
-
-        i=0;     //initializer voor While-loop
-        x = 0;
-
-
     }
-
-    public void drawWs1(int y, int x) {
-
-    }
-
 }

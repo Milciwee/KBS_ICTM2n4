@@ -13,9 +13,7 @@ import org.apache.commons.lang3.ArrayUtils;
 public final class Main {
 
     static Timer timer;//new Timer(); Timer aanmaken zodat deze gebruikt kan worden door de functies.
-    private Main() {
 
-    }
     public static void main(String[] args) {
         //kijkt of de bronmappen van de designs bestaan, zoniet, dan maakt hij ze aan.
         //er wordt dan ook gelijk 1 ontwerp toegevoegd waarvan alle waarden 1 zijn.

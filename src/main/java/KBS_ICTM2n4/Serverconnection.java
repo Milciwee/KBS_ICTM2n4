@@ -5,7 +5,6 @@ import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -27,7 +26,6 @@ public class Serverconnection {
         int port = 3389;
 
         try {
-
             // We maken een nieuw Java Secure Channel-object aan (JSch), en starten hier vervolgens een sessie mee.
             JSch jsch = new JSch();
             session = jsch.getSession(username, destinationIP, port);
@@ -35,8 +33,7 @@ public class Serverconnection {
             try {
                 session.setTimeout(1000);
             } catch (JSchException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+                //
             }
             // (Momenteel controleren we de sleutel van de host niet. Als we een veiligere verbinding willen maken, kunnen StrictHostKeyChecking
             // wel activeren, maar dan moeten we de host en sleutel eerst bekendmaken aan het systeem.)
@@ -358,24 +355,4 @@ public class Serverconnection {
         session.disconnect();
         session = null;
     }
-
-//    public void main(String[] args) {
-//
-//        String upTime = null;
-//        String diskSpace = null;
-//        String cpuUsed = null;
-//
-//        if(makeConnectionWithServer("192.168.0.5", "root", "Teamsvmware01!")) {
-//            upTime = serverUpTime();
-//            diskSpace = serverDiskSpaceAvailable();
-//            cpuUsed = serverCpuUsed();
-//
-//            closeConnectionWithServer();
-//        }
-//
-//        System.out.println("---");
-//        System.out.println("Uptime: " + upTime);
-//        System.out.println("Diskruimte beschikbaar: " + diskSpace);
-//        System.out.println("Percentage van CPU in gebruik: " + cpuUsed);
-//    }
 }

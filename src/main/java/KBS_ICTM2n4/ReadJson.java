@@ -3,8 +3,6 @@ package KBS_ICTM2n4;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,7 +14,7 @@ import org.json.simple.parser.ParseException;
 
 public class ReadJson {
 
-  // method voor het ophalen van alle file names, heeft een designName nodig dat
+  // method voor het ophalen van de aantallen van de servers, heeft een designName nodig dat
   // overeenkomt met een file naam.
   public static int[] readDesign(String designName) {
     JSONParser jsonParser = new JSONParser();
@@ -153,5 +151,4 @@ public class ReadJson {
     return name;
 
   }
-
 }
