@@ -19,7 +19,6 @@ def findIp():
     else:
       print("Connected to webserver 192.168.0.6 via 145.44.234.18")
       ip = "192.168.0.6"
-    #print(command_result)
   except Exception as error:
     print("Test failed: command failed")
     print(error)

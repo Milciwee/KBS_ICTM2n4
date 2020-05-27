@@ -12,8 +12,6 @@ except Exception as error:
 print("Stressing CPU of " + ip + " for 20 seconds")
 try:
   stdin, stdout, stderr = ssh.exec_command("sudo stress --cpu  2 --timeout 20")
-  #command_result = stdout.read().decode('UTF8').strip("\n")
-  #print(command_result)
 except Exception as error:
   print("Test failed: command failed")
 
