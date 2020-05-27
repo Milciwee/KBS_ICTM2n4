@@ -18,7 +18,7 @@ public class Serverconnection {
     public Session session;
 
     // Deze functie poogt een session met het opgegeven IP-adres op te slaan in het
-    // bovenstaande static Session-object "session",
+    // bovenstaande Session-object "session",
     // en geeft true terug als dit lukt, en false als dit niet lukt.
     public boolean makeConnectionWithServer(String destinationIP, String username, String password) {
 
@@ -69,7 +69,7 @@ public class Serverconnection {
 
     // Deze functie geeft een String terug waarin de uptime wordt weergegeven van de server waarmee.
     // een SSH-connectie is gemaakt in het static Session-object "session" (in het format "X week(s), X day(s), X hour(s), X minute(s)").
-    // Als de session niet verbonden is geeft het een lege String terug.
+    // Als er geen session is geeft het een lege String terug.
     public String serverUpTime() {
 
         // Dit SSH-command zal de uptime weergeven.
@@ -149,7 +149,7 @@ public class Serverconnection {
         }
     }
 
-    // Deze functie geeft een String terug, dat het percentage van het CPU dat in gebruik is weergeeft.
+    // Deze functie geeft een String terug, die het percentage van het CPU dat in gebruik is weergeeft.
     public String serverCpuUsed() {
 
         // Dit SSH-command zal informatie over het CPU-gebruik weergeven.
