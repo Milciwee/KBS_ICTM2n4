@@ -234,23 +234,4 @@ public class Backtracking {
         //Tot slot geven we de ArrayList met de goedkoopst gevonden set terug.
         return resultCheapestSet;
     }
-
-//    public static void main(String[] args) {
-//
-//        int[] gegevenLijst = new int[6];
-//        gegevenLijst[0] = 0;
-//        gegevenLijst[1] = 0;
-//        gegevenLijst[2] = 0;
-//        gegevenLijst[3] = 0;
-//        gegevenLijst[4] = 0;
-//        gegevenLijst[5] = 0;
-//
-//        ArrayList<Server> goedkoopsteMetGegevenLijst = optimisation(gegevenLijst, 99.99);
-//
-//        System.out.println("");
-//        System.out.println("Goedkoopste set: ");
-//        for(Server server : goedkoopsteMetGegevenLijst) {
-//            System.out.println(server.getName());
-//        }
-//    }
 }
