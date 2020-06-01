@@ -2,7 +2,7 @@ import paramiko
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-ip = "192.168.1.2"
+ip = "192.168.0.5"
 try:
   ssh.connect(hostname=ip, username='root', password='Teamsvmware01!', port=3389)
   print("Connected")
